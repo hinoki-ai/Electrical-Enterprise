@@ -1,0 +1,32 @@
+# Convex Setup Instructions
+
+Run these commands in your terminal (not through me):
+
+1. Authenticate and set up Convex:
+   npx convex dev
+
+2. This will open your browser - sign in and create/select a project
+
+3. Once authenticated, get your deployment URL:
+   npx convex dashboard
+
+4. Copy the URL from the dashboard (looks like https://your-project.convex.cloud)
+
+5. Update .env.local with your URL:
+   NEXT_PUBLIC_CONVEX_URL=https://your-project.convex.cloud
+
+6. Deploy your schema:
+   npx convex deploy
+
+7. Generate types:
+   npx convex codegen
+
+8. Start the app:
+   npm run dev
+
+Your Convex functions are ready:
+- Quotes: createQuote, getAllQuotes, getQuoteWithDetails
+- Line Items: addLineItem, addLineItemOption  
+- Calculator: createSession, saveAsPreset
+
+No authentication required - anonymous access for quotes!
