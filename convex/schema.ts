@@ -2,6 +2,25 @@ import { defineSchema, defineTable } from "convex/server"
 import { v } from "convex/values"
 
 export default defineSchema({
+  // Users table for authentication
+  users: defineTable({
+    email: v.string(), // User's email - must be unique (enforced by application logic)
+    username: v.string(), // Unique username - must be unique across all users
+    password: v.string(), // Will be hashed using PBKDF2
+    role: v.optional(v.union(v.literal("master"), v.literal("checker"))), // Global role: only master or checker
+    createdAt: v.number(),
+    needsPasswordChange: v.optional(v.boolean()), // Track if user needs to change password
+    createdBy: v.optional(v.id("users")), // Who created this user
+    avatar: v.optional(v.string()), // Avatar image URL
+    displayName: v.optional(v.string()), // Custom display name set by user
+    hasCompletedWelcome: v.optional(v.boolean()), // Track if user has completed welcome setup
+    emailVerified: v.optional(v.boolean()), // Track if user has verified their email
+    emailVerificationToken: v.optional(v.string()), // Verification token sent via email
+    emailVerificationExpiresAt: v.optional(v.number()), // When the verification token expires
+    resetToken: v.optional(v.string()), // Password reset token
+    resetTokenExpiresAt: v.optional(v.number()), // When the reset token expires
+  }).index("email", ["email"]).index("username", ["username"]).index("role", ["role"]),
+
   // Clients table
   clients: defineTable({
     name: v.string(),
@@ -129,8 +148,7 @@ export default defineSchema({
     internalNotes: v.optional(v.string()),
   })
     .index("by_client", ["clientId"])
-    .index("by_status", ["status"])
-    .index("by_creation", ["_creationTime"]),
+    .index("by_status", ["status"]),
 
   // Materials catalog
   materials: defineTable({
@@ -161,6 +179,32 @@ export default defineSchema({
     ),
     isDefault: v.boolean(),
   }).index("by_type", ["projectType"]),
+
+  // Calculator sessions for storing calculator state and presets
+  calculatorSessions: defineTable({
+    name: v.string(),
+    description: v.optional(v.string()),
+    sessionKey: v.optional(v.string()), // For anonymous sessions
+
+    // Calculator configuration
+    selectedPlanId: v.string(),
+    projectValue: v.number(),
+    billingCycle: v.string(), // "monthly" | "quarterly" | "semestral" | "annual"
+    projectSize: v.string(), // "small" | "medium" | "large" | "industrial"
+    materialQuality: v.string(), // "standard" | "premium"
+    urgency: v.string(), // "normal" | "priority" | "urgent"
+    paymentType: v.string(), // "monthly" | "upfront"
+    includeVAT: v.boolean(),
+
+    // Metadata
+    createdAt: v.number(),
+    updatedAt: v.number(),
+    isPreset: v.boolean(), // true for saved presets, false for temporary sessions
+    userId: v.optional(v.string()), // null for anonymous sessions
+  })
+    .index("by_user", ["userId"])
+    .index("by_preset", ["isPreset"])
+    .index("by_session_key", ["sessionKey"]),
 
   // Business settings
   settings: defineTable({

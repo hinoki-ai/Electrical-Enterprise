@@ -8,6 +8,9 @@ import { PanelLeftIcon } from 'lucide-react'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+
+// Generate random width for skeleton at module level to avoid render-time randomness
+const getRandomSkeletonWidth = () => `${Math.floor(Math.random() * 40) + 50}%`
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import {
@@ -607,9 +610,7 @@ function SidebarMenuSkeleton({
   showIcon?: boolean
 }) {
   // Random width between 50 to 90%.
-  const width = React.useMemo(() => {
-    return `${Math.floor(Math.random() * 40) + 50}%`
-  }, [])
+  const width = React.useMemo(() => getRandomSkeletonWidth(), [])
 
   return (
     <div

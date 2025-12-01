@@ -1,6 +1,11 @@
-// Convex configuration without authentication - anonymous access only
+// Convex configuration with authentication - private enterprise access only
 const authConfig = {
-  providers: [], // Empty providers array for anonymous access
+  providers: [
+    {
+      domain: "your-domain.com", // Replace with your actual domain
+      applicationID: "your-convex-app-id", // This will be configured via Convex CLI
+    }
+  ],
 };
 
 export default authConfig;

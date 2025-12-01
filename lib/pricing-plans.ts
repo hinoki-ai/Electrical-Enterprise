@@ -1,3 +1,5 @@
+import { BUSINESS_CONFIG } from '@/constants';
+
 export type BillingCycle = "monthly" | "quarterly" | "semestral" | "annual";
 
 type PlanFeatureValue = boolean | number | string | null;
@@ -63,6 +65,13 @@ export const urgencyFactors = {
   normal: { factor: 1.0, description: "Plazo estándar 2-4 semanas" },
   priority: { factor: 1.15, description: "Plazo prioritario 1-2 semanas" },
   urgent: { factor: 1.35, description: "Ejecución inmediata 3-5 días hábiles" },
+};
+
+// Brand preference - simplified to 3 options
+export const brandPreferenceFactors = {
+  economic: { factor: 0.9, description: "Opciones económicas con buen rendimiento" },
+  standard: { factor: 1.0, description: "Balance óptimo precio-calidad" },
+  premium: { factor: 1.2, description: "Marcas premium y mejores garantías" },
 };
 
 export const billingCycleDiscount: Record<BillingCycle, number> = BUSINESS_CONFIG.pricing.billingCycleDiscounts;
@@ -218,8 +227,6 @@ export const formatCLP = (amount: number) =>
   `$${amount.toLocaleString("es-CL")}`;
 
 // VAT configuration
-import { BUSINESS_CONFIG } from '@/constants';
-
 export const VAT_RATE = BUSINESS_CONFIG.pricing.vatRate;
 
 export const calculatePriceWithVAT = (price: number, includeVAT: boolean = false) => {
@@ -234,12 +241,12 @@ export const calculateVATAmount = (price: number) => {
 export const calculateBaseProjectPrice = (
   plan: PricingPlan,
   projectValue: number,
-  complexity: keyof typeof projectComplexityFactors,
+  complexity: keyof typeof projectSizeFactors,
   materialQuality: keyof typeof materialQualityFactors,
   brandPreference: keyof typeof brandPreferenceFactors,
   urgency: keyof typeof urgencyFactors,
 ) => {
-  const complexityFactor = projectComplexityFactors[complexity].factor;
+  const complexityFactor = projectSizeFactors[complexity].factor;
   const materialFactor = materialQualityFactors[materialQuality].factor;
   const brandFactor = brandPreferenceFactors[brandPreference].factor;
   const urgencyFactor = urgencyFactors[urgency].factor;
@@ -356,7 +363,13 @@ export interface ProjectPriceBreakdown {
 // Negotiation ranges (like SaaS calculator)
 export const NEGOTIATION_RANGE = BUSINESS_CONFIG.pricing.negotiationRange;
 
-export const calculateNegotiationRange = (suggestedPrice: number) => {
+export interface NegotiationRange {
+  minPrice: number;
+  suggestedPrice: number;
+  maxPrice: number;
+}
+
+export const calculateNegotiationRange = (suggestedPrice: number): NegotiationRange => {
   return {
     minPrice: Math.round(suggestedPrice * NEGOTIATION_RANGE.min),
     suggestedPrice: suggestedPrice,

@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import {
   Mail,
   Phone,
@@ -27,7 +28,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
-import { useData, type QuoteStatus } from "@/lib/data-context"
+import { useData, type QuoteStatus, type Quote } from "@/lib/data-context"
 import { formatCLP, formatRelativeDate, getProjectTypeLabel } from "@/lib/utils"
 import { toast } from "sonner"
 
@@ -42,6 +43,7 @@ const statusConfig: Record<QuoteStatus, { label: string; color: string; icon: Re
 export function QuotesQueue() {
   const { quotes, updateQuote, deleteQuote } = useData()
   const [activeTab, setActiveTab] = useState<QuoteStatus>("sent")
+  const router = useRouter()
 
   const filteredQuotes = quotes.filter((q) => q.status === activeTab)
   const counts = {
@@ -64,6 +66,30 @@ export function QuotesQueue() {
       case "delete":
         deleteQuote(quoteId)
         toast.success("Cotización eliminada")
+        break
+    }
+  }
+
+  const handleButtonAction = (quote: Quote, action: string) => {
+    switch (action) {
+      case "edit":
+        router.push(`/quote/${quote.id}`)
+        break
+      case "call":
+        if (quote.clientPhone) {
+          window.open(`tel:${quote.clientPhone}`, '_self')
+        } else {
+          toast.error("No hay número de teléfono disponible")
+        }
+        break
+      case "tracking":
+        toast.info("Funcionalidad de seguimiento próximamente disponible")
+        break
+      case "attachments":
+        toast.info("Funcionalidad de adjuntos próximamente disponible")
+        break
+      case "specs":
+        toast.info("Funcionalidad de especificaciones próximamente disponible")
         break
     }
   }
@@ -143,11 +169,11 @@ export function QuotesQueue() {
                       <div className="flex items-center gap-2 shrink-0">
                         {status === "sent" && (
                           <>
-                            <Button size="sm" variant="outline" className="gap-1.5 hidden sm:flex bg-transparent">
+                            <Button size="sm" variant="outline" className="gap-1.5 hidden sm:flex bg-transparent" onClick={() => handleButtonAction(quote, "tracking")}>
                               <Mail className="w-3.5 h-3.5" />
                               Seguimiento
                             </Button>
-                            <Button size="sm" variant="outline" className="gap-1.5 hidden sm:flex bg-transparent">
+                            <Button size="sm" variant="outline" className="gap-1.5 hidden sm:flex bg-transparent" onClick={() => handleButtonAction(quote, "call")}>
                               <Phone className="w-3.5 h-3.5" />
                               Llamar
                             </Button>
@@ -155,18 +181,18 @@ export function QuotesQueue() {
                         )}
                         {status === "pending" && (
                           <>
-                            <Button size="sm" variant="outline" className="gap-1.5 hidden sm:flex bg-transparent">
+                            <Button size="sm" variant="outline" className="gap-1.5 hidden sm:flex bg-transparent" onClick={() => handleButtonAction(quote, "attachments")}>
                               <Paperclip className="w-3.5 h-3.5" />
                               Adjuntos
                             </Button>
-                            <Button size="sm" variant="outline" className="gap-1.5 hidden sm:flex bg-transparent">
+                            <Button size="sm" variant="outline" className="gap-1.5 hidden sm:flex bg-transparent" onClick={() => handleButtonAction(quote, "specs")}>
                               <Wrench className="w-3.5 h-3.5" />
                               Specs
                             </Button>
                           </>
                         )}
                         {status === "draft" && (
-                          <Button size="sm" variant="outline" className="gap-1.5 hidden sm:flex bg-transparent">
+                          <Button size="sm" variant="outline" className="gap-1.5 hidden sm:flex bg-transparent" onClick={() => handleButtonAction(quote, "edit")}>
                             <FileEdit className="w-3.5 h-3.5" />
                             Editar
                           </Button>

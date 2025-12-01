@@ -1,0 +1,194 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - main [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e6]:
+        - generic [ref=e7]:
+          - img [ref=e9]
+          - generic [ref=e20]:
+            - generic [ref=e21]: Calculadora Avanzada de Proyectos
+            - generic [ref=e22]: Obtén una cotización precisa basada en las características de tu proyecto
+        - generic [ref=e23]:
+          - button "💾 Guardar Preset" [ref=e24]
+          - button "📂 Cargar Preset (0)" [ref=e25]
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - generic [ref=e28]:
+            - generic [ref=e29]:
+              - generic [ref=e30]:
+                - img [ref=e31]
+                - text: Plan de Servicio
+              - generic [ref=e33]: Selecciona el plan que mejor se adapte a tu proyecto
+            - generic [ref=e35]:
+              - button "Plan Básico Más económico Instalaciones eléctricas esenciales hasta $2.500.000 Desde $150.000" [ref=e36]:
+                - generic [ref=e37]:
+                  - generic [ref=e38]: Plan Básico
+                  - generic [ref=e39]: Más económico
+                - generic [ref=e40]: Instalaciones eléctricas esenciales hasta $2.500.000
+                - generic [ref=e41]: Desde $150.000
+              - button "Plan Estándar Instalaciones completas hasta $8.000.000 Desde $220.000" [ref=e42]:
+                - generic [ref=e44]: Plan Estándar
+                - generic [ref=e45]: Instalaciones completas hasta $8.000.000
+                - generic [ref=e46]: Desde $220.000
+              - button "Plan Premium Más completo Soluciones avanzadas hasta $15.000.000 Desde $350.000" [ref=e47]:
+                - generic [ref=e48]:
+                  - generic [ref=e49]: Plan Premium
+                  - generic [ref=e50]: Más completo
+                - generic [ref=e51]: Soluciones avanzadas hasta $15.000.000
+                - generic [ref=e52]: Desde $350.000
+              - button "Plan Empresarial Industrial Proyectos industriales y corporativos Desde $500.000" [ref=e53]:
+                - generic [ref=e54]:
+                  - generic [ref=e55]: Plan Empresarial
+                  - generic [ref=e56]: Industrial
+                - generic [ref=e57]: Proyectos industriales y corporativos
+                - generic [ref=e58]: Desde $500.000
+          - generic [ref=e59]:
+            - generic [ref=e61]:
+              - img [ref=e62]
+              - text: Configuración del Proyecto
+            - generic [ref=e64]:
+              - generic [ref=e65]:
+                - generic [ref=e66]:
+                  - img [ref=e67]
+                  - text: Valor Estimado del Proyecto
+                - generic [ref=e70]:
+                  - generic [ref=e71]:
+                    - generic [ref=e72]: $
+                    - textbox "1.000.000" [active] [ref=e73]: "1000000"
+                  - generic [ref=e74]:
+                    - button "-500k" [ref=e75]
+                    - button "+500k" [ref=e76]
+                - paragraph [ref=e77]: "$1.000.000 - Rango recomendado: $300.000 - $2.500.000"
+              - generic [ref=e78]:
+                - generic [ref=e79]:
+                  - generic [ref=e80]: Tamaño del Proyecto
+                  - combobox [ref=e81]:
+                    - generic:
+                      - generic:
+                        - generic: medium
+                        - generic: Proyectos $2.500.001 - $8.000.000
+                    - img
+                - generic [ref=e82]:
+                  - generic [ref=e83]: Calidad de Materiales
+                  - combobox [ref=e84]:
+                    - generic:
+                      - generic:
+                        - generic: standard
+                        - generic: Materiales estándar de calidad certificada
+                    - img
+                - generic [ref=e85]:
+                  - generic [ref=e86]:
+                    - img [ref=e87]
+                    - text: Nivel de Urgencia
+                  - combobox [ref=e90]:
+                    - generic:
+                      - generic:
+                        - generic: normal
+                        - generic: Plazo estándar 2-4 semanas
+                    - img
+              - generic [ref=e91]:
+                - generic [ref=e92]:
+                  - generic [ref=e93]: Tipo de Pago
+                  - combobox [ref=e94]:
+                    - generic: Pago Mensual
+                    - img
+                - generic [ref=e95]:
+                  - generic [ref=e96]:
+                    - img [ref=e97]
+                    - text: IVA (19%)
+                  - combobox [ref=e101]:
+                    - generic: Sin IVA (Chile Hillbilly Mode)
+                    - img
+          - generic [ref=e102]:
+            - generic [ref=e103]:
+              - generic [ref=e104]:
+                - img [ref=e105]
+                - text: Modalidad de Pago
+              - generic [ref=e107]: Selecciona la frecuencia de pago que mejor se adapte a tu presupuesto
+            - generic [ref=e108]:
+              - generic [ref=e109]:
+                - button "Mensual Pago mes a mes" [ref=e110]:
+                  - generic [ref=e111]: Mensual
+                  - generic [ref=e112]: Pago mes a mes
+                - button "Trimestral Pago cada 3 meses (3% descuento)" [ref=e113]:
+                  - generic [ref=e114]: Trimestral
+                  - generic [ref=e115]: Pago cada 3 meses (3% descuento)
+                - button "Semestral Pago cada 6 meses (8% descuento)" [ref=e116]:
+                  - generic [ref=e117]: Semestral
+                  - generic [ref=e118]: Pago cada 6 meses (8% descuento)
+                - button "Anual Pago anual (15% descuento)" [ref=e119]:
+                  - generic [ref=e120]: Anual
+                  - generic [ref=e121]: Pago anual (15% descuento)
+              - alert [ref=e122]:
+                - img [ref=e123]
+                - generic [ref=e126]:
+                  - strong [ref=e127]: 💰 Ahorra $22.500
+                  - text: cambiando a pago anual.
+                  - button "Aplicar ahorro" [ref=e128]
+        - generic [ref=e130]:
+          - generic [ref=e131]:
+            - generic [ref=e132]: Cotización Detallada
+            - generic [ref=e133]: Plan Básico - $1.000.000
+          - generic [ref=e134]:
+            - generic [ref=e135]:
+              - generic [ref=e136]: $150.000
+              - generic [ref=e137]: Pago mensual (sin IVA)
+            - generic [ref=e138]:
+              - generic [ref=e139]: 💰 Rango de Negociación
+              - generic [ref=e140]:
+                - generic [ref=e141]:
+                  - generic [ref=e142]: $127.500
+                  - generic [ref=e143]: Mínimo
+                - generic [ref=e144]:
+                  - generic [ref=e145]: $150.000
+                  - generic [ref=e146]: Sugerido
+                - generic [ref=e147]:
+                  - generic [ref=e148]: $187.500
+                  - generic [ref=e149]: Máximo
+            - generic [ref=e150]:
+              - heading "Características Incluidas:" [level=4] [ref=e151]
+              - generic [ref=e152]:
+                - generic [ref=e153]:
+                  - img [ref=e154]
+                  - generic [ref=e156]: "Garantía: 12 meses"
+                - generic [ref=e157]:
+                  - img [ref=e158]
+                  - generic [ref=e160]: "Respuesta: 24hrs"
+                - generic [ref=e161]:
+                  - img [ref=e162]
+                  - generic [ref=e164]: Certificación SEC incluida
+            - generic [ref=e165]:
+              - generic [ref=e166]:
+                - button "📊 Exportar CSV" [ref=e167]
+                - button "📄 Exportar PDF" [ref=e168]
+              - paragraph [ref=e169]: "Respuesta estimada: 2-4 horas hábiles"
+            - button "Solicitar Cotización" [ref=e170]:
+              - img
+              - text: Solicitar Cotización
+            - generic [ref=e171]:
+              - generic [ref=e172]:
+                - generic [ref=e173]:
+                  - img [ref=e174]
+                  - text: Contactar al Especialista
+                - generic [ref=e176]: Obtén una cotización personalizada y asesoría técnica gratuita
+              - generic [ref=e177]:
+                - generic [ref=e178]:
+                  - button "Contactar por WhatsApp Recomendado" [ref=e179]:
+                    - img
+                    - text: Contactar por WhatsApp
+                    - generic [ref=e180]: Recomendado
+                  - button "Enviar por Email" [ref=e181]:
+                    - img
+                    - text: Enviar por Email
+                - generic [ref=e182]:
+                  - generic [ref=e183]:
+                    - img [ref=e184]
+                    - generic [ref=e186]: Respuesta en menos de 24 horas
+                  - generic [ref=e187]:
+                    - img [ref=e188]
+                    - generic [ref=e190]: Asesoría técnica gratuita incluida
+  - region "Notifications alt+T"
+  - alert [ref=e191]
+```

@@ -226,6 +226,144 @@ export const remove = mutation({
   },
 })
 
+// Alias for list - getAllQuotes
+export const getAllQuotes = list
+
+// Simplified createQuote mutation (without requiring clientId)
+export const createQuote = mutation({
+  args: {
+    clientName: v.string(),
+    clientRut: v.optional(v.string()),
+    projectTitle: v.string(),
+    projectDescription: v.optional(v.string()),
+    scope: v.optional(v.string()),
+    recommendation: v.optional(v.string()),
+    recommendationReason: v.optional(v.string()),
+    notes: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    // Create or find client
+    let clientId
+    const existingClient = await ctx.db
+      .query("clients")
+      .withIndex("by_name")
+      .filter((q) => q.eq(q.field("name"), args.clientName))
+      .first()
+
+    if (existingClient) {
+      clientId = existingClient._id
+    } else {
+      clientId = await ctx.db.insert("clients", {
+        name: args.clientName,
+        rut: args.clientRut,
+        totalProjects: 0,
+        totalValue: 0,
+        rating: 0,
+        responseSpeed: "medium",
+      })
+    }
+
+    // Create quote with default values
+    const quoteId = await ctx.db.insert("quotes", {
+      clientId,
+      clientName: args.clientName,
+      clientRut: args.clientRut,
+      projectName: args.projectTitle,
+      projectType: "residential",
+      description: args.projectDescription,
+      totalValue: 0,
+      plan: "standard",
+      status: "draft",
+      items: [],
+      notes: args.notes,
+    })
+
+    return quoteId
+  },
+})
+
+// Create complete quote with default line items (Lorena's quote)
+export const createCompleteQuote = mutation({
+  args: {},
+  handler: async (ctx) => {
+    // Create default client
+    const clientId = await ctx.db.insert("clients", {
+      name: "Lorena",
+      totalProjects: 0,
+      totalValue: 0,
+      rating: 0,
+      responseSpeed: "medium",
+    })
+
+    // Default line items for Lorena's quote
+    const defaultItems = [
+      {
+        id: "1",
+        name: "Instalación eléctrica básica",
+        description: "Cableado e instalación básica",
+        value: 500000,
+        category: "instalacion",
+        isOptional: false,
+        isIncluded: true,
+      },
+      {
+        id: "2",
+        name: "Tablero eléctrico",
+        description: "Tablero principal con protecciones",
+        value: 300000,
+        category: "equipamiento",
+        isOptional: false,
+        isIncluded: true,
+      },
+    ]
+
+    const totalValue = defaultItems.reduce((sum, item) => sum + item.value, 0)
+
+    const quoteId = await ctx.db.insert("quotes", {
+      clientId,
+      clientName: "Lorena",
+      projectName: "Instalación Eléctrica Residencial",
+      projectType: "residential",
+      description: "Instalación eléctrica completa para vivienda",
+      totalValue,
+      plan: "standard",
+      status: "draft",
+      items: defaultItems,
+    })
+
+    return quoteId
+  },
+})
+
+// Get quote with details including line items transformed
+export const getQuoteWithDetails = query({
+  args: { quoteId: v.id("quotes") },
+  handler: async (ctx, args) => {
+    const quote = await ctx.db.get(args.quoteId)
+    if (!quote) return null
+
+    // Transform items to lineItems format for compatibility
+    const lineItems = quote.items.map((item, index) => ({
+      _id: item.id,
+      title: item.name,
+      description: item.description || "",
+      value: `$${item.value.toLocaleString("es-CL")}`,
+      order: index,
+      conditional: item.isOptional && !item.isIncluded,
+      materials: undefined,
+      options: undefined,
+      note: undefined,
+    }))
+
+    return {
+      ...quote,
+      projectTitle: quote.projectName,
+      projectDescription: quote.description,
+      lineItems,
+    }
+  },
+})
+
 // Get metrics for business intelligence
 export const getMetrics = query({
   args: {},

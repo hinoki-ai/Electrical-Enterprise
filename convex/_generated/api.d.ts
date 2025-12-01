@@ -9,9 +9,12 @@
  */
 
 import type * as auth from "../auth.js";
+import type * as auth_actions from "../auth_actions.js";
 import type * as calculator_sessions from "../calculator_sessions.js";
-import type * as line_items from "../line_items.js";
+import type * as clients from "../clients.js";
+import type * as materials from "../materials.js";
 import type * as quotes from "../quotes.js";
+import type * as templates from "../templates.js";
 
 import type {
   ApiFromModules,
@@ -21,9 +24,12 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
+  auth_actions: typeof auth_actions;
   calculator_sessions: typeof calculator_sessions;
-  line_items: typeof line_items;
+  clients: typeof clients;
+  materials: typeof materials;
   quotes: typeof quotes;
+  templates: typeof templates;
 }>;
 
 /**

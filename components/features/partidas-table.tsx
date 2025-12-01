@@ -2,6 +2,18 @@
 
 import { useCurrentQuote } from "@/hooks/use-current-quote";
 
+interface LineItem {
+  _id: string;
+  title: string;
+  description?: string;
+  value?: string;
+  order: number;
+  conditional?: boolean;
+  materials?: string;
+  options?: Array<{ label: string; value: string }>;
+  note?: string;
+}
+
 export function PartidasTable() {
   const { currentQuote, isLoading } = useCurrentQuote();
 
@@ -30,7 +42,7 @@ export function PartidasTable() {
     return null;
   }
 
-  const lineItems = currentQuote.lineItems.sort((a, b) => a.order - b.order);
+  const lineItems = (currentQuote.lineItems as LineItem[]).sort((a, b) => a.order - b.order);
 
   return (
     <section>
@@ -72,7 +84,7 @@ export function PartidasTable() {
                   )}
                   {partida.options && partida.options.length > 0 && (
                     <div className="mt-3 space-y-1.5">
-                      {partida.options.map((item, idx) => (
+                      {partida.options.map((item: { label: string; value: string }, idx: number) => (
                         <div
                           key={idx}
                           className="flex items-center justify-between text-sm bg-secondary/50 rounded px-3 py-2"

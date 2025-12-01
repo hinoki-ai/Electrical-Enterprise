@@ -3,6 +3,7 @@
 import { Zap, Search, Bell, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { SettingsDialog } from "./settings-dialog"
 
 export function DashboardHeader() {
   return (
@@ -41,13 +42,15 @@ export function DashboardHeader() {
             >
               <Bell className="w-5 h-5" />
             </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
-            >
-              <Settings className="w-5 h-5" />
-            </Button>
+            <SettingsDialog>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
+              >
+                <Settings className="w-5 h-5" />
+              </Button>
+            </SettingsDialog>
           </div>
         </div>
       </div>

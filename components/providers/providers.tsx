@@ -4,6 +4,7 @@ import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { ThemeProvider } from "next-themes";
 import { ReactNode } from "react";
 import dynamic from "next/dynamic";
+import { AuthProvider } from "@/components/auth-context";
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
 
@@ -28,14 +29,20 @@ export function Providers({ children }: { children: ReactNode }) {
   );
 
   if (!convex) {
-    return themeContent;
+    return (
+      <AuthProvider>
+        {themeContent}
+      </AuthProvider>
+    );
   }
 
   return (
     <ConvexProvider client={convex}>
-      <DynamicQuoteProvider>
-        {themeContent}
-      </DynamicQuoteProvider>
+      <AuthProvider>
+        <DynamicQuoteProvider>
+          {themeContent}
+        </DynamicQuoteProvider>
+      </AuthProvider>
     </ConvexProvider>
   );
 }

@@ -3,7 +3,7 @@ import { query, mutation } from "./_generated/server";
 
 // Get all calculator presets for a user
 export const getUserPresets = query({
-  args: { userId: v.optional(v.id("users")) },
+  args: { userId: v.optional(v.string()) },
   handler: async (ctx, args) => {
     let query = ctx.db
       .query("calculatorSessions")
@@ -39,7 +39,7 @@ export const createSession = mutation({
     paymentType: v.string(),
     includeVAT: v.boolean(),
     isPreset: v.boolean(),
-    userId: v.optional(v.id("users")),
+    userId: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const now = Date.now();
@@ -96,7 +96,7 @@ export const saveAsPreset = mutation({
     urgency: v.string(),
     paymentType: v.string(),
     includeVAT: v.boolean(),
-    userId: v.optional(v.id("users")),
+    userId: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const now = Date.now();
@@ -116,7 +116,7 @@ export const getAnonymousSession = query({
     const sessions = await ctx.db
       .query("calculatorSessions")
       .withIndex("by_session_key", (q) => q.eq("sessionKey", args.sessionKey))
-      .filter((q) => q.neq("isPreset", true))
+      .filter((q) => q.neq(q.field("isPreset"), true))
       .collect();
 
     return sessions[0] || null; // Return the first (most recent) session
@@ -143,7 +143,7 @@ export const upsertAnonymousSession = mutation({
     const existingSessions = await ctx.db
       .query("calculatorSessions")
       .withIndex("by_session_key", (q) => q.eq("sessionKey", args.sessionKey))
-      .filter((q) => q.neq("isPreset", true))
+      .filter((q) => q.neq(q.field("isPreset"), true))
       .collect();
 
     const now = Date.now();

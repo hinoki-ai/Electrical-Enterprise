@@ -199,53 +199,43 @@ const sampleMetrics: BusinessMetrics = {
 }
 
 export function DataProvider({ children }: { children: React.ReactNode }) {
-  const [quotes, setQuotes] = useState<Quote[]>([])
-  const [clients, setClients] = useState<Client[]>([])
-  const [metrics] = useState<BusinessMetrics>(sampleMetrics)
-  const [isLoaded, setIsLoaded] = useState(false)
-
-  // Load from localStorage on mount
-  useEffect(() => {
-    const savedQuotes = localStorage.getItem("electriquote_quotes")
-    const savedClients = localStorage.getItem("electriquote_clients")
-
-    if (savedQuotes) {
-      try {
+  const [quotes, setQuotes] = useState<Quote[]>(() => {
+    try {
+      const savedQuotes = localStorage.getItem("electriquote_quotes")
+      if (savedQuotes) {
         const parsed = JSON.parse(savedQuotes)
-        setQuotes(
-          parsed.map((q: Quote) => ({
-            ...q,
-            createdAt: new Date(q.createdAt),
-            updatedAt: new Date(q.updatedAt),
-            sentAt: q.sentAt ? new Date(q.sentAt) : undefined,
-          })),
-        )
-      } catch {
-        setQuotes(sampleQuotes)
+        return parsed.map((q: Quote) => ({
+          ...q,
+          createdAt: new Date(q.createdAt),
+          updatedAt: new Date(q.updatedAt),
+          sentAt: q.sentAt ? new Date(q.sentAt) : undefined,
+        }))
       }
-    } else {
-      setQuotes(sampleQuotes)
+    } catch {
+      // Fall through to default
     }
+    return sampleQuotes
+  })
 
-    if (savedClients) {
-      try {
+  const [clients, setClients] = useState<Client[]>(() => {
+    try {
+      const savedClients = localStorage.getItem("electriquote_clients")
+      if (savedClients) {
         const parsed = JSON.parse(savedClients)
-        setClients(
-          parsed.map((c: Client) => ({
-            ...c,
-            createdAt: new Date(c.createdAt),
-            lastContact: c.lastContact ? new Date(c.lastContact) : undefined,
-          })),
-        )
-      } catch {
-        setClients(sampleClients)
+        return parsed.map((c: Client) => ({
+          ...c,
+          createdAt: new Date(c.createdAt),
+          lastContact: c.lastContact ? new Date(c.lastContact) : undefined,
+        }))
       }
-    } else {
-      setClients(sampleClients)
+    } catch {
+      // Fall through to default
     }
+    return sampleClients
+  })
 
-    setIsLoaded(true)
-  }, [])
+  const [metrics] = useState<BusinessMetrics>(sampleMetrics)
+  const [isLoaded, setIsLoaded] = useState(true)
 
   // Save to localStorage on changes
   useEffect(() => {

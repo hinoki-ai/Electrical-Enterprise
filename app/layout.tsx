@@ -2,7 +2,8 @@ import type React from "react"
 import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import { Toaster } from "@/components/ui/sonner"
-import { ConvexClientProvider } from "@/components/convex-provider"
+import { Providers } from "@/components/providers/providers"
+import { DataProvider } from "@/lib/data-context"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
@@ -29,7 +30,11 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${inter.variable} font-sans antialiased`}>
-        <ConvexClientProvider>{children}</ConvexClientProvider>
+        <Providers>
+          <DataProvider>
+            {children}
+          </DataProvider>
+        </Providers>
         <Toaster position="top-right" richColors />
       </body>
     </html>

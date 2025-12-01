@@ -418,7 +418,7 @@ export default function NewQuotePage() {
                         Eliminar
                       </Button>
                     </div>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-3 gap-3">
                       <div className="space-y-1">
                         <Label className="text-xs">Nombre</Label>
                         <Input
@@ -429,12 +429,37 @@ export default function NewQuotePage() {
                       </div>
                       <div className="space-y-1">
                         <Label className="text-xs">Valor</Label>
-                        <Input
-                          type="number"
-                          value={item.value || ""}
-                          onChange={(e) => handleUpdateItem(item.id, "value", Number.parseInt(e.target.value) || 0)}
-                          placeholder="0"
-                        />
+                        <div className="relative">
+                          <Input
+                            type="number"
+                            value={item.value || ""}
+                            onChange={(e) => handleUpdateItem(item.id, "value", Math.max(0, Number.parseInt(e.target.value) || 0))}
+                            placeholder="0"
+                            className="pr-12"
+                          />
+                          <div className="absolute right-1 top-1/2 -translate-y-1/2 flex gap-0.5">
+                            <button
+                              onClick={() => handleUpdateItem(item.id, "value", (item.value || 0) + 10000)}
+                              className="text-xs bg-green-100 hover:bg-green-200 text-green-700 px-1 rounded"
+                              title="+10.000"
+                            >
+                              +
+                            </button>
+                            <button
+                              onClick={() => handleUpdateItem(item.id, "value", Math.max(0, (item.value || 0) - 10000))}
+                              className="text-xs bg-red-100 hover:bg-red-200 text-red-700 px-1 rounded"
+                              title="-10.000"
+                            >
+                              −
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <Label className="text-xs">Total</Label>
+                        <div className="flex items-center h-9 px-3 border rounded-md bg-muted text-sm font-medium text-green-600">
+                          {formatCLP(item.value || 0)}
+                        </div>
                       </div>
                     </div>
                     <div className="space-y-1">

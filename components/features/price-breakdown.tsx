@@ -12,6 +12,7 @@ import {
 } from "@/lib/pricing-plans";
 import { BUSINESS_CONFIG } from "@/constants";
 import { LeadCapture } from "./lead-capture";
+import { ContactActions } from "./contact-actions";
 
 interface PriceBreakdownProps {
   selectedPlan: PricingPlan;
@@ -35,6 +36,10 @@ export function PriceBreakdown({
   negotiationRange,
   includeVAT,
   billingCycle,
+  contactMessage,
+  whatsappUrl,
+  emailSubject,
+  emailBody,
   onCSVExport,
   onPDFExport,
 }: PriceBreakdownProps) {
@@ -156,19 +161,30 @@ export function PriceBreakdown({
           </p>
         </div>
 
-        <LeadCapture
-          quoteData={{
-            whatsappUrl,
-            emailSubject,
-            emailBody,
-            totalPrice: includeVAT ? priceBreakdown.totalWithVAT : priceBreakdown.finalPrice,
-            projectType: selectedPlan.name,
-          }}
-          onLeadCaptured={(lead) => {
-            console.log('Lead captured:', lead);
-            // Here you could send the lead data to your CRM or database
-          }}
-        />
+        {whatsappUrl && (
+          <LeadCapture
+            quoteData={{
+              whatsappUrl,
+              emailSubject,
+              emailBody,
+              totalPrice: includeVAT ? priceBreakdown.totalWithVAT : priceBreakdown.finalPrice,
+              projectType: selectedPlan.name,
+            }}
+            onLeadCaptured={(lead) => {
+              console.log('Lead captured:', lead);
+              // Here you could send the lead data to your CRM or database
+            }}
+          />
+        )}
+
+        {whatsappUrl && emailSubject && emailBody && (
+          <ContactActions
+            whatsappUrl={whatsappUrl}
+            emailSubject={emailSubject}
+            emailBody={emailBody}
+            className="mt-6"
+          />
+        )}
       </CardContent>
     </Card>
   );

@@ -1,38 +1,79 @@
 "use client"
 
-import { DashboardHeader } from "@/components/dashboard/header"
-import { QuickQuote } from "@/components/dashboard/quick-quote"
-import { QuotesQueue } from "@/components/dashboard/quotes-queue"
-import { CalculatorWidget } from "@/components/dashboard/calculator-widget"
-import { ClientManager } from "@/components/dashboard/client-manager"
-import { BusinessIntelligence } from "@/components/dashboard/business-intelligence"
-import { ToolsPanel } from "@/components/dashboard/tools-panel"
-import { MobileNav } from "@/components/dashboard/mobile-nav"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/components/auth-context"
+import { HomepageMobile } from "@/components/homepage-mobile"
+import { HomepageDesktop } from "@/components/homepage-desktop"
+import { LoginModal } from "@/components/login-modal"
+import type { User } from "@/components/auth-context"
+import { useIsMobile } from "@/hooks/use-mobile"
 
-export default function Dashboard() {
-  return (
-    <div className="min-h-screen bg-background">
-      <DashboardHeader />
+export default function HomePage() {
+  const { isAuthenticated, isInitializing, user, login } = useAuth()
+  const router = useRouter()
+  const isMobile = useIsMobile()
+  const [showLogin, setShowLogin] = useState(false)
 
-      <main className="max-w-7xl mx-auto px-4 py-6 pb-24 lg:pb-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Column - Primary Actions */}
-          <div className="lg:col-span-8 space-y-6">
-            <QuickQuote />
-            <QuotesQueue />
-            <ClientManager />
-          </div>
+  // Redirect authenticated users to dashboard
+  useEffect(() => {
+    if (!isInitializing && isAuthenticated && user) {
+      router.push("/dashboard")
+    }
+  }, [isInitializing, isAuthenticated, user, router])
 
-          {/* Right Column - Tools & Stats */}
-          <div className="lg:col-span-4 space-y-6">
-            <CalculatorWidget />
-            <BusinessIntelligence />
-            <ToolsPanel />
-          </div>
+  const handleSignupSuccess = (user: User) => {
+    // Log the user in immediately after signup
+    login(user)
+    // Redirect will happen via useEffect when user is loaded
+  }
+
+  const handleCloseLogin = () => {
+    setShowLogin(false)
+  }
+
+  // Show loading while checking authentication
+  if (isInitializing) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <h1 className="text-xl font-semibold mb-2">Loading...</h1>
         </div>
-      </main>
+      </div>
+    )
+  }
 
-      <MobileNav />
-    </div>
+  // Authenticated users will be redirected to dashboard
+  // Show homepage for unauthenticated users
+
+  return (
+    <>
+      {isMobile ? (
+        <HomepageMobile
+          onSignupSuccess={handleSignupSuccess}
+          onShowLogin={() => setShowLogin(true)}
+        />
+      ) : (
+        <HomepageDesktop
+          onSignupSuccess={handleSignupSuccess}
+          onShowLogin={() => setShowLogin(true)}
+        />
+      )}
+
+      {/* Login Modal */}
+      {showLogin && (
+        <LoginModal
+          isOpen={showLogin}
+          onClose={handleCloseLogin}
+          onLoginSuccess={(user) => {
+            // Log the user in
+            login(user)
+            setShowLogin(false)
+            // Redirect will happen via useEffect when user is loaded
+          }}
+        />
+      )}
+    </>
   )
 }

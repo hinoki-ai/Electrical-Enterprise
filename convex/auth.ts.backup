@@ -1,0 +1,460 @@
+import { action, mutation, query } from "./_generated/server";
+import { v } from "convex/values";
+import { api } from "./_generated/api";
+import type { Id } from "./_generated/dataModel";
+import { hashPasswordUtil, verifyPasswordUtil } from "./auth_actions";
+
+// Simple in-memory rate limiter (in production, use Redis or similar)
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
+
+function checkRateLimit(key: string, maxAttempts: number = 5, windowMs: number = 15 * 60 * 1000): boolean {
+  const now = Date.now()
+  const existing = rateLimitMap.get(key)
+
+  if (!existing || now > existing.resetTime) {
+    // Reset or new entry
+    rateLimitMap.set(key, { count: 1, resetTime: now + windowMs })
+    return true
+  }
+
+  if (existing.count >= maxAttempts) {
+    return false
+  }
+
+  existing.count++
+  return true
+}
+
+// Validate password strength
+function validatePasswordStrength(password: string): { isValid: boolean; errors: string[] } {
+  const errors: string[] = []
+
+  if (password.length < 8) {
+    errors.push("La contraseña debe tener al menos 8 caracteres")
+  }
+
+  if (!/[a-zA-Z]/.test(password)) {
+    errors.push("La contraseña debe contener al menos una letra")
+  }
+
+  if (!/\d/.test(password)) {
+    errors.push("La contraseña debe contener al menos un número")
+  }
+
+  // Check for common weak passwords (optional)
+  const weakPasswords = ['password', '12345678', 'qwerty', 'abc123', 'password123']
+  if (weakPasswords.includes(password.toLowerCase())) {
+    errors.push("Esta contraseña es demasiado común. Elige una más segura")
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors
+  }
+}
+
+// Create master user - simplified for private enterprise use
+export const createMasterUser = mutation({
+  args: {
+    email: v.string(),
+    username: v.string(),
+    password: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Normalize inputs
+    const email = args.email.trim().toLowerCase()
+    const username = args.username.trim()
+    const password = args.password.trim()
+
+    if (!username) {
+      throw new Error("Username is required")
+    }
+
+    if (!password) {
+      throw new Error("Password is required")
+    }
+
+    // Validate username
+    if (username.length < 3) {
+      throw new Error("Username must be at least 3 characters long")
+    }
+
+    if (username.length > 30) {
+      throw new Error("Username must be no more than 30 characters long")
+    }
+
+    // Check if username contains only alphanumeric characters and underscores
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+      throw new Error("Username can only contain letters, numbers, and underscores")
+    }
+
+    // Validate password strength
+    const passwordValidation = validatePasswordStrength(password)
+    if (!passwordValidation.isValid) {
+      throw new Error(passwordValidation.errors.join(". "))
+    }
+
+    // Check if any users already exist (we want only one master user)
+    const existingUsers = await ctx.db.query("users").collect()
+    if (existingUsers.length > 0) {
+      throw new Error("A master user already exists in the system")
+    }
+
+    // Hash the password
+    const hashedPassword = await hashPasswordUtil(password)
+
+    // Create master user
+    const userId = await ctx.db.insert("users", {
+      email,
+      username,
+      password: hashedPassword,
+      role: "master",
+      createdAt: Date.now(),
+      needsPasswordChange: false,
+      hasCompletedWelcome: true, // Master user is ready to use
+      emailVerified: true, // Master user doesn't need email verification
+    })
+
+    console.log(`✅ Master user created: ${username}`)
+
+    return {
+      _id: userId,
+      email,
+      username,
+      role: "master",
+      createdAt: Date.now(),
+      hasCompletedWelcome: true,
+      emailVerified: true,
+    }
+  },
+})
+
+// Simplified login function - only master user can log in
+export const authenticateUser = mutation({
+  args: {
+    username: v.string(),
+    password: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Normalize username to lowercase for lookup
+    const normalizedUsername = args.username.toLowerCase().trim()
+    // Trim password to avoid whitespace issues
+    const trimmedPassword = args.password.trim()
+
+    console.log("🔐 Login attempt:", { username: normalizedUsername })
+
+    // Find user by username
+    const user = await ctx.db
+      .query("users")
+      .withIndex("username", (q) => q.eq("username", normalizedUsername))
+      .first()
+
+    if (!user) {
+      console.log("❌ User not found with username:", normalizedUsername)
+      return null
+    }
+
+    console.log("✅ User found:", { username: user.username, role: user.role })
+
+    // Verify password
+    const passwordMatches = await verifyPasswordUtil(trimmedPassword, user.password)
+
+    if (!passwordMatches) {
+      console.log("❌ Password mismatch")
+      return null
+    }
+
+    console.log("✅ Authentication successful for user:", user.username)
+
+    // Return user without password
+    return {
+      _id: user._id,
+      email: user.email,
+      username: user.username,
+      role: user.role || "master",
+      createdAt: user.createdAt,
+      hasCompletedWelcome: user.hasCompletedWelcome,
+      displayName: user.displayName,
+      avatar: user.avatar,
+      emailVerified: user.emailVerified,
+    }
+  },
+})
+
+// Simple login function (alias for authenticateUser)
+export const login = authenticateUser
+
+export const getCurrentUser = query({
+  handler: async (ctx) => {
+    // In a single master user system, just return the first (and only) user
+    const users = await ctx.db.query("users").collect()
+
+    if (users.length === 0) {
+      return null
+    }
+
+    const user = users[0] // There should only be one master user
+
+    // Return user without password
+    return {
+      _id: user._id,
+      email: user.email,
+      username: user.username,
+      role: user.role || "master",
+      createdAt: user.createdAt,
+      hasCompletedWelcome: user.hasCompletedWelcome,
+      displayName: user.displayName,
+      avatar: user.avatar,
+      emailVerified: user.emailVerified,
+    }
+  },
+})
+
+export const getUser = query({
+  args: {
+    userId: v.id("users"),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db.get(args.userId)
+    if (!user) return null
+
+    // Return user without password
+    return {
+      _id: user._id,
+      username: user.username,
+      role: user.role || "master",
+      createdAt: user.createdAt,
+    }
+  },
+})
+
+export const getUserByEmail = query({
+  args: {
+    email: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("email", (q) => q.eq("email", args.email.toLowerCase().trim()))
+      .first()
+
+    if (!user) return null
+
+    // Return user without password
+    return {
+      _id: user._id,
+      email: user.email,
+      username: user.username,
+      role: user.role || "master",
+      createdAt: user.createdAt,
+      hasCompletedWelcome: user.hasCompletedWelcome,
+      emailVerified: user.emailVerified,
+    }
+  },
+})
+
+export const getAllUsers = query({
+  handler: async (ctx) => {
+    const users = await ctx.db.query("users").collect()
+    return users.map(user => ({
+      _id: user._id,
+      email: user.email,
+      username: user.username,
+      role: user.role || "master",
+      createdAt: user.createdAt,
+    }))
+  },
+})
+
+export const isAuthenticated = query({
+  handler: async (ctx) => {
+    // Check if there's at least one user (the master user)
+    const users = await ctx.db.query("users").collect()
+    return users.length > 0
+  },
+})
+
+// Update user profile (simplified for master user)
+export const updateUserProfile = mutation({
+  args: {
+    userId: v.id("users"),
+    avatar: v.optional(v.string()),
+    displayName: v.optional(v.string()),
+    username: v.optional(v.string()),
+    removeAvatar: v.optional(v.boolean()),
+  },
+  handler: async (ctx, args) => {
+    try {
+      const user = await ctx.db.get(args.userId)
+      if (!user) {
+        throw new Error("Usuario no encontrado")
+      }
+
+      const updateData: Record<string, unknown> = {}
+
+      // Validate and update username
+      if (args.username !== undefined) {
+        const trimmedUsername = args.username.trim()
+
+        if (trimmedUsername.length < 3) {
+          throw new Error("El nombre de usuario debe tener al menos 3 caracteres")
+        }
+
+        if (trimmedUsername.length > 30) {
+          throw new Error("El nombre de usuario no puede superar los 30 caracteres")
+        }
+
+        // Check if username contains only alphanumeric characters and underscores
+        if (!/^[a-zA-Z0-9_]+$/.test(trimmedUsername)) {
+          throw new Error("El nombre de usuario solo puede contener letras, números y guiones bajos")
+        }
+
+        // Only update if different from current value
+        if (trimmedUsername !== user.username) {
+          updateData.username = trimmedUsername
+        }
+      }
+
+      // Validate and update displayName
+      if (args.displayName !== undefined) {
+        const trimmedDisplayName = args.displayName.trim()
+
+        if (trimmedDisplayName.length < 2) {
+          throw new Error("El nombre debe tener al menos 2 caracteres")
+        }
+
+        if (trimmedDisplayName.length > 50) {
+          throw new Error("El nombre no puede superar los 50 caracteres")
+        }
+
+        // Only update if different from current value
+        if (trimmedDisplayName !== user.displayName) {
+          updateData.displayName = trimmedDisplayName
+        }
+      }
+
+      // Handle avatar changes
+      if (args.removeAvatar) {
+        // Only update if there's an avatar to remove
+        if (user.avatar) {
+          updateData.avatar = undefined
+        }
+      } else if (args.avatar !== undefined) {
+        // Validate avatar size (120KB max for base64 encoded images)
+        const avatarSizeKB = Math.round((args.avatar.length * 3) / 4 / 1024)
+        if (avatarSizeKB > 120) {
+          throw new Error(`La foto de perfil es demasiado grande (${avatarSizeKB}KB). El máximo permitido es 120KB. Por favor, usa una imagen más pequeña.`)
+        }
+
+        // Only update if different from current value
+        if (args.avatar !== user.avatar) {
+          updateData.avatar = args.avatar
+        }
+      }
+
+      // Mark welcome as completed if not already
+      if (!user.hasCompletedWelcome) {
+        updateData.hasCompletedWelcome = true
+      }
+
+      // If no changes to apply, return current user data
+      if (Object.keys(updateData).length === 0) {
+        return {
+          success: true,
+          user: {
+            _id: user._id,
+            email: user.email,
+            username: user.username,
+            role: user.role || "master",
+            createdAt: user.createdAt,
+            hasCompletedWelcome: user.hasCompletedWelcome === true,
+            displayName: user.displayName,
+            avatar: user.avatar,
+          }
+        }
+      }
+
+      // Apply updates with error handling
+      try {
+        await ctx.db.patch(args.userId, updateData)
+      } catch (patchError) {
+        console.error("Failed to patch user profile", {
+          userId: args.userId,
+          updateData,
+          error: patchError,
+        })
+        throw new Error("Error al actualizar el perfil. Por favor, inténtalo de nuevo.")
+      }
+
+      // Get updated user
+      const updatedUser = await ctx.db.get(args.userId)
+      if (!updatedUser) {
+        throw new Error("Usuario no encontrado después de la actualización")
+      }
+
+      return {
+        success: true,
+        user: {
+          _id: updatedUser._id,
+          email: updatedUser.email,
+          username: updatedUser.username,
+          role: updatedUser.role || "master",
+          createdAt: updatedUser.createdAt,
+          hasCompletedWelcome: updatedUser.hasCompletedWelcome === true,
+          displayName: updatedUser.displayName,
+          avatar: updatedUser.avatar,
+        }
+      }
+    } catch (error) {
+      // Log the error for debugging
+      console.error("updateUserProfile error:", {
+        userId: args.userId,
+        error: error instanceof Error ? error.message : error,
+      })
+
+      // Re-throw with user-friendly message if it's not already a custom error
+      if (error instanceof Error && error.message.startsWith("El ")) {
+        throw error
+      }
+
+      throw new Error("Error al actualizar el perfil. Por favor, inténtalo de nuevo.")
+    }
+  },
+})
+
+// Change password function for the master user
+export const changePassword = mutation({
+  args: {
+    userId: v.id("users"),
+    currentPassword: v.string(),
+    newPassword: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db.get(args.userId)
+    if (!user) {
+      throw new Error("User not found")
+    }
+
+    // Verify current password
+    const currentPasswordMatches = await verifyPasswordUtil(args.currentPassword, user.password)
+
+    if (!currentPasswordMatches) {
+      throw new Error("Current password is incorrect")
+    }
+
+    // Validate new password
+    const newPassword = args.newPassword.trim()
+    const passwordValidation = validatePasswordStrength(newPassword)
+    if (!passwordValidation.isValid) {
+      throw new Error(passwordValidation.errors.join(". "))
+    }
+
+    // Hash and update password
+    const newHashedPassword = await hashPasswordUtil(newPassword)
+    await ctx.db.patch(args.userId, {
+      password: newHashedPassword,
+    })
+
+    return { success: true }
+  },
+})

@@ -17,7 +17,7 @@ export function PrintInstructions() {
         <p className="text-xs text-slate-300 mb-3">
           Usa <kbd className="bg-slate-700 px-1.5 py-0.5 rounded text-amber-400 font-mono">Ctrl+P</kbd> (o{" "}
           <kbd className="bg-slate-700 px-1.5 py-0.5 rounded text-amber-400 font-mono">Cmd+P</kbd> en Mac) y selecciona
-          "Guardar como PDF"
+&ldquo;Guardar como PDF&rdquo;
         </p>
         <button
           onClick={handlePrint}

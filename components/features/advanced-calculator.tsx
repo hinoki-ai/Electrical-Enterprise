@@ -14,6 +14,8 @@ import {
   calculateNegotiationRange,
   exportToCSV,
   projectSizeFactors,
+  materialQualityFactors,
+  urgencyFactors,
 } from "@/lib/pricing-plans";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
@@ -140,7 +142,7 @@ export function AdvancedCalculator({ className }: AdvancedCalculatorProps) {
 
   const deletePreset = async (presetId: string) => {
     try {
-      await deletePresetMutation({ sessionId: presetId });
+      await deletePresetMutation({ sessionId: presetId as any });
       toast.success('Preset eliminado');
     } catch (error) {
       console.error('Error deleting preset:', error);
@@ -301,16 +303,16 @@ export function AdvancedCalculator({ className }: AdvancedCalculatorProps) {
 ¿Podrían contactarme para agendar una visita técnica?`;
   }, [selectedPlan.name, projectValue, projectSize, materialQuality, urgency, billingCycle, includeVAT, paymentType, priceBreakdown.finalPrice, priceBreakdown.totalWithVAT, negotiationRange]);
 
-  const whatsappUrl = `https://wa.me/${contactInfo.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(contactMessage)}`;
-  const emailSubject = `Cotización Proyecto Eléctrico - ${selectedPlan.name}`;
-  const emailBody = contactMessage;
+  const whatsappUrl = contactMessage ? `https://wa.me/${contactInfo.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(contactMessage)}` : '';
+  const emailSubject = contactMessage ? `Cotización Proyecto Eléctrico - ${selectedPlan.name}` : '';
+  const emailBody = contactMessage || '';
 
-  const cycleOptions = [
+  const cycleOptions: Array<{ value: BillingCycle; label: string; description: string }> = [
     { value: "monthly", label: "Mensual", description: "Pago mes a mes" },
     { value: "quarterly", label: "Trimestral", description: "Pago cada 3 meses (3% descuento)" },
     { value: "semestral", label: "Semestral", description: "Pago cada 6 meses (8% descuento)" },
     { value: "annual", label: "Anual", description: "Pago anual (15% descuento)" },
-  ] as const;
+  ];
 
   // Export functions
   const handleCSVExport = () => {

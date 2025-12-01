@@ -121,18 +121,13 @@ export function QuoteManager() {
                     onClick={() => handleLoadQuote(quote._id)}
                   >
                     <CardHeader className="pb-2">
-                      <CardTitle className="text-sm">{quote.projectTitle}</CardTitle>
+                      <CardTitle className="text-sm">{quote.projectName}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-xs text-muted-foreground">{quote.clientName}</p>
                       <p className="text-xs text-muted-foreground">
-                        Creada: {new Date(quote.createdAt).toLocaleDateString("es-CL")}
+                        Creada: {new Date(quote._creationTime).toLocaleDateString("es-CL")}
                       </p>
-                      {quote.updatedAt !== quote.createdAt && (
-                        <p className="text-xs text-muted-foreground">
-                          Actualizada: {new Date(quote.updatedAt).toLocaleDateString("es-CL")}
-                        </p>
-                      )}
                     </CardContent>
                   </Card>
                 ))

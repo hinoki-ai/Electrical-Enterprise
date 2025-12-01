@@ -200,19 +200,41 @@ export function QuoteEditor({ quote, client }: QuoteEditorProps) {
                         <Trash2 className="w-3 h-3" />
                       </Button>
                     </div>
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-4 gap-2">
                       <Input
                         className="col-span-2"
                         value={item.name}
                         onChange={(e) => handleUpdateItem(item.id, "name", e.target.value)}
                         placeholder="Nombre"
                       />
-                      <Input
-                        type="number"
-                        value={item.value || ""}
-                        onChange={(e) => handleUpdateItem(item.id, "value", Number.parseInt(e.target.value) || 0)}
-                        placeholder="Valor"
-                      />
+                      <div className="relative">
+                        <Input
+                          type="number"
+                          value={item.value || ""}
+                          onChange={(e) => handleUpdateItem(item.id, "value", Math.max(0, Number.parseInt(e.target.value) || 0))}
+                          placeholder="Valor"
+                          className="pr-12"
+                        />
+                        <div className="absolute right-1 top-1/2 -translate-y-1/2 flex gap-0.5">
+                          <button
+                            onClick={() => handleUpdateItem(item.id, "value", (item.value || 0) + 10000)}
+                            className="text-xs bg-green-100 hover:bg-green-200 text-green-700 px-1 rounded"
+                            title="+10.000"
+                          >
+                            +
+                          </button>
+                          <button
+                            onClick={() => handleUpdateItem(item.id, "value", Math.max(0, (item.value || 0) - 10000))}
+                            className="text-xs bg-red-100 hover:bg-red-200 text-red-700 px-1 rounded"
+                            title="-10.000"
+                          >
+                            −
+                          </button>
+                        </div>
+                      </div>
+                      <div className="flex items-center text-sm font-medium text-green-600">
+                        {formatCLP(item.value || 0)}
+                      </div>
                     </div>
                     <Textarea
                       value={item.description || ""}

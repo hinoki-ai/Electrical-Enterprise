@@ -9,9 +9,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Wrench, DollarSign, Clock, AlertTriangle } from "lucide-react";
 import { formatCLP } from "@/lib/pricing-plans";
 
-type ProjectSize = keyof typeof import("@/lib/pricing-plans").projectSizeFactors;
-type MaterialQuality = keyof typeof import("@/lib/pricing-plans").materialQualityFactors;
-type UrgencyLevel = keyof typeof import("@/lib/pricing-plans").urgencyFactors;
+import { projectSizeFactors, materialQualityFactors, urgencyFactors, brandPreferenceFactors } from "@/lib/pricing-plans";
+
+type ProjectSize = keyof typeof projectSizeFactors;
+type MaterialQuality = keyof typeof materialQualityFactors;
+type UrgencyLevel = keyof typeof urgencyFactors;
+type BrandPreference = keyof typeof brandPreferenceFactors;
 
 interface ProjectConfigurationProps {
   selectedPlan: { minProjectValue: number; maxProjectValue: number | null };
@@ -19,23 +22,13 @@ interface ProjectConfigurationProps {
   inputValue: string;
   onProjectValueChange: (value: string) => void;
   onProjectValueBlur: () => void;
-  onAdjustProjectValue: (delta: number) => void;
+  onProjectValueAdjust: (delta: number) => void;
   complexity: ProjectSize;
   onComplexityChange: (value: ProjectSize) => void;
   materialQuality: MaterialQuality;
   onMaterialQualityChange: (value: MaterialQuality) => void;
-  brandPreference: BrandPreference;
-  onBrandPreferenceChange: (value: BrandPreference) => void;
   urgency: UrgencyLevel;
   onUrgencyChange: (value: UrgencyLevel) => void;
-  clientType: ClientType;
-  onClientTypeChange: (value: ClientType) => void;
-  usageIntensity: UsageIntensity;
-  onUsageIntensityChange: (value: UsageIntensity) => void;
-  economicCapacity: EconomicCapacity;
-  onEconomicCapacityChange: (value: EconomicCapacity) => void;
-  contractDuration: ContractDuration;
-  onContractDurationChange: (value: ContractDuration) => void;
   paymentType: 'monthly' | 'upfront';
   onPaymentTypeChange: (value: 'monthly' | 'upfront') => void;
   includeVAT: boolean;
@@ -48,12 +41,7 @@ export function ProjectConfiguration({
   selectedPlan,
   complexity,
   materialQuality,
-  brandPreference,
   urgency,
-  clientType,
-  usageIntensity,
-  economicCapacity,
-  contractDuration,
   paymentType,
   includeVAT,
   onProjectValueChange,
@@ -61,20 +49,10 @@ export function ProjectConfiguration({
   onProjectValueAdjust,
   onComplexityChange,
   onMaterialQualityChange,
-  onBrandPreferenceChange,
   onUrgencyChange,
-  onClientTypeChange,
-  onUsageIntensityChange,
-  onEconomicCapacityChange,
-  onContractDurationChange,
   onPaymentTypeChange,
   onIncludeVATChange,
 }: ProjectConfigurationProps) {
-  const {
-    projectSizeFactors,
-    materialQualityFactors,
-    urgencyFactors,
-  } = require("@/lib/pricing-plans");
 
   return (
     <Card>
@@ -172,24 +150,6 @@ export function ProjectConfiguration({
             </Select>
           </div>
 
-          <div className="space-y-2">
-            <Label>Preferencia de Marcas</Label>
-            <Select value={brandPreference} onValueChange={onBrandPreferenceChange}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.entries(brandPreferenceFactors).map(([key, data]) => (
-                  <SelectItem key={key} value={key}>
-                    <div>
-                      <div className="font-medium capitalize">{key}</div>
-                      <div className="text-xs text-muted-foreground">{data.description}</div>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
 
           <div className="space-y-2">
             <Label className="flex items-center gap-2">

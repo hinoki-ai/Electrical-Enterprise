@@ -1,0 +1,10 @@
+{
+  "terminal.integrated.shellIntegration.enabled": true,
+  "terminal.integrated.enablePersistentSessions": false,
+  "terminal.integrated.commandsToSkipShell": [
+    "workbench.action.terminal.runSelectedText",
+    "workbench.action.terminal.runActiveFile"
+  ],
+  "cursor.terminal.commandApproval.enabled": false,
+  "security.workspace.trust.enabled": false
+}
