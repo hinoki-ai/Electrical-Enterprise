@@ -8,17 +8,85 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { FileSignature, Search, Plus, Download, Eye, Edit, FileText, Clock, CheckCircle, AlertTriangle } from "lucide-react"
 
+interface Contract {
+  id: string;
+  title: string;
+  type: string;
+  status: 'active' | 'pending' | 'expired';
+  client: string;
+  startDate: string;
+  endDate: string;
+  value: number;
+  renewal: boolean;
+}
+
+interface Renewal {
+  contract: string;
+  client: string;
+  type: string;
+  days: number;
+}
+
 export default function ContractsPage() {
   const contractTypes = [
-    { icon: FileText, label: "Contratos de Servicio", count: 0, color: "text-primary" },
-    { icon: FileSignature, label: "Contratos de Mantenimiento", count: 0, color: "text-info" },
-    { icon: CheckCircle, label: "Garantías", count: 0, color: "text-success" },
-    { icon: AlertTriangle, label: "Términos y Condiciones", count: 0, color: "text-warning" }
+    { icon: FileText, label: "Contratos de Servicio", count: 3, color: "text-primary" },
+    { icon: FileSignature, label: "Contratos de Mantenimiento", count: 2, color: "text-info" },
+    { icon: CheckCircle, label: "Garantías", count: 5, color: "text-success" },
+    { icon: AlertTriangle, label: "Términos y Condiciones", count: 1, color: "text-warning" }
   ]
 
-  const contracts: never[] = []
+  // Mock data - replace with Convex query when implemented
+  const contracts: Contract[] = [
+    {
+      id: "CNT-001",
+      title: "Contrato de Servicio Eléctrico Residencial",
+      type: "Servicio",
+      status: 'active',
+      client: "Juan Pérez",
+      startDate: "01 Ene 2024",
+      endDate: "01 Ene 2025",
+      value: 2500000,
+      renewal: true
+    },
+    {
+      id: "CNT-002",
+      title: "Mantenimiento Preventivo",
+      type: "Mantenimiento",
+      status: 'active',
+      client: "Empresa ABC Ltda.",
+      startDate: "15 Feb 2024",
+      endDate: "15 Feb 2025",
+      value: 1800000,
+      renewal: true
+    }
+  ]
 
-  const upcomingRenewals: never[] = []
+  const upcomingRenewals: Renewal[] = [
+    {
+      contract: "Contrato de Servicio Eléctrico Residencial",
+      client: "Juan Pérez",
+      type: "Servicio",
+      days: 15
+    },
+    {
+      contract: "Mantenimiento Preventivo",
+      client: "Empresa ABC Ltda.",
+      type: "Mantenimiento",
+      days: 30
+    }
+  ]
+
+  // Mock data - replace with Convex query when implemented
+  const templates: { name: string; usage: number }[] = [
+    {
+      name: "Contrato Estándar",
+      usage: 25
+    },
+    {
+      name: "Mantenimiento Anual",
+      usage: 18
+    }
+  ]
 
   return (
     <div className="min-h-screen bg-background">
@@ -186,7 +254,7 @@ export default function ContractsPage() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {[].map((template, index) => (
+                  {templates.map((template, index) => (
                     <div key={index} className="p-3 border rounded-lg text-center">
                       <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mx-auto mb-2">
                         <FileText className="w-4 h-4 text-primary" />

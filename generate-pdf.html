@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar PDF - Proyecto Eléctrico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        .no-print {
+            display: none;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+            <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">
+                Generador de PDF - Proyecto Eléctrico
+            </h1>
+
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        ID del Presupuesto (Quote ID)
+                    </label>
+                    <input
+                        type="text"
+                        id="quoteId"
+                        placeholder="Ingresa el ID del presupuesto generado"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    >
+                </div>
+
+                <button
+                    onclick="generatePDF()"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200"
+                >
+                    📄 Generar PDF del Presupuesto
+                </button>
+
+                <div id="status" class="text-center text-gray-600"></div>
+            </div>
+        </div>
+
+        <!-- PDF Document Template (Hidden) -->
+        <div id="electrical-quote-document" class="hidden">
+            <!-- Page 1 -->
+            <article class="bg-white shadow-sm">
+                <div class="border-b-2 border-blue-600 p-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h1 class="text-2xl font-bold text-blue-600">Electrical Enterprise</h1>
+                            <p class="text-sm text-gray-600">Soluciones Eléctricas Profesionales</p>
+                        </div>
+                        <div class="text-right">
+                            <h2 class="text-xl font-semibold text-gray-800">PRESUPUESTO TÉCNICO</h2>
+                            <p class="text-sm text-gray-600">Fecha: <span id="pdf-date"></span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="px-10 py-8 space-y-8">
+                    <!-- Executor Info -->
+                    <div class="border-b pb-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">EJECUTOR DEL PROYECTO</h3>
+                        <p class="text-sm"><strong>Agustín Arancibia Mac-Guire</strong></p>
+                        <p class="text-sm">RUT: 18.123.456-7</p>
+                        <p class="text-sm">Certificación: Electricista Matriculado N° 12345</p>
+                        <p class="text-sm">Teléfono: +56 9 8765 4321</p>
+                        <p class="text-sm">Email: agustin@electricalenterprise.cl</p>
+                    </div>
+
+                    <!-- Client Info -->
+                    <div class="border-b pb-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">CLIENTE</h3>
+                        <p class="text-sm"><strong id="pdf-client-name">María González Rodríguez</strong></p>
+                        <p class="text-sm" id="pdf-client-rut">RUT: 12.345.678-9</p>
+                        <p class="text-sm" id="pdf-client-address">Dirección: Av. Providencia 1234, Providencia, Santiago</p>
+                    </div>
+
+                    <!-- Project Info -->
+                    <div class="border-b pb-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">PROYECTO</h3>
+                        <p class="text-sm"><strong id="pdf-project-name">Instalación Eléctrica Completa Casa Nueva - Providencia</strong></p>
+                        <p class="text-sm" id="pdf-project-description">Instalación eléctrica completa para vivienda nueva de 180m². Incluye cableado estructural, iluminación LED completa, sistema de protección y automatización básica. Proyecto certificado según normas SEC vigentes.</p>
+                        <p class="text-sm" id="pdf-location">Ubicación: Providencia, Santiago</p>
+                    </div>
+
+                    <!-- Line Items Table -->
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-4">PARTIDAS DEL PRESUPUESTO</h3>
+                        <table class="w-full border-collapse border border-gray-300">
+                            <thead>
+                                <tr class="bg-gray-50">
+                                    <th class="border border-gray-300 px-4 py-2 text-left">Descripción</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-right">Valor (CLP)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pdf-items-table">
+                                <!-- Items will be populated by JavaScript -->
+                            </tbody>
+                            <tfoot>
+                                <tr class="bg-gray-100 font-semibold">
+                                    <td class="border border-gray-300 px-4 py-2 text-right">TOTAL PRESUPUESTO</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-right" id="pdf-total">$2,585,000</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Page 2 - Options -->
+            <article class="bg-white shadow-sm mt-4 page-break">
+                <div class="px-10 py-8 space-y-8">
+                    <h3 class="font-semibold text-gray-800 mb-4">OPCIONES DE EJECUCIÓN</h3>
+
+                    <div class="space-y-6">
+                        <div class="border border-blue-200 bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-blue-800 mb-2">Opción A - Instalación Básica</h4>
+                            <p class="text-sm text-gray-700 mb-2">Instalación eléctrica completa con materiales estándar, incluye todos los elementos esenciales para una vivienda segura y funcional.</p>
+                            <p class="text-sm font-semibold text-blue-800">Total: $2,385,000 CLP</p>
+                        </div>
+
+                        <div class="border-2 border-green-500 bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-green-800 mb-2">✅ Opción B - Instalación Premium (Recomendada)</h4>
+                            <p class="text-sm text-gray-700 mb-2">Instalación completa con acabados premium, incluye elementos opcionales recomendados para mayor confort y funcionalidad.</p>
+                            <p class="text-sm font-semibold text-green-800">Total: $2,585,000 CLP</p>
+                        </div>
+
+                        <div class="border border-gray-300 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">Opción C - Instalación Full Premium</h4>
+                            <p class="text-sm text-gray-700 mb-2">Instalación completa premium más sistema UPS para equipos críticos y máxima protección.</p>
+                            <p class="text-sm font-semibold text-gray-800">Total: $2,835,000 CLP</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Page 3 - Annexes -->
+            <article class="bg-white shadow-sm mt-4 page-break">
+                <div class="px-10 py-8 space-y-8">
+                    <h3 class="font-semibold text-gray-800 mb-4">ANEXOS</h3>
+
+                    <!-- Annex A -->
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-4">Anexo A - Sistema de Iluminación Exterior</h4>
+                        <table class="w-full border-collapse border border-gray-300 mb-4">
+                            <thead>
+                                <tr class="bg-gray-50">
+                                    <th class="border border-gray-300 px-4 py-2 text-left">Descripción</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-right">Valor (CLP)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-gray-300 px-4 py-2">Iluminación exterior entrada principal (2 luminarias LED con sensor)</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-right">$120,000</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-4 py-2">Iluminación jardín trasero (4 proyectores LED con temporizador)</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-right">$180,000</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="bg-gray-100 font-semibold">
+                                    <td class="border border-gray-300 px-4 py-2 text-right">Total Anexo A</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-right">$300,000</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- Annex B -->
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-4">Anexo B - Sistema de Seguridad Eléctrica</h4>
+                        <table class="w-full border-collapse border border-gray-300 mb-4">
+                            <thead>
+                                <tr class="bg-gray-50">
+                                    <th class="border border-gray-300 px-4 py-2 text-left">Descripción</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-right">Valor (CLP)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-gray-300 px-4 py-2">Circuito dedicado alarma con backup de batería</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-right">$95,000</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-4 py-2">Iluminación de emergencia (6 luminarias con batería)</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-right">$220,000</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="bg-gray-100 font-semibold">
+                                    <td class="border border-gray-300 px-4 py-2 text-right">Total Anexo B</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-right">$315,000</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Page 4 - Payments & Footer -->
+            <article class="bg-white shadow-sm mt-4 page-break">
+                <div class="px-10 py-8 space-y-8">
+                    <h3 class="font-semibold text-gray-800 mb-4">RESUMEN DE COBROS</h3>
+
+                    <table class="w-full border-collapse border border-gray-300">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="border border-gray-300 px-4 py-2 text-left">Concepto</th>
+                                <th class="border border-gray-300 px-4 py-2 text-center">Porcentaje</th>
+                                <th class="border border-gray-300 px-4 py-2 text-right">Monto (CLP)</th>
+                                <th class="border border-gray-300 px-4 py-2 text-center">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Pago inicial - Materiales y diagnóstico</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">30%</td>
+                                <td class="border border-gray-300 px-4 py-2 text-right">$775,500</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">Pendiente</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="border border-gray-300 px-4 py-2">Pago intermedio - Instalación base</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">35%</td>
+                                <td class="border border-gray-300 px-4 py-2 text-right">$904,750</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">Pendiente</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Pago final - Acabados y pruebas</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">35%</td>
+                                <td class="border border-gray-300 px-4 py-2 text-right">$904,750</td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">Pendiente</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="border-t pt-6 mt-8">
+                        <div class="text-center">
+                            <p class="text-sm text-gray-600 mb-4">
+                                <strong>Agustín Arancibia Mac-Guire</strong><br>
+                                Electricista Matriculado N° 12345<br>
+                                Providencia, Santiago, Chile<br>
+                                +56 9 8765 4321 | agustin@electricalenterprise.cl
+                            </p>
+                            <p class="text-xs text-gray-500">
+                                Este presupuesto tiene una vigencia de 30 días a partir de la fecha de emisión.
+                                Los precios incluyen IVA. El tiempo de ejecución estimado es de 15 días hábiles.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <script>
+        // Mock quote data
+        const mockQuoteData = {
+            clientName: "María González Rodríguez",
+            clientRut: "12.345.678-9",
+            clientAddress: "Av. Providencia 1234, Providencia, Santiago",
+            projectName: "Instalación Eléctrica Completa Casa Nueva - Providencia",
+            projectDescription: "Instalación eléctrica completa para vivienda nueva de 180m². Incluye cableado estructural, iluminación LED completa, sistema de protección y automatización básica. Proyecto certificado según normas SEC vigentes.",
+            location: "Providencia, Santiago",
+            totalValue: 2585000,
+            items: [
+                { name: "Diagnóstico y evaluación inicial", value: 150000 },
+                { name: "Tablero eléctrico principal trifásico", value: 450000 },
+                { name: "Cableado general de la vivienda", value: 850000 },
+                { name: "Sistema de iluminación LED completo", value: 380000 },
+                { name: "Enchufes y tomas de corriente", value: 240000 },
+                { name: "Interruptores y dimmers", value: 135000 },
+                { name: "Sistema de puesta a tierra completo", value: 180000 },
+                { name: "Instalación extractor de cocina", value: 75000 },
+                { name: "Instalación ventiladores de techo", value: 120000 }
+            ]
+        };
+
+        function formatCurrency(amount) {
+            return '$' + amount.toLocaleString('es-CL');
+        }
+
+        function generatePDF() {
+            const status = document.getElementById('status');
+            status.textContent = 'Generando PDF...';
+
+            try {
+                // Populate the PDF template with data
+                populatePDFTemplate();
+
+                // Use html2canvas + jsPDF to generate PDF
+                const element = document.getElementById('electrical-quote-document');
+
+                html2canvas(element, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#ffffff',
+                    width: element.scrollWidth,
+                    height: element.scrollHeight,
+                    logging: false
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png', 0.95);
+                    const pdf = new jspdf.jsPDF({
+                        orientation: 'portrait',
+                        unit: 'mm',
+                        format: 'a4',
+                        compress: true
+                    });
+
+                    const imgWidth = 210; // A4 width in mm
+                    const pageHeight = 297; // A4 height in mm
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                    const margin = 10;
+                    const contentWidth = imgWidth - (margin * 2);
+                    const contentHeight = pageHeight - (margin * 2) - 20; // Account for header/footer
+
+                    if (imgHeight <= contentHeight) {
+                        // Single page
+                        pdf.addImage(imgData, 'PNG', margin, margin + 15, contentWidth, imgHeight);
+
+                        // Add header and footer
+                        addPDFHeaderFooter(pdf, 1, 1);
+                    } else {
+                        // Multi-page
+                        const totalPages = Math.ceil(imgHeight / contentHeight);
+
+                        for (let page = 0; page < totalPages; page++) {
+                            if (page > 0) {
+                                pdf.addPage();
+                            }
+
+                            const sourceY = page * contentHeight;
+                            const sourceHeight = Math.min(contentHeight, imgHeight - sourceY);
+
+                            // Create temporary canvas for this page
+                            const pageCanvas = document.createElement('canvas');
+                            const pageCtx = pageCanvas.getContext('2d');
+                            pageCanvas.width = canvas.width;
+                            pageCanvas.height = (sourceHeight / imgHeight) * canvas.height;
+
+                            pageCtx.drawImage(
+                                canvas,
+                                0, (sourceY / imgHeight) * canvas.height,
+                                canvas.width, pageCanvas.height,
+                                0, 0,
+                                canvas.width, pageCanvas.height
+                            );
+
+                            const pageImgData = pageCanvas.toDataURL('image/png', 0.95);
+                            pdf.addImage(pageImgData, 'PNG', margin, margin + 15, contentWidth, sourceHeight);
+
+                            addPDFHeaderFooter(pdf, page + 1, totalPages);
+                        }
+                    }
+
+                    // Save the PDF
+                    const filename = `proyecto-electrico-${new Date().toISOString().split('T')[0]}.pdf`;
+                    pdf.save(filename);
+
+                    status.textContent = `✅ PDF generado exitosamente: ${filename}`;
+                    status.className = 'text-center text-green-600 font-medium';
+
+                }).catch(error => {
+                    console.error('Error generating PDF:', error);
+                    status.textContent = '❌ Error al generar el PDF: ' + error.message;
+                    status.className = 'text-center text-red-600 font-medium';
+                });
+
+            } catch (error) {
+                console.error('Error:', error);
+                status.textContent = '❌ Error: ' + error.message;
+                status.className = 'text-center text-red-600 font-medium';
+            }
+        }
+
+        function populatePDFTemplate() {
+            // Set current date
+            document.getElementById('pdf-date').textContent = new Date().toLocaleDateString('es-CL');
+
+            // Populate client and project info
+            document.getElementById('pdf-client-name').textContent = mockQuoteData.clientName;
+            document.getElementById('pdf-client-rut').textContent = `RUT: ${mockQuoteData.clientRut}`;
+            document.getElementById('pdf-client-address').textContent = `Dirección: ${mockQuoteData.clientAddress}`;
+            document.getElementById('pdf-project-name').textContent = mockQuoteData.projectName;
+            document.getElementById('pdf-project-description').textContent = mockQuoteData.projectDescription;
+            document.getElementById('pdf-location').textContent = `Ubicación: ${mockQuoteData.location}`;
+
+            // Populate items table
+            const itemsTable = document.getElementById('pdf-items-table');
+            itemsTable.innerHTML = '';
+
+            mockQuoteData.items.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="border border-gray-300 px-4 py-2">${item.name}</td>
+                    <td class="border border-gray-300 px-4 py-2 text-right">${formatCurrency(item.value)}</td>
+                `;
+                itemsTable.appendChild(row);
+            });
+
+            // Set total
+            document.getElementById('pdf-total').textContent = formatCurrency(mockQuoteData.totalValue);
+        }
+
+        function addPDFHeaderFooter(pdf, pageNum, totalPages) {
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const margin = 10;
+
+            // Header line
+            pdf.setDrawColor(200, 200, 200);
+            pdf.setLineWidth(0.5);
+            pdf.line(margin, 8, pageWidth - margin, 8);
+
+            // Page number
+            pdf.setFontSize(8);
+            pdf.setTextColor(100, 100, 100);
+            const pageText = `Página ${pageNum} de ${totalPages}`;
+            const pageTextWidth = pdf.getTextWidth(pageText);
+            pdf.text(pageText, pageWidth - margin - pageTextWidth, 12);
+
+            // Footer line
+            pdf.setDrawColor(200, 200, 200);
+            pdf.setLineWidth(0.5);
+            pdf.line(margin, pageHeight - 8, pageWidth - margin, pageHeight - 8);
+
+            // Generation timestamp
+            pdf.setFontSize(6);
+            pdf.setTextColor(100, 100, 100);
+            const timestamp = `Generado el ${new Date().toLocaleDateString('es-CL')} a las ${new Date().toLocaleTimeString('es-CL')}`;
+            pdf.text(timestamp, margin, pageHeight - 5);
+        }
+
+        // Auto-populate the PDF template on load
+        document.addEventListener('DOMContentLoaded', () => {
+            populatePDFTemplate();
+        });
+    </script>
+</body>
+</html>

@@ -10,18 +10,87 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Package, Search, Plus, ShoppingCart, Truck, AlertTriangle, CheckCircle, Tag } from "lucide-react"
 
+interface Material {
+  name: string;
+  category: string;
+  supplier: string;
+  price: string;
+  lastPurchase: string;
+  stock: number;
+  minStock: number;
+}
+
+interface StockAlert {
+  material: string;
+  current: number;
+  minimum: number;
+}
+
+interface Supplier {
+  name: string;
+  products: number;
+  rating: number;
+  lastOrder: string;
+}
+
 export default function MaterialsPage() {
   const [categoryFilter, setCategoryFilter] = useState("all")
   const materialCategories = [
-    { icon: Package, label: "Cableado y Conductores", count: 0, color: "text-primary" },
-    { icon: CheckCircle, label: "Protección y Seguridad", count: 0, color: "text-warning" },
-    { icon: Truck, label: "Equipos y Paneles", count: 0, color: "text-info" },
-    { icon: Tag, label: "Accesorios", count: 0, color: "text-success" }
+    { icon: Package, label: "Cableado y Conductores", count: 15, color: "text-primary" },
+    { icon: CheckCircle, label: "Protección y Seguridad", count: 8, color: "text-warning" },
+    { icon: Truck, label: "Equipos y Paneles", count: 12, color: "text-info" },
+    { icon: Tag, label: "Accesorios", count: 6, color: "text-success" }
   ]
 
-  const featuredMaterials: never[] = []
+  // Mock data - replace with Convex query when implemented
+  const featuredMaterials: Material[] = [
+    {
+      name: "Cable THW 10mm²",
+      category: "Cableado",
+      supplier: "Proveedor ABC",
+      price: "$45.000",
+      lastPurchase: "15 Nov 2024",
+      stock: 25,
+      minStock: 10
+    },
+    {
+      name: "Interruptor Diferencial 40A",
+      category: "Protección",
+      supplier: "Eléctrica Pro Ltda.",
+      price: "$85.000",
+      lastPurchase: "20 Nov 2024",
+      stock: 8,
+      minStock: 15
+    }
+  ]
 
-  const lowStockAlerts: never[] = []
+  const lowStockAlerts: StockAlert[] = [
+    {
+      material: "Interruptor Diferencial 40A",
+      current: 8,
+      minimum: 15
+    },
+    {
+      material: "Cable UTP Cat6",
+      current: 5,
+      minimum: 20
+    }
+  ]
+
+  const suppliers: Supplier[] = [
+    {
+      name: "Proveedor ABC",
+      products: 25,
+      rating: 4.8,
+      lastOrder: "15 Nov 2024"
+    },
+    {
+      name: "Eléctrica Pro Ltda.",
+      products: 18,
+      rating: 4.6,
+      lastOrder: "20 Nov 2024"
+    }
+  ]
 
   return (
     <div className="min-h-screen bg-background">
@@ -193,7 +262,7 @@ export default function MaterialsPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {[].map((supplier, index) => (
+                  {suppliers.map((supplier, index) => (
                     <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">

@@ -1,10 +1,50 @@
 import { test, expect } from '@playwright/test';
 
+// Authentication helper (same as in basic.spec.ts)
+async function authenticateUser(page: any) {
+  // Wait for the page to fully load first
+  await page.waitForLoadState('networkidle');
+
+  // Check if we're on the login page
+  const loginForm = page.locator('button').filter({ hasText: 'Crear Cuenta' });
+
+  if (await loginForm.isVisible({ timeout: 5000 }).catch(() => false)) {
+    console.log('[E2E-DEBUG] On login page, creating test account...');
+
+    // Fill login form with test credentials
+    await page.getByPlaceholder('Elige un usuario').fill('testuser');
+    await page.getByPlaceholder('Mínimo 8 caracteres (letras y números)').fill('testpass123');
+    await page.getByPlaceholder('Confirma tu contraseña').fill('testpass123');
+
+    // Click create account
+    await page.getByRole('button', { name: 'Crear Cuenta' }).click();
+
+    // Wait for authentication to complete and app to load
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(2000); // Extra wait for app initialization
+
+    console.log('[E2E-DEBUG] Authentication completed');
+  } else {
+    console.log('[E2E-DEBUG] Already authenticated or on target page - waiting for app to load');
+    // Even if already authenticated, wait for the app to fully load
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(2000); // Extra wait for app initialization
+  }
+}
+
 test.describe('Quote Management Flow', () => {
   test('can create and view a quote', async ({ page }) => {
     console.log('[E2E-DEBUG] Testing quote creation...');
     // Navigate to advanced calculator
     await page.goto('/advanced-calculator');
+
+    // Handle authentication if redirected to login
+    await authenticateUser(page);
+
+    // If we got redirected, go back to calculator
+    if (!page.url().includes('advanced-calculator')) {
+      await page.goto('/advanced-calculator');
+    }
 
     // Wait for page to load
     await page.waitForLoadState('networkidle');
@@ -23,6 +63,8 @@ test.describe('Quote Management Flow', () => {
     // If we can find project title input, try to create a quote
     const projectTitleInput = page.locator('input').first();
     if (await projectTitleInput.isVisible()) {
+      // Clear existing value and fill with test data
+      await projectTitleInput.clear();
       await projectTitleInput.fill('Test Project E2E');
     }
 

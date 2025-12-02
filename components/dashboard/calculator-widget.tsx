@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Calculator, FileDown, Save, TrendingDown, RotateCcw } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -62,17 +62,21 @@ export function CalculatorWidget() {
   const [plan, setPlan] = useState<Plan>(() => getSavedState().plan)
   const [size, setSize] = useState<Size>(() => getSavedState().size)
   const [urgency, setUrgency] = useState<Urgency>(() => getSavedState().urgency)
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
   const [isRestoringDefaults, setIsRestoringDefaults] = useState(false)
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
 
   // Track unsaved changes
-  useEffect(() => {
+  const hasUnsavedChangesComputed = useMemo(() => {
     const currentState = { value, plan, size, urgency }
     const savedState = getSavedState()
 
-    const hasChanges = JSON.stringify(currentState) !== JSON.stringify(savedState)
-    setHasUnsavedChanges(hasChanges)
+    return JSON.stringify(currentState) !== JSON.stringify(savedState)
   }, [value, plan, size, urgency])
+
+  // Update hasUnsavedChanges state when computed value changes
+  useEffect(() => {
+    setHasUnsavedChanges(hasUnsavedChangesComputed)
+  }, [hasUnsavedChangesComputed])
 
   // Warn about unsaved changes when leaving the page
   useEffect(() => {

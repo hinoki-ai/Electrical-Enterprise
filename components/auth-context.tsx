@@ -44,7 +44,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const value: AuthContextType = {
-    user: currentUser ?? null,
+    user: currentUser ? { ...currentUser, role: currentUser.role as "master" | "quoter" } : null,
     isAuthenticated: isAuthenticatedQuery ?? false,
     isInitializing: currentUser === undefined || isAuthenticatedQuery === undefined,
     login,

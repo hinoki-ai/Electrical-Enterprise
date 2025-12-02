@@ -3,48 +3,335 @@
 ```yaml
 - generic [active] [ref=e1]:
   - generic [ref=e2]:
-    - generic [ref=e6]:
-      - generic [ref=e7]:
-        - generic [ref=e9]:
-          - img [ref=e11]
-          - heading "Electrical Enterprise" [level=1] [ref=e13]
-        - paragraph [ref=e15]: Private Enterprise System
-      - generic [ref=e17]:
-        - generic [ref=e18]:
-          - generic [ref=e19]:
-            - text: Username
-            - generic [ref=e20]:
-              - img [ref=e21]
-              - textbox "Username" [ref=e24]:
-                - /placeholder: Choose a username
-          - generic [ref=e25]:
-            - text: Password
-            - generic [ref=e26]:
-              - img [ref=e27]
-              - generic [ref=e30]:
-                - textbox "Password" [ref=e31]:
-                  - /placeholder: Minimum 8 characters (letters and numbers)
-                - button "Show password" [ref=e32]:
-                  - img
-                  - generic [ref=e33]: Show password
-          - generic [ref=e34]:
-            - text: Confirm Password
-            - generic [ref=e35]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - link "ElectriQuote catata" [ref=e6] [cursor=pointer]:
+          - /url: /dashboard
+          - img [ref=e8]
+          - generic [ref=e10]:
+            - heading "ElectriQuote" [level=1] [ref=e11]
+            - paragraph [ref=e12]: catata
+        - navigation [ref=e13]:
+          - link "nav.home" [ref=e14] [cursor=pointer]:
+            - /url: /dashboard
+          - link "nav.quotes" [ref=e15] [cursor=pointer]:
+            - /url: /quotes
+          - link "nav.calculator" [ref=e16] [cursor=pointer]:
+            - /url: /calculator
+          - link "nav.clients" [ref=e17] [cursor=pointer]:
+            - /url: /clients
+          - button "nav.more" [ref=e18]
+        - generic [ref=e20]:
+          - img [ref=e21]
+          - searchbox "search.placeholder" [ref=e24]
+        - generic [ref=e25]:
+          - link [ref=e26] [cursor=pointer]:
+            - /url: /notifications
+            - button [ref=e27]:
+              - img
+          - button [ref=e28]:
+            - img
+    - main [ref=e29]:
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - generic [ref=e32]:
+            - generic [ref=e34]:
               - img [ref=e36]
-              - generic [ref=e39]:
-                - textbox "Confirm Password" [ref=e40]:
-                  - /placeholder: Confirm your password
-                - button "Show password" [ref=e41]:
+              - text: Cotización Rápida
+              - generic [ref=e39]: ~60 segundos
+            - generic [ref=e40]:
+              - generic [ref=e41]:
+                - generic [ref=e42]:
+                  - generic [ref=e43]: Cliente
+                  - generic [ref=e44]:
+                    - combobox "Cliente" [ref=e45]
+                    - button [ref=e46]:
+                      - img
+                - generic [ref=e47]:
+                  - generic [ref=e48]: Proyecto
+                  - generic [ref=e49]:
+                    - textbox "Proyecto" [ref=e50]:
+                      - /placeholder: Nombre del proyecto
+                    - button "Res" [ref=e51]:
+                      - text: Res
+                      - img
+              - generic [ref=e52]:
+                - generic [ref=e53]:
+                  - generic [ref=e54]: Valor del Proyecto
+                  - generic [ref=e55]:
+                    - generic [ref=e56]: $
+                    - textbox "Valor del Proyecto" [ref=e57]:
+                      - /placeholder: "0"
+                - generic [ref=e58]:
+                  - generic [ref=e59]: Plan
+                  - generic [ref=e60]:
+                    - button "Básico" [ref=e61]
+                    - button "Estándar" [ref=e62]
+                    - button "Premium" [ref=e63]
+                    - button "Empresa" [ref=e64]
+              - link "Cotización Avanzada con Partidas" [ref=e66] [cursor=pointer]:
+                - /url: /quote/new
+                - img
+                - text: Cotización Avanzada con Partidas
+          - generic [ref=e67]:
+            - generic [ref=e69]:
+              - img [ref=e71]
+              - text: Cotizaciones Recientes
+            - generic [ref=e78]:
+              - tablist [ref=e79]:
+                - tab "Enviados 0" [selected] [ref=e80]:
                   - img
-                  - generic [ref=e42]: Show password
-        - button "Create Account" [ref=e43]
-        - paragraph [ref=e45]:
-          - text: Already have an account?
-          - button "Sign In" [ref=e46]
-    - generic [ref=e49]:
-      - heading "Electrical Enterprise" [level=2] [ref=e50]
-      - paragraph [ref=e51]: Professional Electrical Services
-      - generic [ref=e54]: ⚡
+                  - generic [ref=e81]: Enviados
+                  - generic [ref=e82]: "0"
+                - tab "Pendientes 0" [ref=e83]:
+                  - img
+                  - generic [ref=e84]: Pendientes
+                  - generic [ref=e85]: "0"
+                - tab "Borradores 0" [ref=e86]:
+                  - img
+                  - generic [ref=e87]: Borradores
+                  - generic [ref=e88]: "0"
+                - tab "Aprobados 0" [ref=e89]:
+                  - img
+                  - generic [ref=e90]: Aprobados
+                  - generic [ref=e91]: "0"
+              - tabpanel "Enviados 0" [ref=e92]:
+                - generic [ref=e93]: No hay cotizaciones enviados
+          - generic [ref=e96]:
+            - generic [ref=e97]:
+              - img [ref=e99]
+              - text: Clientes
+            - button "Nuevo" [ref=e102]:
+              - img
+              - generic [ref=e103]: Nuevo
+        - generic [ref=e104]:
+          - generic [ref=e105]:
+            - generic [ref=e107]:
+              - img [ref=e109]
+              - text: Calculadora
+            - generic [ref=e120]:
+              - generic [ref=e121]:
+                - generic [ref=e122]: Valor Base
+                - generic [ref=e123]:
+                  - generic [ref=e124]: $
+                  - textbox "Valor Base" [ref=e125]:
+                    - /placeholder: "0"
+              - generic [ref=e126]:
+                - generic [ref=e127]: Plan
+                - group [ref=e128]:
+                  - radio "Básico" [ref=e129]
+                  - radio "Estándar" [checked] [ref=e130]
+                  - radio "Premium" [ref=e131]
+                  - radio "Empresa" [ref=e132]
+              - generic [ref=e133]:
+                - generic [ref=e134]: Tamaño
+                - group [ref=e135]:
+                  - radio "Pequeño" [ref=e136]
+                  - radio "Medio" [checked] [ref=e137]
+                  - radio "Grande" [ref=e138]
+                  - radio "Ind." [ref=e139]
+              - generic [ref=e140]:
+                - generic [ref=e141]: Urgencia
+                - group [ref=e142]:
+                  - radio "Normal" [checked] [ref=e143]
+                  - radio "Prioritario" [ref=e144]
+                  - radio "Urgente" [ref=e145]
+          - generic [ref=e146]:
+            - generic [ref=e147]:
+              - generic [ref=e149]:
+                - img [ref=e151]
+                - text: Rendimiento General
+              - generic [ref=e154]:
+                - generic [ref=e155]:
+                  - generic [ref=e156]:
+                    - generic [ref=e157]: Ingresos Mensuales
+                    - generic [ref=e158]:
+                      - img [ref=e159]
+                      - text: 0%
+                  - text: $0
+                - generic [ref=e162]:
+                  - generic [ref=e163]:
+                    - generic [ref=e164]:
+                      - img [ref=e165]
+                      - generic [ref=e169]: Margen
+                    - generic [ref=e170]:
+                      - generic [ref=e171]: 32%
+                      - generic [ref=e172]: / 35%
+                    - progressbar [ref=e173]
+                  - generic [ref=e175]:
+                    - generic [ref=e176]:
+                      - img [ref=e177]
+                      - generic [ref=e182]: Conversión
+                    - generic [ref=e183]:
+                      - generic [ref=e184]: 0%
+                      - generic [ref=e185]: / 70%
+                    - progressbar [ref=e186]
+                - generic [ref=e188]:
+                  - generic [ref=e189]:
+                    - img [ref=e190]
+                    - generic [ref=e193]: Satisfacción
+                  - generic [ref=e194]:
+                    - generic [ref=e195]: "4.7"
+                    - generic [ref=e196]: /5
+                - generic [ref=e197]:
+                  - text: Por Plan
+                  - generic [ref=e198]:
+                    - generic [ref=e199]: Básico
+                    - progressbar [ref=e200]
+                    - generic [ref=e202]: 0%
+                  - generic [ref=e203]:
+                    - generic [ref=e204]: Estándar
+                    - progressbar [ref=e205]
+                    - generic [ref=e207]: 0%
+                  - generic [ref=e208]:
+                    - generic [ref=e209]: Premium
+                    - progressbar [ref=e210]
+                    - generic [ref=e212]: 0%
+                  - generic [ref=e213]:
+                    - generic [ref=e214]: Empresa
+                    - progressbar [ref=e215]
+                    - generic [ref=e217]: 0%
+            - generic [ref=e218]:
+              - generic [ref=e219]:
+                - generic [ref=e220]:
+                  - generic [ref=e221]:
+                    - img [ref=e222]
+                    - text: Ingresos Mensuales
+                  - generic [ref=e225]: Tendencia de ingresos de los últimos 6 meses
+                - img [ref=e230]:
+                  - generic [ref=e232]:
+                    - generic [ref=e234]: Ene
+                    - generic [ref=e236]: Jun
+                  - generic [ref=e238]:
+                    - generic [ref=e240]: 0.0M
+                    - generic [ref=e242]: 0.0M
+                    - generic [ref=e244]: 0.0M
+                    - generic [ref=e246]: 0.0M
+                    - generic [ref=e248]: 0.0M
+              - generic [ref=e252]:
+                - generic [ref=e253]:
+                  - generic [ref=e254]:
+                    - img [ref=e255]
+                    - text: Proyectos por Tipo
+                  - generic [ref=e263]: Distribución de valor y cantidad por tipo de proyecto
+                - img [ref=e268]:
+                  - generic [ref=e272]: Emergencia
+                  - generic [ref=e274]:
+                    - generic [ref=e276]: 0.0M
+                    - generic [ref=e278]: 0.0M
+                    - generic [ref=e280]: 0.0M
+                    - generic [ref=e282]: 0.0M
+                    - generic [ref=e284]: 0.0M
+              - generic [ref=e285]:
+                - generic [ref=e286]:
+                  - generic [ref=e287]:
+                    - img [ref=e288]
+                    - text: Tendencia de Cotizaciones
+                  - generic [ref=e294]:
+                    - text: Evolución mensual de cotizaciones enviadas y aprobadas
+                    - generic [ref=e295]: "Tasa de conversión: 0%"
+                - img [ref=e300]:
+                  - generic [ref=e302]:
+                    - generic [ref=e304]: Ene
+                    - generic [ref=e306]: Jun
+                  - generic [ref=e308]:
+                    - generic [ref=e310]: "0"
+                    - generic [ref=e312]: "1"
+                    - generic [ref=e314]: "2"
+                    - generic [ref=e316]: "3"
+                    - generic [ref=e318]: "4"
+              - generic [ref=e346]:
+                - generic [ref=e347]:
+                  - generic [ref=e348]:
+                    - img [ref=e349]
+                    - text: Distribución de Ingresos
+                  - generic [ref=e352]: Porcentaje de ingresos por categoría
+                - img [ref=e357]
+              - generic [ref=e358]:
+                - generic [ref=e359]:
+                  - generic [ref=e360]:
+                    - img [ref=e361]
+                    - text: Métricas de Rendimiento
+                  - generic [ref=e365]: Comparación entre valores actuales y objetivos
+                - img [ref=e370]:
+                  - generic [ref=e378]:
+                    - generic [ref=e380]: Margen
+                    - generic [ref=e382]: Conversión
+                    - generic [ref=e384]: Satisfacción
+                    - generic [ref=e386]: Eficiencia
+                    - generic [ref=e388]: Crecimiento
+                  - generic [ref=e391]:
+                    - generic [ref=e393]: "0"
+                    - generic [ref=e395]: "25"
+                    - generic [ref=e397]: "50"
+                    - generic [ref=e399]: "75"
+                    - generic [ref=e401]: "100"
+              - generic [ref=e408]:
+                - generic [ref=e409]:
+                  - generic [ref=e410]:
+                    - img [ref=e411]
+                    - text: Progreso General
+                  - generic [ref=e413]: Estado de avance de proyectos y objetivos
+                - img [ref=e418]:
+                  - generic [ref=e419]:
+                    - generic [ref=e420]:
+                      - img [ref=e421]
+                      - img [ref=e422]
+                      - img [ref=e423]
+                    - img [ref=e425]
+                    - generic [ref=e426]:
+                      - generic [ref=e427]: "0"
+                      - generic [ref=e428]: "0"
+                      - generic [ref=e429]: "94"
+          - generic [ref=e430]:
+            - generic [ref=e432]: Herramientas
+            - generic [ref=e433]:
+              - generic [ref=e434]:
+                - text: Herramientas
+                - generic [ref=e435]:
+                  - button "Plantillas" [ref=e436] [cursor=pointer]:
+                    - img
+                    - generic [ref=e437]: Plantillas
+                  - button "Reportes" [ref=e438] [cursor=pointer]:
+                    - img
+                    - generic [ref=e439]: Reportes
+                  - button "Analytics" [ref=e440] [cursor=pointer]:
+                    - img
+                    - generic [ref=e441]: Analytics
+                  - button "Backup" [ref=e442] [cursor=pointer]:
+                    - img
+                    - generic [ref=e443]: Backup
+              - generic [ref=e444]:
+                - text: Recursos
+                - generic [ref=e445]:
+                  - button "Guía Precios" [ref=e446] [cursor=pointer]:
+                    - img
+                    - generic [ref=e447]: Guía Precios
+                  - button "Normativas" [ref=e448] [cursor=pointer]:
+                    - img
+                    - generic [ref=e449]: Normativas
+                  - button "Materiales" [ref=e450] [cursor=pointer]:
+                    - img
+                    - generic [ref=e451]: Materiales
+                  - button "Contratos" [ref=e452] [cursor=pointer]:
+                    - img
+                    - generic [ref=e453]: Contratos
+              - generic [ref=e454]:
+                - text: Soporte
+                - generic [ref=e455]:
+                  - button "Emergencia" [ref=e456] [cursor=pointer]:
+                    - img
+                    - generic [ref=e457]: Emergencia
+                  - button "WhatsApp" [ref=e458] [cursor=pointer]:
+                    - img
+                    - generic [ref=e459]: WhatsApp
+                  - button "Email" [ref=e460] [cursor=pointer]:
+                    - img
+                    - generic [ref=e461]: Email
+                  - button "Ayuda" [ref=e462] [cursor=pointer]:
+                    - img
+                    - generic [ref=e463]: Ayuda
   - region "Notifications alt+T"
-  - alert [ref=e55]
+  - alert [ref=e464]
+  - generic [ref=e465]: "0"
 ```

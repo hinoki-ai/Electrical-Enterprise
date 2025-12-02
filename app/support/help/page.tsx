@@ -15,34 +15,70 @@ export default function HelpPage() {
       title: "Herramientas",
       description: "Calculadoras, conversores y utilidades",
       color: "text-primary",
-      articles: 0
+      articles: 8
     },
     {
       icon: Settings,
       title: "Configuración",
       description: "Personalización y ajustes del sistema",
       color: "text-info",
-      articles: 0
+      articles: 6
     },
     {
       icon: Book,
       title: "Tutoriales",
       description: "Guías paso a paso para principiantes",
       color: "text-success",
-      articles: 0
+      articles: 12
     },
     {
       icon: FileText,
       title: "Documentación",
       description: "Manuales técnicos y referencias",
       color: "text-warning",
-      articles: 0
+      articles: 15
     }
   ]
 
-  const faqs: never[] = []
+  // Mock data - replace with Convex query when implemented
+  const faqs: { question: string; answer: string; category: string }[] = [
+    {
+      question: "¿Cómo crear una nueva cotización?",
+      answer: "Ve a la sección 'Cotizaciones' y haz clic en 'Nueva Cotización'. Completa los detalles del proyecto y selecciona los materiales necesarios.",
+      category: "Cotizaciones"
+    },
+    {
+      question: "¿Cómo exportar un PDF de cotización?",
+      answer: "Una vez creada la cotización, haz clic en 'Exportar PDF' en la vista de detalles. El archivo se descargará automáticamente.",
+      category: "Exportación"
+    },
+    {
+      question: "¿Cómo gestionar clientes?",
+      answer: "Accede a la sección 'Clientes' para agregar, editar o buscar información de tus clientes.",
+      category: "Clientes"
+    }
+  ]
 
-  const quickGuides: never[] = []
+  const quickGuides: { title: string; description: string; duration: string; level: string }[] = [
+    {
+      title: "Primeros Pasos con la Plataforma",
+      description: "Guía completa para nuevos usuarios",
+      duration: "5 min",
+      level: "Principiante"
+    },
+    {
+      title: "Configuración de Calculadora Avanzada",
+      description: "Cómo usar todas las funciones de cálculo",
+      duration: "8 min",
+      level: "Intermedio"
+    },
+    {
+      title: "Gestión de Inventario",
+      description: "Mantén tu catálogo de materiales actualizado",
+      duration: "6 min",
+      level: "Intermedio"
+    }
+  ]
 
   return (
     <div className="min-h-screen bg-background">

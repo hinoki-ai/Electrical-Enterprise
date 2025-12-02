@@ -8,11 +8,80 @@ import { Badge } from "@/components/ui/badge"
 import { MessageCircle, Phone, Clock, User, Zap, CheckCircle, Send, MessageSquare } from "lucide-react"
 
 export default function WhatsAppPage() {
-  const whatsappContacts: never[] = []
+  // Mock data - replace with Convex query when implemented
+  const whatsappContacts: {
+    name: string;
+    type: string;
+    number: string;
+    hours: string;
+    response: string;
+    status: 'online' | 'offline';
+  }[] = [
+    {
+      name: "Atención al Cliente",
+      type: "Servicio General",
+      number: "+56 9 1234 5678",
+      hours: "L-V 9:00-18:00",
+      response: "5-15 min",
+      status: 'online'
+    },
+    {
+      name: "Soporte Técnico",
+      type: "Emergencias",
+      number: "+56 9 8765 4321",
+      hours: "24/7",
+      response: "15-30 min",
+      status: 'online'
+    }
+  ]
 
-  const commonQueries: never[] = []
+  const commonQueries: {
+    category: string;
+    questions: string[];
+  }[] = [
+    {
+      category: "Cotizaciones",
+      questions: [
+        "¿Pueden hacer una visita para cotizar?",
+        "¿Cuál es el proceso de cotización?",
+        "¿Tienen disponibilidad esta semana?"
+      ]
+    },
+    {
+      category: "Servicios",
+      questions: [
+        "¿Ofrecen mantenimiento preventivo?",
+        "¿Trabajan con proyectos residenciales?",
+        "¿Cuánto tiempo toma una instalación?"
+      ]
+    }
+  ]
 
-  const recentConversations: never[] = []
+  const recentConversations: {
+    client: string;
+    topic: string;
+    time: string;
+    status: 'active' | 'waiting' | 'closed';
+  }[] = [
+    {
+      client: "Juan Pérez",
+      topic: "Cotización proyecto residencial",
+      time: "Hace 2 horas",
+      status: 'active'
+    },
+    {
+      client: "Empresa ABC Ltda.",
+      topic: "Mantenimiento preventivo",
+      time: "Ayer 14:30",
+      status: 'waiting'
+    },
+    {
+      client: "María González",
+      topic: "Consulta sobre materiales",
+      time: "Ayer 10:15",
+      status: 'closed'
+    }
+  ]
 
   return (
     <div className="min-h-screen bg-background">

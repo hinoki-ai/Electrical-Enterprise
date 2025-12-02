@@ -48,43 +48,123 @@ The deployment script automatically:
 
 ## 📦 Features
 
-- Project information management
-- Partidas (items) table
-- Options comparison
-- Document generation
-- Print functionality
-- Responsive design
-- **Real-time data persistence with Convex**
-- **Quote management and history**
-- **Calculator session storage**
+### Core Features
+- **Project Management**: Complete project information and configuration
+- **Quote Generation**: Professional electrical quotes with detailed breakdowns
+- **Calculator**: Advanced electrical calculation tools
+- **Document Generation**: PDF quote documents with professional formatting
+- **Print Functionality**: Optimized printing with proper page breaks
+- **Responsive Design**: Mobile-first design with adaptive layouts
+
+### Data & Persistence
+- **Real-time Database**: Convex-powered data persistence
+- **Quote Management**: Save, load, and manage quote history
+- **Calculator Sessions**: Persistent calculator state and presets
+- **Client Management**: Client database and relationship management
+
+### PDF System
+- **Modular PDF Components**: 8 specialized components for different document sections
+- **Authoritative Blueprints**: PDF layout specifications in `docs/pdf-enhancement.zip`
+- **CSS Variables**: Theme-consistent styling with custom CSS properties
+- **Multi-page Documents**: Professional article-based layout structure
+
+### Additional Tools
+- **Templates**: Reusable quote templates
+- **Reports**: Analytics and reporting dashboard
+- **Backup/Restore**: Data backup and restoration
+- **Settings**: Application configuration and preferences
+
+## 📋 PDF Implementation Guidelines
+
+### Critical Rules
+
+1. **Blueprint Authority**: The `docs/pdf-enhancement.zip` file contains authoritative PDF layout specifications. **Do NOT modify or challenge these blueprints.**
+
+2. **CSS Variables**: Use CSS custom properties instead of Tailwind utility classes:
+   ```tsx
+   // ✅ Correct
+   className="bg-[var(--header-bg)] text-[var(--header-foreground)]"
+
+   // ❌ Wrong
+   className="bg-primary text-primary-foreground"
+   ```
+
+3. **Modular Components**: PDF system uses 8 specialized components:
+   - `document-header.tsx` - Document header section
+   - `document-footer.tsx` - Document footer
+   - `project-info.tsx` - Project information
+   - `partidas-table.tsx` - Line items table
+   - `regularizacion-section.tsx` - Regularization section
+   - `options-comparison.tsx` - Options comparison
+   - `anexo-section.tsx` - Annex section
+   - `resumen-cobros.tsx` - Payment summary
+
+4. **Multi-page Structure**: Use article-based layout with proper page breaks:
+   ```tsx
+   <div id="electrical-quote-document">
+     <article className="bg-card shadow-sm">
+       {/* Page 1 content */}
+     </article>
+     <article className="bg-card shadow-sm mt-4 page-break">
+       {/* Page 2 content */}
+     </article>
+   </div>
+   ```
+
+### Implementation Resources
+
+- **Quick Start**: `docs/pdf-implementation/START_HERE_PDF_IMPLEMENTATION.md`
+- **Detailed Guide**: `docs/pdf-implementation/IMPLEMENTATION_PROMPT.md`
+- **Checklist**: `docs/pdf-implementation/IMPLEMENTATION_CHECKLIST.md`
+- **Best Practices**: `docs/pdf-implementation/PDF_BEST_PRACTICES.md`
+- **Reference**: `docs/pdf-implementation/PDF_QUICK_REFERENCE.md`
 
 ## 🏃‍♂️ Local Development
 
 ### Prerequisites
 
-1. **Authenticate with Convex** (required for data persistence):
-   ```bash
-   # Quick authentication setup
-   npm run convex:auth
+#### 1. Convex Database Setup (Required for Data Persistence)
 
-   # This will open your browser for:
-   # - Convex account login (or signup)
-   # - Project creation/selection
-   # - Deployment URL setup
-   ```
+**Option A: Quick Setup (Recommended)**
+```bash
+# One-command setup
+npm run convex:auth
+```
+This will open your browser for Convex account login/signup and project setup.
 
-2. **Complete Convex Setup**:
-   ```bash
-   # After authentication, run full setup
-   npm run convex:init
+**Option B: Manual Setup**
+```bash
+# 1. Authenticate with Convex
+npx convex dev
 
-   # This will:
-   # - Set up .env.local with deployment URL
-   # - Deploy the database schema
-   # - Generate TypeScript types
-   ```
+# 2. This opens browser - sign in and create/select project
 
-2. **No Authentication Required** - The app uses anonymous access for quote management.
+# 3. Get your deployment URL from dashboard
+npx convex dashboard
+
+# 4. Update .env.local with your URL:
+NEXT_PUBLIC_CONVEX_URL=https://your-project.convex.cloud
+
+# 5. Deploy schema and generate types
+npx convex deploy
+npx convex codegen
+```
+
+**Features Added with Convex:**
+- Real-time database for quotes and line items
+- Persistent quote management and history
+- Calculator session storage
+- Anonymous access (no user authentication required)
+
+#### 2. Internationalization Setup
+
+The app supports Spanish and English. Translation files are located in:
+- `locales/es/` - Spanish translations
+- `locales/en/` - English translations
+
+#### 3. No Additional Authentication Required
+
+The application uses anonymous access for quote management - no user login needed.
 
 ### Development Commands
 
@@ -92,20 +172,26 @@ The deployment script automatically:
 # Install dependencies
 npm install
 
-# Run development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Convex commands
+# Development
+npm run dev             # Start development server (port 3000)
 npm run convex:dev      # Start Convex development server
-npm run convex:deploy   # Deploy schema changes
-npm run convex:codegen  # Generate TypeScript types
+
+# Building
+npm run build           # Build for production
+npm run lint            # Run ESLint
+
+# Database & Types
+npx convex deploy       # Deploy Convex schema changes
+npx convex codegen      # Generate TypeScript types
+npx convex dashboard    # Open Convex dashboard
+
+# Testing
+npm run test:e2e        # Run end-to-end tests
+npm run test:e2e:ui     # Run tests with UI
 
 # Deployment
-npm run deploy          # Complete deployment (build, commit, push, deploy Convex & Vercel)
-npm run deploy:prod     # Same as deploy
+npm run deploy          # Complete deployment (lint, build, commit, push, deploy)
+./scripts/deploy.sh "Your message"  # Custom commit message deployment
 ```
 
 ## 📄 Project Structure
@@ -137,11 +223,20 @@ npm run deploy:prod     # Same as deploy
 │   ├── quotes.ts
 │   ├── schema.ts
 │   └── tsconfig.json
-├── docs/                  # Documentation and PDF files
-│   ├── CONVEX_SETUP.md
-│   ├── PDF_BLUEPRINTS.md
-│   ├── pdf-enhancement.zip
-│   └── Proyecto Graciela 2025.pdf
+├── docs/                  # Documentation and project files
+│   ├── PDF_BLUEPRINTS.md          # PDF layout specifications
+│   ├── pdf-enhancement.zip        # Authoritative PDF blueprints
+│   ├── Proyecto Graciela 2025.pdf # Project documentation
+│   ├── setup/                     # Setup and configuration guides
+│   │   ├── CONVEX_SETUP.md        # Convex database setup
+│   │   └── I18N_SETUP.md          # Internationalization setup
+│   ├── pdf-implementation/        # PDF system implementation docs
+│   │   ├── START_HERE_PDF_IMPLEMENTATION.md
+│   │   ├── IMPLEMENTATION_PROMPT.md
+│   │   ├── IMPLEMENTATION_CHECKLIST.md
+│   │   ├── PDF_BEST_PRACTICES.md
+│   │   └── PDF_QUICK_REFERENCE.md
+│   └── archive/                   # Archived documentation
 ├── hooks/                 # Custom React hooks
 │   ├── index.ts          # Barrel exports
 │   ├── use-auth.tsx
@@ -176,4 +271,24 @@ npm run deploy:prod     # Same as deploy
 - **`scripts/`** - Setup and utility scripts for development workflow
 - **`types/`** - TypeScript type definitions and interfaces with barrel exports
 
-See [STRUCTURE.md](./STRUCTURE.md) for detailed structure documentation and import patterns.
+See [docs/STRUCTURE.md](./docs/STRUCTURE.md) for detailed structure documentation and import patterns.
+
+## 📚 Documentation
+
+### Getting Started
+- **[Setup & Configuration](./docs/setup/)** - Database setup, authentication, and internationalization
+- **[Project Structure](./docs/STRUCTURE.md)** - Detailed codebase organization and import patterns
+- **[Deployment Guide](./DEPLOY.md)** - Automated deployment process and manual steps
+
+### PDF Implementation
+- **[PDF Blueprints](./docs/PDF_BLUEPRINTS.md)** - Authoritative PDF layout specifications
+- **[PDF Implementation Guide](./docs/pdf-implementation/)** - Complete PDF system restructuring documentation
+- **Blueprint Archive**: `docs/pdf-enhancement.zip` (authoritative, do not modify)
+
+### Development Resources
+- **[E2E Testing](./e2e/)** - End-to-end test suite and documentation
+- **[Convex Backend](./convex/)** - Database schema and API documentation
+- **[Component Library](./components/ui/)** - Reusable UI components with shadcn/ui
+
+### Archived Documentation
+Historical implementation notes, verification reports, and resolved issues are archived in `docs/archive/`.

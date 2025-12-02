@@ -8,10 +8,50 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Bell, CheckCircle, Clock, AlertTriangle, Info, DollarSign, User, FileText, Settings, Trash2, CheckCheck } from "lucide-react"
 
+interface NotificationItem {
+  id: string;
+  title: string;
+  message: string;
+  time: string;
+  priority: 'high' | 'medium' | 'low';
+  icon: typeof Bell;
+  read: boolean;
+}
+
 export default function NotificationsPage() {
+  // Mock data - replace with Convex query when implemented
   const notifications = {
-    unread: [],
-    read: []
+    unread: [
+      {
+        id: "1",
+        title: "Nueva cotización pendiente",
+        message: "El cliente Juan Pérez ha solicitado una cotización para proyecto residencial",
+        time: "Hace 2 horas",
+        priority: "high" as const,
+        icon: FileText,
+        read: false
+      },
+      {
+        id: "2",
+        title: "Pago recibido",
+        message: "Se ha registrado el pago de $2.500.000 para la cotización #123",
+        time: "Hace 4 horas",
+        priority: "medium" as const,
+        icon: DollarSign,
+        read: false
+      }
+    ] as NotificationItem[],
+    read: [
+      {
+        id: "3",
+        title: "Cliente actualizado",
+        message: "Los datos del cliente María González han sido actualizados",
+        time: "Ayer",
+        priority: "low" as const,
+        icon: User,
+        read: true
+      }
+    ] as NotificationItem[]
   }
 
   const getPriorityColor = (priority: string) => {

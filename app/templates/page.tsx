@@ -11,13 +11,50 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 export default function TemplatesPage() {
   const templateCategories = [
-    { icon: Home, label: "Residencial", count: 0, color: "text-primary" },
-    { icon: Building2, label: "Comercial", count: 0, color: "text-info" },
-    { icon: Factory, label: "Industrial", count: 0, color: "text-warning" },
-    { icon: Zap, label: "Especializado", count: 0, color: "text-success" }
+    { icon: Home, label: "Residencial", count: 8, color: "text-primary" },
+    { icon: Building2, label: "Comercial", count: 12, color: "text-info" },
+    { icon: Factory, label: "Industrial", count: 5, color: "text-warning" },
+    { icon: Zap, label: "Especializado", count: 3, color: "text-success" }
   ]
 
-  const templates: never[] = []
+  // Mock data - replace with Convex query when implemented
+  const templates: {
+    id: string;
+    name: string;
+    category: string;
+    description: string;
+    usageCount: number;
+    lastUsed: string;
+    isFavorite: boolean;
+  }[] = [
+    {
+      id: "1",
+      name: "Instalación Residencial Básica",
+      category: "Residencial",
+      description: "Plantilla para instalaciones eléctricas en viviendas de 1-2 pisos",
+      usageCount: 15,
+      lastUsed: "Hace 2 días",
+      isFavorite: true
+    },
+    {
+      id: "2",
+      name: "Proyecto Comercial Completo",
+      category: "Comercial",
+      description: "Cotización completa para locales comerciales con iluminación y climatización",
+      usageCount: 8,
+      lastUsed: "Hace 1 semana",
+      isFavorite: false
+    },
+    {
+      id: "3",
+      name: "Mantenimiento Industrial",
+      category: "Industrial",
+      description: "Servicio de mantenimiento preventivo para instalaciones industriales",
+      usageCount: 22,
+      lastUsed: "Ayer",
+      isFavorite: true
+    }
+  ]
 
   return (
     <div className="min-h-screen bg-background">

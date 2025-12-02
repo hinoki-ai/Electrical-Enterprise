@@ -21,6 +21,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { toast } from "sonner"
 import { useAuth } from "@/components/auth-context"
+import { useDivineParsing } from "@/components/language/ChunkedLanguageProvider"
 import { getCurrencyLabel, getPaymentTypeLabel, getProjectTypeLabel, getProjectSizeLabel, getMaterialQualityLabel } from "@/lib/utils"
 
 interface SettingsDialogProps {
@@ -37,6 +38,7 @@ const DEFAULT_SETTINGS = {
   defaultProjectType: "residential",
   defaultComplexity: "medium",
   defaultMaterialQuality: "standard",
+  language: "es",
 }
 
 // Load settings from localStorage
@@ -57,6 +59,7 @@ function loadSettings() {
 export function SettingsDialog({ children }: SettingsDialogProps) {
   const { logout } = useAuth()
   const { theme, setTheme, resolvedTheme } = useTheme()
+  const { language, setLanguage } = useDivineParsing(["common"])
   const [isOpen, setIsOpen] = useState(false)
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
   const [isRestoringDefaults, setIsRestoringDefaults] = useState(false)
@@ -236,6 +239,32 @@ export function SettingsDialog({ children }: SettingsDialogProps) {
                       setTheme(checked ? 'dark' : 'light')
                     }}
                   />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="w-full min-w-0">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Settings className="w-4 h-4" />
+                  Idioma
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 min-w-0">
+                <div className="space-y-2">
+                  <Label>Idioma de la aplicación</Label>
+                  <Select value={language} onValueChange={setLanguage}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="es">Español</SelectItem>
+                      <SelectItem value="en">English</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-sm text-muted-foreground">
+                    Cambia el idioma de la interfaz de usuario
+                  </p>
                 </div>
               </CardContent>
             </Card>

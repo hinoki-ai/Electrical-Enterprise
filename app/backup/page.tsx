@@ -11,10 +11,46 @@ import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { HardDrive, Download, Upload, Clock, CheckCircle, AlertTriangle, Settings, Database, Cloud } from "lucide-react"
 
+interface BackupItem {
+  id: string;
+  name: string;
+  date: string;
+  size: string;
+  status: 'success' | 'failed';
+  type: 'automatic' | 'manual';
+}
+
 export default function BackupPage() {
   const [backupLocation, setBackupLocation] = useState("local")
   const [retentionDays, setRetentionDays] = useState("30")
-  const backupHistory: never[] = []
+
+  // Mock data - replace with Convex query when implemented
+  const backupHistory: BackupItem[] = [
+    {
+      id: "1",
+      name: "Backup Completo - 2024-12-02",
+      date: "02 Dic 2024, 10:30",
+      size: "2.4 GB",
+      status: "success",
+      type: "automatic"
+    },
+    {
+      id: "2",
+      name: "Backup Manual - Clientes",
+      date: "01 Dic 2024, 15:45",
+      size: "850 MB",
+      status: "success",
+      type: "manual"
+    },
+    {
+      id: "3",
+      name: "Backup Completo - 2024-11-30",
+      date: "30 Nov 2024, 10:30",
+      size: "2.2 GB",
+      status: "failed",
+      type: "automatic"
+    }
+  ]
 
   return (
     <div className="min-h-screen bg-background">

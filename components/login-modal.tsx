@@ -57,7 +57,7 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
         return
       }
 
-      onLoginSuccess(user)
+      onLoginSuccess({ ...user, role: user.role as "master" | "quoter" })
       onClose()
     } catch (err) {
       console.error("Login error:", err)

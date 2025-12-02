@@ -10,16 +10,80 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Book, Search, Download, Calculator, TrendingUp, DollarSign, Package, Zap } from "lucide-react"
 
+interface PriceUpdate {
+  item: string;
+  date: string;
+  change: string;
+}
+
+interface PriceItem {
+  name: string;
+  category: string;
+  price: string;
+  trend: 'up' | 'down' | 'stable';
+}
+
+interface ServiceRate {
+  service: string;
+  description: string;
+  rate: string;
+}
+
 export default function PriceGuidePage() {
   const [categoryFilter, setCategoryFilter] = useState("all")
   const priceCategories = [
-    { icon: Zap, label: "Materiales Eléctricos", count: 0, color: "text-primary" },
-    { icon: Package, label: "Equipos y Herramientas", count: 0, color: "text-info" },
-    { icon: Calculator, label: "Mano de Obra", count: 0, color: "text-success" },
-    { icon: TrendingUp, label: "Índices de Precios", count: 0, color: "text-warning" }
+    { icon: Zap, label: "Materiales Eléctricos", count: 45, color: "text-primary" },
+    { icon: Package, label: "Equipos y Herramientas", count: 23, color: "text-info" },
+    { icon: Calculator, label: "Mano de Obra", count: 12, color: "text-success" },
+    { icon: TrendingUp, label: "Índices de Precios", count: 8, color: "text-warning" }
   ]
 
-  const recentUpdates: never[] = []
+  // Mock data - replace with Convex query when implemented
+  const recentUpdates: PriceUpdate[] = [
+    {
+      item: "Cable THW 10mm²",
+      date: "02 Dic 2024",
+      change: "+3.2%"
+    },
+    {
+      item: "Interruptor Diferencial 40A",
+      date: "01 Dic 2024",
+      change: "+1.8%"
+    },
+    {
+      item: "Mano de obra instalación",
+      date: "28 Nov 2024",
+      change: "-0.5%"
+    }
+  ]
+
+  const popularItems: PriceItem[] = [
+    {
+      name: "Cable THW 10mm²",
+      category: "Cableado",
+      price: "$45.000",
+      trend: 'up'
+    },
+    {
+      name: "Interruptor Diferencial 40A",
+      category: "Protección",
+      price: "$85.000",
+      trend: 'stable'
+    }
+  ]
+
+  const serviceRates: ServiceRate[] = [
+    {
+      service: "Instalación Eléctrica Residencial",
+      description: "Por punto de luz o toma corriente",
+      rate: "$15.000"
+    },
+    {
+      service: "Mantenimiento Preventivo",
+      description: "Revisión mensual de sistemas eléctricos",
+      rate: "$25.000"
+    }
+  ]
 
   return (
     <div className="min-h-screen bg-background">
@@ -121,7 +185,7 @@ export default function PriceGuidePage() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {[].map((item, index) => (
+                  {popularItems.map((item, index) => (
                     <div key={index} className="p-4 border rounded-lg">
                       <div className="flex items-center justify-between mb-2">
                         <span className="font-medium">{item.name}</span>
@@ -182,7 +246,7 @@ export default function PriceGuidePage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {[].map((service, index) => (
+                  {serviceRates.map((service, index) => (
                     <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
                       <div>
                         <div className="font-medium">{service.service}</div>

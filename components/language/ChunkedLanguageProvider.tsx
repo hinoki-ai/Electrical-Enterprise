@@ -331,7 +331,7 @@ const DivineParsingOracleProvider: React.FC<{
         return performInterpolation(key);
       }
     };
-  }, [language, loadedTranslations]);
+  }, [loadedTranslations]);
 
   // Utility functions
   const getLoadedNamespaces = useCallback(

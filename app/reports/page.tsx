@@ -9,8 +9,37 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Calendar, Download, TrendingUp, DollarSign, FileText, Users, BarChart3, PieChart } from "lucide-react"
 
+interface RecentReport {
+  name: string;
+  type: string;
+  date: string;
+  change: number;
+}
+
 export default function ReportsPage() {
   const [timePeriod, setTimePeriod] = useState("month")
+
+  // Mock data - replace with Convex query when implemented
+  const recentReports: RecentReport[] = [
+    {
+      name: "Informe Financiero Noviembre 2024",
+      type: "Financiero",
+      date: "02 Dic 2024",
+      change: 12.5
+    },
+    {
+      name: "Análisis de Cotizaciones",
+      type: "Cotizaciones",
+      date: "28 Nov 2024",
+      change: 8.3
+    },
+    {
+      name: "Estadísticas de Clientes",
+      type: "Clientes",
+      date: "25 Nov 2024",
+      change: -2.1
+    }
+  ]
   const reportTypes = [
     {
       icon: DollarSign,
@@ -152,7 +181,7 @@ export default function ReportsPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {[].map((report, index) => (
+                  {recentReports.map((report, index) => (
                     <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">

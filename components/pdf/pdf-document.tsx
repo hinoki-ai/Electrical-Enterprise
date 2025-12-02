@@ -21,11 +21,16 @@ export interface QuoteItem {
   isIncluded: boolean
 }
 
+export interface OptionItem {
+  label: string
+  value: number
+}
+
 export interface QuoteOption {
   id: string
   name: string
   description?: string
-  items: string[]
+  items?: OptionItem[]
   totalValue: number
   isRecommended: boolean
 }

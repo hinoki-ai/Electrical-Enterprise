@@ -72,10 +72,8 @@ export function RadialChartComponent({
             margin={{ top: 20, right: 30, bottom: 20, left: 30 }}
           >
             <RadialBar
-              minAngle={15}
               label={{ position: 'insideStart', fill: 'hsl(var(--background))', fontSize: 12, fontWeight: 600 }}
               background={{ fill: 'hsl(var(--muted))', opacity: 0.3 }}
-              clockWise
               dataKey="value"
             />
             <ChartTooltipContent

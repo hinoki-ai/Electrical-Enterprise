@@ -30,8 +30,8 @@ function validatePasswordStrength(password: string): { isValid: boolean; errors:
   }
 }
 
-// Create Quotelord user - simplified for private enterprise use
-export const createQuotelordUser = mutation({
+// Create Master user - simplified for private enterprise use
+export const createMasterUser = mutation({
   args: {
     email: v.string(),
     username: v.string(),
@@ -64,21 +64,21 @@ export const createQuotelordUser = mutation({
       throw new Error(passwordValidation.errors.join(". "))
     }
 
-    // Check if any users already exist (we want only one Quotelord user)
+    // Check if any users already exist (we want only one master user)
     const existingUsers = await ctx.db.query("users").collect()
     if (existingUsers.length > 0) {
-      throw new Error("A Quotelord user already exists in the system")
+      throw new Error("A master user already exists in the system")
     }
 
     // Hash the password
     const hashedPassword = await hashPasswordUtil(password)
 
-    // Create Quotelord user
+    // Create master user
     const userId = await ctx.db.insert("users", {
       email: args.email,
       username: username.toLowerCase(), // Store username in lowercase for case-insensitive login
       password: hashedPassword,
-      role: "Quotelord",
+      role: "master",
       createdAt: Date.now(),
       needsPasswordChange: false,
       hasCompletedWelcome: true,
@@ -91,7 +91,7 @@ export const createQuotelordUser = mutation({
       _id: userId,
       email: args.email,
       username: username.toLowerCase(),
-      role: "Quotelord",
+      role: "master",
       createdAt: Date.now(),
       hasCompletedWelcome: true,
       emailVerified: true,
@@ -99,7 +99,7 @@ export const createQuotelordUser = mutation({
   },
 })
 
-// Simplified login function - only Quotelord user can log in
+// Simplified login function - only master user can log in
 export const authenticateUser = mutation({
   args: {
     username: v.string(),
@@ -139,7 +139,7 @@ export const authenticateUser = mutation({
       _id: user._id,
       email: user.email,
       username: user.username,
-      role: user.role || "Quotelord",
+      role: user.role || "master",
       createdAt: user.createdAt,
       hasCompletedWelcome: user.hasCompletedWelcome,
       displayName: user.displayName,
@@ -166,7 +166,7 @@ export const getCurrentUser = query({
       _id: user._id,
       email: user.email,
       username: user.username,
-      role: user.role || "Quotelord",
+      role: user.role || "master",
       createdAt: user.createdAt,
       hasCompletedWelcome: user.hasCompletedWelcome,
       displayName: user.displayName,
@@ -183,7 +183,7 @@ export const getAllUsers = query({
       _id: user._id,
       email: user.email,
       username: user.username,
-      role: user.role || "Quotelord",
+      role: user.role || "master",
       createdAt: user.createdAt,
     }))
   },
@@ -195,7 +195,7 @@ export const createProdUser = mutation({
     email: v.string(),
     username: v.string(),
     password: v.string(),
-    role: v.optional(v.union(v.literal("Quotelord"), v.literal("quoter"))),
+    role: v.optional(v.union(v.literal("master"), v.literal("quoter"))),
   },
   handler: async (ctx, args) => {
     const username = args.username.trim()

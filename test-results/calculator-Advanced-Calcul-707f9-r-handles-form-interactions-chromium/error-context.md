@@ -56,7 +56,7 @@
                 - generic [ref=e60]:
                   - generic [ref=e61]:
                     - generic [ref=e62]: $
-                    - textbox "1.000.000" [active] [ref=e63]: "1000000"
+                    - textbox "1.000.000" [active] [ref=e63]
                   - generic [ref=e64]:
                     - button "-500k" [ref=e65]
                     - button "+500k" [ref=e66]
@@ -65,28 +65,19 @@
                 - generic [ref=e69]:
                   - generic [ref=e70]: Tamaño del Proyecto
                   - combobox [ref=e71]:
-                    - generic:
-                      - generic:
-                        - generic: medium
-                        - generic: Proyectos $2.500.001 - $8.000.000
+                    - generic: Mediano
                     - img
                 - generic [ref=e72]:
                   - generic [ref=e73]: Calidad de Materiales
                   - combobox [ref=e74]:
-                    - generic:
-                      - generic:
-                        - generic: standard
-                        - generic: Materiales estándar de calidad certificada
+                    - generic: Estándar
                     - img
                 - generic [ref=e75]:
                   - generic [ref=e76]:
                     - img [ref=e77]
                     - text: Nivel de Urgencia
                   - combobox [ref=e80]:
-                    - generic:
-                      - generic:
-                        - generic: normal
-                        - generic: Plazo estándar 2-4 semanas
+                    - generic: Normal
                     - img
               - generic [ref=e81]:
                 - generic [ref=e82]:

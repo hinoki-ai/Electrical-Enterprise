@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { PasswordInput } from "@/components/ui/password-input"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { Zap, Lock, User } from "lucide-react"
+import { Zap, Lock, User as UserIcon } from "lucide-react"
 import type { User } from "@/components/auth-context"
 
 interface SignupPanelProps {
@@ -175,7 +175,7 @@ export function SignupPanel({ onSignupSuccess, onShowLogin }: SignupPanelProps) 
                   Usuario
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-slate-500" />
+                  <UserIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-slate-500" />
                   <Input
                     id="username"
                     type="text"

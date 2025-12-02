@@ -7,10 +7,85 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { AlertTriangle, Phone, MapPin, Clock, User, Zap, Shield, Ambulance } from "lucide-react"
 
-export default function EmergencyPage() {
-  const emergencyContacts: never[] = []
+interface EmergencyContact {
+  name: string;
+  type: string;
+  phone: string;
+  response: string;
+  coverage: string;
+}
 
-  const emergencyProtocols: never[] = []
+interface EmergencyProtocol {
+  title: string;
+  priority: 'Crítica' | 'Alta' | 'Media';
+  steps: string[];
+}
+
+interface EmergencyService {
+  service: string;
+  description: string;
+  time: string;
+  cost: string;
+}
+
+export default function EmergencyPage() {
+  // Mock data - replace with Convex query when implemented
+  const emergencyContacts: EmergencyContact[] = [
+    {
+      name: "Emergencias Eléctricas 24/7",
+      type: "Servicio de Emergencias",
+      phone: "+56 9 0000 0000",
+      response: "15-30 min",
+      coverage: "Gran Santiago"
+    },
+    {
+      name: "Bomberos de Chile",
+      type: "Servicio Público",
+      phone: "132",
+      response: "5-15 min",
+      coverage: "Nacional"
+    }
+  ]
+
+  const emergencyProtocols: EmergencyProtocol[] = [
+    {
+      title: "Protocolo de Seguridad Eléctrica",
+      priority: 'Crítica',
+      steps: [
+        "Desconectar la alimentación eléctrica principal",
+        "No tocar cables expuestos o equipos dañados",
+        "Llamar inmediatamente al servicio de emergencias",
+        "Alejarse de la zona peligrosa",
+        "Esperar la llegada de personal calificado"
+      ]
+    },
+    {
+      title: "Respuesta a Cortocircuitos",
+      priority: 'Alta',
+      steps: [
+        "Verificar si hay fuego o humo",
+        "Desconectar el circuito afectado si es seguro",
+        "No intentar reparar el daño",
+        "Contactar al electricista de emergencias",
+        "Documentar lo ocurrido para análisis"
+      ]
+    }
+  ]
+
+  const emergencyServices: EmergencyService[] = [
+    {
+      service: "Reparación de Cortocircuito",
+      description: "Atención inmediata para fallas eléctricas peligrosas",
+      time: "30-60 min",
+      cost: "$25.000 + materiales"
+    },
+    {
+      service: "Restauración de Alimentación",
+      description: "Recuperación de sistemas eléctricos afectados",
+      time: "1-2 horas",
+      cost: "$15.000 + materiales"
+    }
+  ]
 
   return (
     <div className="min-h-screen bg-background">
@@ -129,7 +204,7 @@ export default function EmergencyPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {[].map((service, index) => (
+                {emergencyServices.map((service, index) => (
                   <div key={index} className="p-4 border rounded-lg">
                     <h3 className="font-medium mb-1">{service.service}</h3>
                     <p className="text-sm text-muted-foreground mb-3">{service.description}</p>

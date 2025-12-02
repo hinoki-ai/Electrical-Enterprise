@@ -7,12 +7,87 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Mail, Clock, User, Send, Inbox, Star, Archive, Trash2, Reply } from "lucide-react"
 
+interface EmailContact {
+  department: string;
+  email: string;
+  response: string;
+  hours: string;
+}
+
+interface EmailTemplate {
+  title: string;
+  description: string;
+  category: string;
+}
+
+interface RecentEmail {
+  subject: string;
+  from: string;
+  time: string;
+  status: 'read' | 'unread';
+}
+
 export default function EmailPage() {
-  const emailContacts: never[] = []
+  // Mock data - replace with Convex query when implemented
+  const emailContacts: EmailContact[] = [
+    {
+      department: "Soporte Técnico",
+      email: "soporte@electrical.cl",
+      response: "24-48 horas",
+      hours: "L-V 9:00-18:00"
+    },
+    {
+      department: "Ventas",
+      email: "ventas@electrical.cl",
+      response: "12-24 horas",
+      hours: "L-V 9:00-18:00"
+    },
+    {
+      department: "Administración",
+      email: "admin@electrical.cl",
+      response: "48-72 horas",
+      hours: "L-V 9:00-17:00"
+    }
+  ]
 
-  const emailTemplates: never[] = []
+  const emailTemplates: EmailTemplate[] = [
+    {
+      title: "Cotización de Proyecto",
+      description: "Plantilla para enviar cotizaciones detalladas",
+      category: "Ventas"
+    },
+    {
+      title: "Confirmación de Servicio",
+      description: "Confirmar agendamiento de visita técnica",
+      category: "Servicio"
+    },
+    {
+      title: "Actualización de Estado",
+      description: "Informar sobre progreso del proyecto",
+      category: "Seguimiento"
+    }
+  ]
 
-  const recentEmails: never[] = []
+  const recentEmails: RecentEmail[] = [
+    {
+      subject: "Cotización Proyecto Residencial - Confirmación",
+      from: "cliente@email.com",
+      time: "Hace 2 horas",
+      status: 'unread'
+    },
+    {
+      subject: "Re: Consulta sobre Mantenimiento Preventivo",
+      from: "empresa@cliente.cl",
+      time: "Ayer 15:30",
+      status: 'read'
+    },
+    {
+      subject: "Factura Electrónica N° 001234",
+      from: "facturacion@electrical.cl",
+      time: "Ayer 10:15",
+      status: 'read'
+    }
+  ]
 
   return (
     <div className="min-h-screen bg-background">

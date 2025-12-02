@@ -11,12 +11,70 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { User, Mail, Phone, MapPin, Calendar, Award, Briefcase, Shield, Camera, Edit, Save } from "lucide-react"
 
+interface Certification {
+  name: string;
+  issuer: string;
+  year: number;
+  status: 'active' | 'expired';
+}
+
+interface Experience {
+  position: string;
+  company: string;
+  type: 'full-time' | 'contract';
+  period: string;
+}
+
+interface Achievement {
+  title: string;
+  description: string;
+  year: number;
+}
+
 export default function ProfilePage() {
-  const certifications: never[] = []
+  // Mock data - replace with Convex query when implemented
+  const certifications: Certification[] = [
+    {
+      name: "Ingeniero Eléctrico",
+      issuer: "Universidad de Chile",
+      year: 2020,
+      status: 'active'
+    },
+    {
+      name: "Certificación SAP",
+      issuer: "SAP SE",
+      year: 2022,
+      status: 'active'
+    }
+  ]
 
-  const experience: never[] = []
+  const experience: Experience[] = [
+    {
+      position: "Ingeniero Senior",
+      company: "Empresa Eléctrica Ltda.",
+      type: 'full-time',
+      period: "2021 - Presente"
+    },
+    {
+      position: "Ingeniero Junior",
+      company: "Constructora ABC",
+      type: 'contract',
+      period: "2019 - 2021"
+    }
+  ]
 
-  const achievements: never[] = []
+  const achievements: Achievement[] = [
+    {
+      title: "Proyecto del Año",
+      description: "Reconocimiento por el proyecto residencial más eficiente",
+      year: 2023
+    },
+    {
+      title: "Cliente Satisfecho",
+      description: "Más de 50 clientes satisfechos en el último año",
+      year: 2024
+    }
+  ]
 
   return (
     <div className="min-h-screen bg-background">

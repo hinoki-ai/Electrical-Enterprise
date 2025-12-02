@@ -8,17 +8,78 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Book, Search, FileText, Scale, AlertTriangle, CheckCircle, Clock, ExternalLink } from "lucide-react"
 
+interface Regulation {
+  title: string;
+  description: string;
+  category: string;
+  status: 'vigente' | 'en_revision';
+  lastUpdate: string;
+}
+
+interface RegulationChange {
+  regulation: string;
+  change: string;
+  date: string;
+}
+
+interface ComplianceItem {
+  requirement: string;
+  status: 'completed' | 'pending';
+}
+
 export default function RegulationsPage() {
   const regulationCategories = [
-    { icon: Scale, label: "Normas Chilenas", count: 0, color: "text-primary" },
-    { icon: FileText, label: "Reglamentos Técnicos", count: 0, color: "text-info" },
-    { icon: AlertTriangle, label: "Seguridad Eléctrica", count: 0, color: "text-warning" },
-    { icon: CheckCircle, label: "Certificaciones", count: 0, color: "text-success" }
+    { icon: Scale, label: "Normas Chilenas", count: 12, color: "text-primary" },
+    { icon: FileText, label: "Reglamentos Técnicos", count: 8, color: "text-info" },
+    { icon: AlertTriangle, label: "Seguridad Eléctrica", count: 15, color: "text-warning" },
+    { icon: CheckCircle, label: "Certificaciones", count: 6, color: "text-success" }
   ]
 
-  const keyRegulations: never[] = []
+  // Mock data - replace with Convex query when implemented
+  const keyRegulations: Regulation[] = [
+    {
+      title: "Decreto Supremo N° 15/2018",
+      description: "Aprueba reglamento de seguridad para instalaciones eléctricas",
+      category: "Seguridad",
+      status: 'vigente',
+      lastUpdate: "15 Nov 2024"
+    },
+    {
+      title: "NCh 3000/2018",
+      description: "Instalaciones eléctricas - Requisitos generales",
+      category: "Técnico",
+      status: 'vigente',
+      lastUpdate: "20 Oct 2024"
+    }
+  ]
 
-  const upcomingChanges: never[] = []
+  const upcomingChanges: RegulationChange[] = [
+    {
+      regulation: "NCh 3000/2018",
+      change: "Actualización de requisitos para instalaciones solares",
+      date: "01 Ene 2025"
+    },
+    {
+      regulation: "Decreto Supremo N° 15/2018",
+      change: "Nuevos estándares de protección contra incendios",
+      date: "15 Feb 2025"
+    }
+  ]
+
+  const complianceItems: ComplianceItem[] = [
+    {
+      requirement: "Certificación de instalaciones eléctricas",
+      status: 'completed'
+    },
+    {
+      requirement: "Registro de contratistas eléctricos",
+      status: 'completed'
+    },
+    {
+      requirement: "Capacitación en normas de seguridad",
+      status: 'pending'
+    }
+  ]
 
   return (
     <div className="min-h-screen bg-background">
@@ -159,7 +220,7 @@ export default function RegulationsPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {[].map((item, index) => (
+                  {complianceItems.map((item, index) => (
                     <div key={index} className="flex items-center gap-3">
                       <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
                         item.status === 'completed' ? 'bg-success' : 'bg-muted'
