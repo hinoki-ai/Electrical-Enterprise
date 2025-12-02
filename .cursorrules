@@ -1,0 +1,16 @@
+# Cursor Rules for Electrical Enterprise
+
+## Deployment
+
+When the user types "deploy" or asks to deploy, ALWAYS use the deployment script:
+- Run: `npm run deploy` or `./scripts/deploy.sh`
+- The script handles: build, commit, push, deploy Convex, deploy Vercel
+- DO NOT deploy manually step-by-step - use the script
+- The script is located at: `scripts/deploy.sh`
+
+## Important Notes
+
+- Always commit all changes before deploying
+- The deployment script automatically handles commits and pushes
+- Never skip the commit step
+

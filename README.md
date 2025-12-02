@@ -14,6 +14,28 @@ Electrical Enterprise Quoting System - A comprehensive quoting and estimation to
 - **Vercel Project**: quoter-aramac
 - **Live URL**: [quote.aramac.dev](https://quote.aramac.dev)
 
+### Quick Deploy
+
+**When you type "deploy", use the automated deployment script:**
+
+```bash
+# One command deploys everything:
+npm run deploy
+
+# Or with custom commit message:
+./scripts/deploy.sh "Your commit message"
+```
+
+The deployment script automatically:
+1. ✅ Lints code
+2. ✅ Builds Next.js project
+3. ✅ Commits all changes
+4. ✅ Pushes to GitHub
+5. ✅ Deploys Convex backend
+6. ✅ Deploys to Vercel production
+
+**Note**: Always ensure all changes are committed before deploying. The script handles this automatically.
+
 ## 🛠 Tech Stack
 
 - **Framework**: Next.js 15
@@ -80,6 +102,10 @@ npm run build
 npm run convex:dev      # Start Convex development server
 npm run convex:deploy   # Deploy schema changes
 npm run convex:codegen  # Generate TypeScript types
+
+# Deployment
+npm run deploy          # Complete deployment (build, commit, push, deploy Convex & Vercel)
+npm run deploy:prod     # Same as deploy
 ```
 
 ## 📄 Project Structure
