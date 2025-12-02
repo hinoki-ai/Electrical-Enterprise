@@ -64,140 +64,6 @@ interface DataContextType {
 
 const DataContext = createContext<DataContextType | undefined>(undefined)
 
-// Sample data for demo
-const sampleClients: Client[] = [
-  {
-    id: "1",
-    name: "María González",
-    phone: "+56 9 8765 4321",
-    email: "maria@email.com",
-    totalProjects: 3,
-    totalValue: 8200000,
-    rating: 5,
-    responseSpeed: "fast",
-    createdAt: new Date("2024-01-15"),
-    lastContact: new Date("2025-05-20"),
-  },
-  {
-    id: "2",
-    name: "Tech Corp SPA",
-    phone: "+56 2 2345 6789",
-    email: "contacto@techcorp.cl",
-    totalProjects: 1,
-    totalValue: 15000000,
-    rating: 4,
-    responseSpeed: "slow",
-    createdAt: new Date("2024-06-01"),
-    lastContact: new Date("2025-05-28"),
-  },
-  {
-    id: "3",
-    name: "Graciela Muñoz",
-    phone: "+56 9 1234 5678",
-    totalProjects: 2,
-    totalValue: 4500000,
-    rating: 5,
-    responseSpeed: "fast",
-    createdAt: new Date("2024-03-10"),
-    lastContact: new Date("2025-05-30"),
-  },
-]
-
-const sampleQuotes: Quote[] = [
-  {
-    id: "q1",
-    clientId: "2",
-    clientName: "Tech Corp SPA",
-    projectName: "Renovación Oficinas",
-    projectType: "commercial",
-    value: 15000000,
-    plan: "premium",
-    status: "sent",
-    createdAt: new Date("2025-05-26"),
-    updatedAt: new Date("2025-05-26"),
-    sentAt: new Date("2025-05-26"),
-  },
-  {
-    id: "q2",
-    clientId: "1",
-    clientName: "María González",
-    projectName: "Ampliación Casa",
-    projectType: "residential",
-    value: 3500000,
-    plan: "standard",
-    status: "sent",
-    createdAt: new Date("2025-05-27"),
-    updatedAt: new Date("2025-05-27"),
-    sentAt: new Date("2025-05-27"),
-  },
-  {
-    id: "q3",
-    clientId: "3",
-    clientName: "Graciela Muñoz",
-    projectName: "Proyecto Eléctrico Completo",
-    projectType: "residential",
-    value: 2890000,
-    plan: "standard",
-    status: "pending",
-    createdAt: new Date("2025-05-30"),
-    updatedAt: new Date("2025-05-30"),
-    sentAt: new Date("2025-05-30"),
-  },
-  {
-    id: "q4",
-    clientId: "1",
-    clientName: "María González",
-    projectName: "Reparación Emergencia",
-    projectType: "emergency",
-    value: 450000,
-    plan: "basic",
-    status: "approved",
-    createdAt: new Date("2025-05-28"),
-    updatedAt: new Date("2025-05-29"),
-    sentAt: new Date("2025-05-28"),
-  },
-  {
-    id: "q5",
-    clientId: "2",
-    clientName: "Tech Corp SPA",
-    projectName: "Panel Industrial",
-    projectType: "industrial",
-    value: 8000000,
-    plan: "enterprise",
-    status: "pending",
-    createdAt: new Date("2025-05-25"),
-    updatedAt: new Date("2025-05-25"),
-  },
-  {
-    id: "q6",
-    clientId: "3",
-    clientName: "Graciela Muñoz",
-    projectName: "Nueva Construcción",
-    projectType: "residential",
-    value: 25000000,
-    plan: "premium",
-    status: "draft",
-    createdAt: new Date("2025-05-29"),
-    updatedAt: new Date("2025-05-29"),
-    notes: "Pendiente confirmar planos",
-  },
-]
-
-const sampleMetrics: BusinessMetrics = {
-  monthlyRevenue: 28500000,
-  previousMonthRevenue: 25400000,
-  profitMargin: 32,
-  avgProjectValue: 3200000,
-  quoteConversion: 68,
-  clientSatisfaction: 4.7,
-  planStats: [
-    { plan: "basic", quotes: 45, winRate: 72 },
-    { plan: "standard", quotes: 38, winRate: 65 },
-    { plan: "premium", quotes: 12, winRate: 58 },
-    { plan: "enterprise", quotes: 3, winRate: 100 },
-  ],
-}
-
 export function DataProvider({ children }: { children: React.ReactNode }) {
   const [quotes, setQuotes] = useState<Quote[]>(() => {
     try {
@@ -214,7 +80,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     } catch {
       // Fall through to default
     }
-    return sampleQuotes
+    return []
   })
 
   const [clients, setClients] = useState<Client[]>(() => {
@@ -231,10 +97,18 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     } catch {
       // Fall through to default
     }
-    return sampleClients
+    return []
   })
 
-  const [metrics] = useState<BusinessMetrics>(sampleMetrics)
+  const [metrics] = useState<BusinessMetrics>({
+    monthlyRevenue: 0,
+    previousMonthRevenue: 0,
+    profitMargin: 0,
+    avgProjectValue: 0,
+    quoteConversion: 0,
+    clientSatisfaction: 0,
+    planStats: [],
+  })
   const [isLoaded, setIsLoaded] = useState(true)
 
   // Save to localStorage on changes

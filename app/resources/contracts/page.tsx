@@ -10,64 +10,15 @@ import { FileSignature, Search, Plus, Download, Eye, Edit, FileText, Clock, Chec
 
 export default function ContractsPage() {
   const contractTypes = [
-    { icon: FileText, label: "Contratos de Servicio", count: 45, color: "text-primary" },
-    { icon: FileSignature, label: "Contratos de Mantenimiento", count: 28, color: "text-info" },
-    { icon: CheckCircle, label: "Garantías", count: 67, color: "text-success" },
-    { icon: AlertTriangle, label: "Términos y Condiciones", count: 12, color: "text-warning" }
+    { icon: FileText, label: "Contratos de Servicio", count: 0, color: "text-primary" },
+    { icon: FileSignature, label: "Contratos de Mantenimiento", count: 0, color: "text-info" },
+    { icon: CheckCircle, label: "Garantías", count: 0, color: "text-success" },
+    { icon: AlertTriangle, label: "Términos y Condiciones", count: 0, color: "text-warning" }
   ]
 
-  const contracts = [
-    {
-      id: "CT-2024-001",
-      title: "Contrato Instalación Eléctrica Residencial",
-      client: "Casa Los Alamos",
-      type: "Servicio",
-      status: "active",
-      value: "$1,250,000",
-      startDate: "2024-10-15",
-      endDate: "2025-10-15",
-      renewal: "Automática"
-    },
-    {
-      id: "CT-2024-002",
-      title: "Mantenimiento Sistema Eléctrico Industrial",
-      client: "Industria Textil SPA",
-      type: "Mantenimiento",
-      status: "active",
-      value: "$450,000/año",
-      startDate: "2024-09-01",
-      endDate: "2025-08-31",
-      renewal: "Manual"
-    },
-    {
-      id: "CT-2024-003",
-      title: "Garantía Sistema Solar",
-      client: "Condominio Las Brisas",
-      type: "Garantía",
-      status: "active",
-      value: "$2,800,000",
-      startDate: "2024-08-20",
-      endDate: "2029-08-20",
-      renewal: "N/A"
-    },
-    {
-      id: "CT-2024-004",
-      title: "Contrato Energía Solar Empresarial",
-      client: "Tech Solutions Ltda",
-      type: "Servicio",
-      status: "pending",
-      value: "$3,200,000",
-      startDate: "2024-12-01",
-      endDate: "2025-12-01",
-      renewal: "Automática"
-    }
-  ]
+  const contracts: never[] = []
 
-  const upcomingRenewals = [
-    { contract: "CT-2023-015", client: "Hotel del Valle", days: 15, type: "Mantenimiento" },
-    { contract: "CT-2023-022", client: "Centro Médico Central", days: 30, type: "Servicio" },
-    { contract: "CT-2023-008", client: "Supermercado Norte", days: 45, type: "Mantenimiento" }
-  ]
+  const upcomingRenewals: never[] = []
 
   return (
     <div className="min-h-screen bg-background">
@@ -128,15 +79,15 @@ export default function ContractsPage() {
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="text-center p-3 bg-success/10 rounded-lg">
-                  <div className="text-2xl font-bold text-success">142</div>
+                  <div className="text-2xl font-bold text-success">0</div>
                   <div className="text-xs text-muted-foreground">Contratos Activos</div>
                 </div>
                 <div className="text-center p-3 bg-warning/10 rounded-lg">
-                  <div className="text-2xl font-bold text-warning">$8.2M</div>
+                  <div className="text-2xl font-bold text-warning">$0</div>
                   <div className="text-xs text-muted-foreground">Valor Total</div>
                 </div>
                 <div className="text-center p-3 bg-info/10 rounded-lg">
-                  <div className="text-2xl font-bold text-info">96%</div>
+                  <div className="text-2xl font-bold text-info">0%</div>
                   <div className="text-xs text-muted-foreground">Tasa Renovación</div>
                 </div>
               </CardContent>
@@ -235,12 +186,7 @@ export default function ContractsPage() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {[
-                    { name: "Contrato Residencial Estándar", usage: 23 },
-                    { name: "Contrato Mantenimiento Anual", usage: 18 },
-                    { name: "Garantía Sistema Solar", usage: 31 },
-                    { name: "Contrato Industrial", usage: 12 }
-                  ].map((template, index) => (
+                  {[].map((template, index) => (
                     <div key={index} className="p-3 border rounded-lg text-center">
                       <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mx-auto mb-2">
                         <FileText className="w-4 h-4 text-primary" />

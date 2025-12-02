@@ -8,74 +8,11 @@ import { Badge } from "@/components/ui/badge"
 import { MessageCircle, Phone, Clock, User, Zap, CheckCircle, Send, MessageSquare } from "lucide-react"
 
 export default function WhatsAppPage() {
-  const whatsappContacts = [
-    {
-      name: "Atención al Cliente",
-      number: "+56 9 8765 4321",
-      type: "Ventas y Cotizaciones",
-      status: "online",
-      response: "< 5 min",
-      hours: "9:00 - 18:00"
-    },
-    {
-      name: "Soporte Técnico",
-      number: "+56 9 8765 4322",
-      type: "Consultas Técnicas",
-      status: "online",
-      response: "< 15 min",
-      hours: "8:00 - 20:00"
-    },
-    {
-      name: "Emergencias",
-      number: "+56 9 8765 4323",
-      type: "Urgencias 24/7",
-      status: "online",
-      response: "< 2 min",
-      hours: "24/7"
-    },
-    {
-      name: "Facturación",
-      number: "+56 9 8765 4324",
-      type: "Pagos y Facturas",
-      status: "away",
-      response: "< 30 min",
-      hours: "9:00 - 17:00"
-    }
-  ]
+  const whatsappContacts: never[] = []
 
-  const commonQueries = [
-    {
-      category: "Cotizaciones",
-      questions: [
-        "¿Pueden hacer una cotización para instalación eléctrica residencial?",
-        "¿Cuál es el costo aproximado de un sistema solar?",
-        "¿Trabajan con proyectos comerciales?"
-      ]
-    },
-    {
-      category: "Técnico",
-      questions: [
-        "¿Qué tipo de cable recomiendan para exteriores?",
-        "¿Cómo dimensionar un tablero eléctrico?",
-        "¿Qué normas aplican para instalaciones industriales?"
-      ]
-    },
-    {
-      category: "Servicio",
-      questions: [
-        "¿Cuál es el tiempo de respuesta para reparaciones?",
-        "¿Ofrecen mantenimiento preventivo?",
-        "¿Trabajan fines de semana?"
-      ]
-    }
-  ]
+  const commonQueries: never[] = []
 
-  const recentConversations = [
-    { client: "María González", topic: "Cotización sistema solar", time: "Hace 2 min", status: "active" },
-    { client: "Carlos Rodríguez", topic: "Reparación urgencia", time: "Hace 15 min", status: "waiting" },
-    { client: "Ana Martínez", topic: "Consulta técnica", time: "Hace 1 hora", status: "closed" },
-    { client: "Pedro Sánchez", topic: "Cotización industrial", time: "Hace 2 horas", status: "active" }
-  ]
+  const recentConversations: never[] = []
 
   return (
     <div className="min-h-screen bg-background">

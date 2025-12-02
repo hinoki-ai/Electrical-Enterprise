@@ -13,56 +13,15 @@ import { Package, Search, Plus, ShoppingCart, Truck, AlertTriangle, CheckCircle,
 export default function MaterialsPage() {
   const [categoryFilter, setCategoryFilter] = useState("all")
   const materialCategories = [
-    { icon: Package, label: "Cableado y Conductores", count: 89, color: "text-primary" },
-    { icon: CheckCircle, label: "Protección y Seguridad", count: 45, color: "text-warning" },
-    { icon: Truck, label: "Equipos y Paneles", count: 67, color: "text-info" },
-    { icon: Tag, label: "Accesorios", count: 123, color: "text-success" }
+    { icon: Package, label: "Cableado y Conductores", count: 0, color: "text-primary" },
+    { icon: CheckCircle, label: "Protección y Seguridad", count: 0, color: "text-warning" },
+    { icon: Truck, label: "Equipos y Paneles", count: 0, color: "text-info" },
+    { icon: Tag, label: "Accesorios", count: 0, color: "text-success" }
   ]
 
-  const featuredMaterials = [
-    {
-      name: "Cable THW 2.5mm²",
-      category: "Cableado",
-      stock: 150,
-      minStock: 50,
-      price: "$2,850/m",
-      supplier: "ElectroChile",
-      lastPurchase: "Hace 3 días"
-    },
-    {
-      name: "Interruptor Termomagnético 20A",
-      category: "Protección",
-      stock: 25,
-      minStock: 10,
-      price: "$15,500",
-      supplier: "Siemens",
-      lastPurchase: "Hace 1 semana"
-    },
-    {
-      name: "Panel Solar 400W Monocristalino",
-      category: "Energía Solar",
-      stock: 8,
-      minStock: 5,
-      price: "$89,000",
-      supplier: "Canadian Solar",
-      lastPurchase: "Hace 2 semanas"
-    },
-    {
-      name: "Toma Corriente Doble IP44",
-      category: "Accesorios",
-      stock: 75,
-      minStock: 20,
-      price: "$1,200",
-      supplier: "Legrand",
-      lastPurchase: "Hace 5 días"
-    }
-  ]
+  const featuredMaterials: never[] = []
 
-  const lowStockAlerts = [
-    { material: "Fusible 10A", current: 5, minimum: 15, status: "critical" },
-    { material: "Conector MC4", current: 12, minimum: 20, status: "warning" },
-    { material: "Cable UTP Cat6", current: 8, minimum: 25, status: "warning" }
-  ]
+  const lowStockAlerts: never[] = []
 
   return (
     <div className="min-h-screen bg-background">

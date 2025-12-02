@@ -11,68 +11,13 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 export default function TemplatesPage() {
   const templateCategories = [
-    { icon: Home, label: "Residencial", count: 8, color: "text-primary" },
-    { icon: Building2, label: "Comercial", count: 12, color: "text-info" },
-    { icon: Factory, label: "Industrial", count: 6, color: "text-warning" },
-    { icon: Zap, label: "Especializado", count: 4, color: "text-success" }
+    { icon: Home, label: "Residencial", count: 0, color: "text-primary" },
+    { icon: Building2, label: "Comercial", count: 0, color: "text-info" },
+    { icon: Factory, label: "Industrial", count: 0, color: "text-warning" },
+    { icon: Zap, label: "Especializado", count: 0, color: "text-success" }
   ]
 
-  const templates = [
-    {
-      id: 1,
-      name: "Instalación Residencial Básica",
-      category: "Residencial",
-      description: "Instalación completa para vivienda de 120m²",
-      lastUsed: "Hace 2 días",
-      isFavorite: true,
-      usageCount: 15
-    },
-    {
-      id: 2,
-      name: "Sistema Solar Residencial",
-      category: "Residencial",
-      description: "Paneles solares + batería para casa",
-      lastUsed: "Hace 1 semana",
-      isFavorite: true,
-      usageCount: 8
-    },
-    {
-      id: 3,
-      name: "Oficina Corporativa",
-      category: "Comercial",
-      description: "Instalación para edificio de oficinas",
-      lastUsed: "Hace 3 días",
-      isFavorite: false,
-      usageCount: 22
-    },
-    {
-      id: 4,
-      name: "Centro Comercial",
-      category: "Comercial",
-      description: "Sistema eléctrico para mall comercial",
-      lastUsed: "Hace 1 mes",
-      isFavorite: false,
-      usageCount: 5
-    },
-    {
-      id: 5,
-      name: "Planta Industrial",
-      category: "Industrial",
-      description: "Instalación industrial de media tensión",
-      lastUsed: "Hace 2 semanas",
-      isFavorite: true,
-      usageCount: 12
-    },
-    {
-      id: 6,
-      name: "Subestación Eléctrica",
-      category: "Industrial",
-      description: "Proyecto de subestación de distribución",
-      lastUsed: "Hace 1 mes",
-      isFavorite: false,
-      usageCount: 3
-    }
-  ]
+  const templates: never[] = []
 
   return (
     <div className="min-h-screen bg-background">
@@ -133,15 +78,15 @@ export default function TemplatesPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="text-center p-3 bg-primary/10 rounded-lg">
-                  <div className="text-2xl font-bold text-primary">30</div>
+                  <div className="text-2xl font-bold text-primary">0</div>
                   <div className="text-xs text-muted-foreground">Total Plantillas</div>
                 </div>
                 <div className="text-center p-3 bg-success/10 rounded-lg">
-                  <div className="text-2xl font-bold text-success">156</div>
+                  <div className="text-2xl font-bold text-success">0</div>
                   <div className="text-xs text-muted-foreground">Usos Totales</div>
                 </div>
                 <div className="text-center p-3 bg-info/10 rounded-lg">
-                  <div className="text-2xl font-bold text-info">85%</div>
+                  <div className="text-2xl font-bold text-info">0%</div>
                   <div className="text-xs text-muted-foreground">Tasa de Éxito</div>
                 </div>
               </CardContent>
