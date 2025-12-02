@@ -3,6 +3,7 @@
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/components/auth-context"
+import { useDivineParsing } from "@/components/language/ChunkedLanguageProvider"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { QuickQuote } from "@/components/dashboard/quick-quote"
 import { QuotesQueue } from "@/components/dashboard/quotes-queue"
@@ -14,6 +15,7 @@ import { MobileNav } from "@/components/dashboard/mobile-nav"
 
 export default function Dashboard() {
   const { isAuthenticated, isInitializing, user } = useAuth()
+  const { t } = useDivineParsing(["dashboard"])
   const router = useRouter()
 
   // Redirect unauthenticated users to homepage
@@ -29,7 +31,7 @@ export default function Dashboard() {
       <div className="flex items-center justify-center h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <h1 className="text-xl font-semibold mb-2">Cargando...</h1>
+          <h1 className="text-xl font-semibold mb-2">{t("loading")}</h1>
         </div>
       </div>
     )

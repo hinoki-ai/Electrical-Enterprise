@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button"
 import { Plus, Search, Filter, Users } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useDivineParsing } from "@/components/language/ChunkedLanguageProvider"
 
 export default function ClientsPage() {
+  const { t } = useDivineParsing(["clients"])
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader />
@@ -17,12 +19,12 @@ export default function ClientsPage() {
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-2xl font-bold text-foreground mb-2">Clientes</h1>
-              <p className="text-muted-foreground">Gestiona tu cartera de clientes y contactos</p>
+              <h1 className="text-2xl font-bold text-foreground mb-2">{t("page.title")}</h1>
+              <p className="text-muted-foreground">{t("page.description")}</p>
             </div>
             <Button className="gap-2">
               <Plus className="w-4 h-4" />
-              Nuevo Cliente
+{t("new_client")}
             </Button>
           </div>
 
@@ -31,13 +33,13 @@ export default function ClientsPage() {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
-                placeholder="Buscar por nombre, empresa o contacto..."
+                placeholder={t("search.placeholder")}
                 className="pl-9"
               />
             </div>
             <Button variant="outline" className="gap-2">
               <Filter className="w-4 h-4" />
-              Filtros
+{t("filters")}
             </Button>
           </div>
         </div>
@@ -56,33 +58,33 @@ export default function ClientsPage() {
                   <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                     <Users className="w-4 h-4 text-primary" />
                   </div>
-                  Estadísticas
+{t("statistics")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center p-3 bg-muted/50 rounded-lg">
                     <div className="text-2xl font-bold text-primary">24</div>
-                    <div className="text-xs text-muted-foreground">Total Clientes</div>
+                    <div className="text-xs text-muted-foreground">{t("total_clients")}</div>
                   </div>
                   <div className="text-center p-3 bg-success/10 rounded-lg">
                     <div className="text-2xl font-bold text-success">18</div>
-                    <div className="text-xs text-muted-foreground">Activos</div>
+                    <div className="text-xs text-muted-foreground">{t("active")}</div>
                   </div>
                   <div className="text-center p-3 bg-warning/10 rounded-lg">
                     <div className="text-2xl font-bold text-warning">4</div>
-                    <div className="text-xs text-muted-foreground">Pendientes</div>
+                    <div className="text-xs text-muted-foreground">{t("pending")}</div>
                   </div>
                   <div className="text-center p-3 bg-info/10 rounded-lg">
                     <div className="text-2xl font-bold text-info">2</div>
-                    <div className="text-xs text-muted-foreground">Nuevos</div>
+                    <div className="text-xs text-muted-foreground">{t("new")}</div>
                   </div>
                 </div>
 
                 <div className="pt-4 border-t">
-                  <div className="text-sm font-medium mb-2">Valor Total de Proyectos</div>
+                  <div className="text-sm font-medium mb-2">{t("total_project_value")}</div>
                   <div className="text-xl font-bold">$2,450,000</div>
-                  <div className="text-xs text-muted-foreground">+12% vs mes anterior</div>
+                  <div className="text-xs text-muted-foreground">{t("vs_last_month")}</div>
                 </div>
               </CardContent>
             </Card>
@@ -90,20 +92,20 @@ export default function ClientsPage() {
             {/* Quick Actions */}
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Acciones Rápidas</CardTitle>
+                <CardTitle className="text-lg">{t("quick_actions")}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
                 <Button variant="outline" className="w-full justify-start gap-2">
                   <Plus className="w-4 h-4" />
-                  Agregar Cliente
+{t("add_client")}
                 </Button>
                 <Button variant="outline" className="w-full justify-start gap-2">
                   <Users className="w-4 h-4" />
-                  Importar Contactos
+{t("import_contacts")}
                 </Button>
                 <Button variant="outline" className="w-full justify-start gap-2">
                   <Search className="w-4 h-4" />
-                  Búsqueda Avanzada
+{t("advanced_search")}
                 </Button>
               </CardContent>
             </Card>

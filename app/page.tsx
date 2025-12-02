@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/components/auth-context"
+import { useDivineParsing } from "@/components/language/ChunkedLanguageProvider"
 import { HomepageMobile } from "@/components/homepage-mobile"
 import { HomepageDesktop } from "@/components/homepage-desktop"
 import { LoginModal } from "@/components/login-modal"
@@ -11,6 +12,7 @@ import { useIsMobile } from "@/hooks/use-mobile"
 
 export default function HomePage() {
   const { isAuthenticated, isInitializing, user, login } = useAuth()
+  const { t } = useDivineParsing(["common"])
   const router = useRouter()
   const isMobile = useIsMobile()
   const [showLogin, setShowLogin] = useState(false)
@@ -38,7 +40,7 @@ export default function HomePage() {
       <div className="flex items-center justify-center h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <h1 className="text-xl font-semibold mb-2">Cargando...</h1>
+          <h1 className="text-xl font-semibold mb-2">{t("loading")}</h1>
         </div>
       </div>
     )

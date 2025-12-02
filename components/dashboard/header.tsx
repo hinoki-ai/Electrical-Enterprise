@@ -19,41 +19,43 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/components/auth-context"
+import { useDivineParsing } from "@/components/language/ChunkedLanguageProvider"
 
 const mainNavItems = [
-  { icon: Home, label: "Dashboard", href: "/dashboard" },
-  { icon: Plus, label: "Nueva Cotización", href: "/quote/new" },
-  { icon: ListTodo, label: "Cotizaciones", href: "/quotes" },
-  { icon: Calculator, label: "Calculadora", href: "/calculator" },
-  { icon: Calculator, label: "Calculadora Avanzada", href: "/advanced-calculator" },
-  { icon: Users, label: "Clientes", href: "/clients" },
-  { icon: BarChart3, label: "Reportes", href: "/reports" },
+  { icon: Home, labelKey: "nav.home", href: "/dashboard" },
+  { icon: Plus, labelKey: "nav.new_quote", href: "/quote/new" },
+  { icon: ListTodo, labelKey: "nav.quotes", href: "/quotes" },
+  { icon: Calculator, labelKey: "nav.calculator", href: "/calculator" },
+  { icon: Calculator, labelKey: "nav.advanced_calculator", href: "/advanced-calculator" },
+  { icon: Users, labelKey: "nav.clients", href: "/clients" },
+  { icon: BarChart3, labelKey: "nav.reports", href: "/reports" },
 ]
 
 const resourceNavItems = [
-  { icon: BookOpen, label: "Guía de Precios", href: "/resources/price-guide" },
-  { icon: Package, label: "Materiales", href: "/resources/materials" },
-  { icon: FileCheck, label: "Contratos", href: "/resources/contracts" },
-  { icon: FileText, label: "Regulaciones", href: "/resources/regulations" },
+  { icon: BookOpen, labelKey: "nav.price_guide", href: "/resources/price-guide" },
+  { icon: Package, labelKey: "nav.materials", href: "/resources/materials" },
+  { icon: FileCheck, labelKey: "nav.contracts", href: "/resources/contracts" },
+  { icon: FileText, labelKey: "nav.regulations", href: "/resources/regulations" },
 ]
 
 const supportNavItems = [
-  { icon: AlertCircle, label: "Emergencia", href: "/support/emergency" },
-  { icon: MessageCircle, label: "WhatsApp", href: "/support/whatsapp" },
-  { icon: Mail, label: "Email", href: "/support/email" },
-  { icon: HelpCircle, label: "Ayuda", href: "/support/help" },
+  { icon: AlertCircle, labelKey: "nav.emergency", href: "/support/emergency" },
+  { icon: MessageCircle, labelKey: "nav.whatsapp", href: "/support/whatsapp" },
+  { icon: Mail, labelKey: "nav.email", href: "/support/email" },
+  { icon: HelpCircle, labelKey: "nav.help", href: "/support/help" },
 ]
 
 const otherNavItems = [
-  { icon: BookTemplate, label: "Plantillas", href: "/templates" },
-  { icon: Database, label: "Respaldo", href: "/backup" },
-  { icon: User, label: "Perfil", href: "/profile" },
-  { icon: BellRing, label: "Notificaciones", href: "/notifications" },
+  { icon: BookTemplate, labelKey: "nav.templates", href: "/templates" },
+  { icon: Database, labelKey: "nav.backup", href: "/backup" },
+  { icon: User, labelKey: "nav.profile", href: "/profile" },
+  { icon: BellRing, labelKey: "nav.notifications", href: "/notifications" },
 ]
 
 export function DashboardHeader() {
   const pathname = usePathname()
   const { user } = useAuth()
+  const { t } = useDivineParsing(["dashboard"])
 
   return (
     <header className="sticky top-0 z-50 bg-primary text-primary-foreground shadow-lg">
@@ -81,7 +83,7 @@ export function DashboardHeader() {
                   : "text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-primary-foreground"
               )}
             >
-              Inicio
+              {t("nav.home")}
             </Link>
             <Link
               href="/quotes"
@@ -92,7 +94,7 @@ export function DashboardHeader() {
                   : "text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-primary-foreground"
               )}
             >
-              Cotizaciones
+              {t("nav.quotes")}
             </Link>
             <Link
               href="/calculator"
@@ -103,7 +105,7 @@ export function DashboardHeader() {
                   : "text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-primary-foreground"
               )}
             >
-              Calculadora
+              {t("nav.calculator")}
             </Link>
             <Link
               href="/clients"
@@ -114,20 +116,20 @@ export function DashboardHeader() {
                   : "text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-primary-foreground"
               )}
             >
-              Clientes
+              {t("nav.clients")}
             </Link>
             <DropdownMenu>
               <DropdownMenuTrigger className="px-3 py-2 rounded-md text-sm font-medium text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-primary-foreground transition-colors outline-none">
-                Más
+                {t("nav.more")}
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>Navegación</DropdownMenuLabel>
+                <DropdownMenuLabel>{t("nav.navigation")}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {mainNavItems.map((item) => (
                   <DropdownMenuItem key={item.href} asChild>
                     <Link href={item.href} className="flex items-center gap-2 cursor-pointer">
                       <item.icon className="w-4 h-4" />
-                      {item.label}
+                      {t(item.labelKey)}
                     </Link>
                   </DropdownMenuItem>
                 ))}
@@ -135,14 +137,14 @@ export function DashboardHeader() {
                 <DropdownMenuSub>
                   <DropdownMenuSubTrigger>
                     <Package className="w-4 h-4 mr-2" />
-                    Recursos
+                    {t("nav.resources")}
                   </DropdownMenuSubTrigger>
                   <DropdownMenuSubContent>
                     {resourceNavItems.map((item) => (
                       <DropdownMenuItem key={item.href} asChild>
                         <Link href={item.href} className="flex items-center gap-2 cursor-pointer">
                           <item.icon className="w-4 h-4" />
-                          {item.label}
+                          {t(item.labelKey)}
                         </Link>
                       </DropdownMenuItem>
                     ))}
@@ -151,14 +153,14 @@ export function DashboardHeader() {
                 <DropdownMenuSub>
                   <DropdownMenuSubTrigger>
                     <HelpCircle className="w-4 h-4 mr-2" />
-                    Soporte
+                    {t("nav.support")}
                   </DropdownMenuSubTrigger>
                   <DropdownMenuSubContent>
                     {supportNavItems.map((item) => (
                       <DropdownMenuItem key={item.href} asChild>
                         <Link href={item.href} className="flex items-center gap-2 cursor-pointer">
                           <item.icon className="w-4 h-4" />
-                          {item.label}
+                          {t(item.labelKey)}
                         </Link>
                       </DropdownMenuItem>
                     ))}
@@ -169,7 +171,7 @@ export function DashboardHeader() {
                   <DropdownMenuItem key={item.href} asChild>
                     <Link href={item.href} className="flex items-center gap-2 cursor-pointer">
                       <item.icon className="w-4 h-4" />
-                      {item.label}
+                      {t(item.labelKey)}
                     </Link>
                   </DropdownMenuItem>
                 ))}
@@ -183,7 +185,7 @@ export function DashboardHeader() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary-foreground/50" />
               <Input
                 type="search"
-                placeholder="Buscar cliente, proyecto, cotización..."
+                placeholder={t("search.placeholder")}
                 className="w-full pl-9 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50 focus:bg-primary-foreground/20"
               />
             </div>
@@ -221,13 +223,13 @@ export function DashboardHeader() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>Navegación</DropdownMenuLabel>
+                <DropdownMenuLabel>{t("nav.navigation")}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {mainNavItems.map((item) => (
                   <DropdownMenuItem key={item.href} asChild>
                     <Link href={item.href} className="flex items-center gap-2 cursor-pointer">
                       <item.icon className="w-4 h-4" />
-                      {item.label}
+                      {t(item.labelKey)}
                     </Link>
                   </DropdownMenuItem>
                 ))}
@@ -235,14 +237,14 @@ export function DashboardHeader() {
                 <DropdownMenuSub>
                   <DropdownMenuSubTrigger>
                     <Package className="w-4 h-4 mr-2" />
-                    Recursos
+                    {t("nav.resources")}
                   </DropdownMenuSubTrigger>
                   <DropdownMenuSubContent>
                     {resourceNavItems.map((item) => (
                       <DropdownMenuItem key={item.href} asChild>
                         <Link href={item.href} className="flex items-center gap-2 cursor-pointer">
                           <item.icon className="w-4 h-4" />
-                          {item.label}
+                          {t(item.labelKey)}
                         </Link>
                       </DropdownMenuItem>
                     ))}
@@ -251,14 +253,14 @@ export function DashboardHeader() {
                 <DropdownMenuSub>
                   <DropdownMenuSubTrigger>
                     <HelpCircle className="w-4 h-4 mr-2" />
-                    Soporte
+                    {t("nav.support")}
                   </DropdownMenuSubTrigger>
                   <DropdownMenuSubContent>
                     {supportNavItems.map((item) => (
                       <DropdownMenuItem key={item.href} asChild>
                         <Link href={item.href} className="flex items-center gap-2 cursor-pointer">
                           <item.icon className="w-4 h-4" />
-                          {item.label}
+                          {t(item.labelKey)}
                         </Link>
                       </DropdownMenuItem>
                     ))}
@@ -269,7 +271,7 @@ export function DashboardHeader() {
                   <DropdownMenuItem key={item.href} asChild>
                     <Link href={item.href} className="flex items-center gap-2 cursor-pointer">
                       <item.icon className="w-4 h-4" />
-                      {item.label}
+                      {t(item.labelKey)}
                     </Link>
                   </DropdownMenuItem>
                 ))}

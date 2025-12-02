@@ -1,9 +1,11 @@
 "use client"
 
-import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { Area, AreaChart, XAxis, YAxis } from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChartContainer, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart"
 import { TrendingUp } from "lucide-react"
 import { formatCLP } from "@/lib/utils"
+import { validateRevenueData, formatChartAxis, getEmptyStateMessage } from "@/lib/chart-utils"
 
 interface RevenueData {
   month: string
@@ -17,11 +19,42 @@ interface AreaChartInteractiveProps {
   description?: string
 }
 
+const chartConfig = {
+  revenue: {
+    label: "Ingresos",
+    color: "var(--chart-1)",
+  },
+  quotes: {
+    label: "Cotizaciones",
+    color: "var(--chart-2)",
+  },
+} satisfies ChartConfig
+
 export function AreaChartInteractive({
   data,
   title = "Ingresos Mensuales",
   description = "Tendencia de ingresos de los últimos 6 meses"
 }: AreaChartInteractiveProps) {
+  // Validate data
+  if (!validateRevenueData(data)) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <TrendingUp className="w-4 h-4 text-primary" />
+            {title}
+          </CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </CardHeader>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-center h-[400px] text-muted-foreground">
+            {getEmptyStateMessage('area')}
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
   const totalRevenue = data.reduce((sum, item) => sum + item.revenue, 0)
   const averageRevenue = totalRevenue / data.length
   const lastMonth = data[data.length - 1]?.revenue || 0
@@ -45,7 +78,7 @@ export function AreaChartInteractive({
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6">
-        <ResponsiveContainer width="100%" height={450}>
+        <ChartContainer config={chartConfig} className="h-[350px] sm:h-[400px] w-full">
           <AreaChart
             data={data}
             margin={{
@@ -72,44 +105,14 @@ export function AreaChartInteractive({
               axisLine={false}
               tickLine={false}
               tick={{ fontSize: 13, fill: 'hsl(var(--muted-foreground))', fontWeight: 500 }}
-              tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
+              tickFormatter={(value) => formatChartAxis(value, 1000000)}
             />
-            <Tooltip
-              content={({ active, payload, label }) => {
-                if (active && payload && payload.length) {
-                  const data = payload[0].payload as RevenueData
-                  return (
-                    <div className="rounded-lg border bg-background/95 backdrop-blur-sm p-3 shadow-lg">
-                      <div className="grid grid-cols-2 gap-3">
-                        <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
-                            Mes
-                          </span>
-                          <span className="font-bold text-foreground">
-                            {label}
-                          </span>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
-                            Ingresos
-                          </span>
-                          <span className="font-bold text-chart-1">
-                            {formatCLP(data.revenue)}
-                          </span>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
-                            Cotizaciones
-                          </span>
-                          <span className="font-bold text-foreground">
-                            {data.quotes}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  )
+            <ChartTooltipContent
+              formatter={(value, name) => {
+                if (name === 'revenue') {
+                  return [formatCLP(value as number), 'Ingresos']
                 }
-                return null
+                return [value.toLocaleString(), 'Cotizaciones']
               }}
             />
             <Area
@@ -121,7 +124,7 @@ export function AreaChartInteractive({
               strokeWidth={3}
             />
           </AreaChart>
-        </ResponsiveContainer>
+        </ChartContainer>
       </CardContent>
     </Card>
   )

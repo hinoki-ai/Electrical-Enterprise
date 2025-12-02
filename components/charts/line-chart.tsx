@@ -1,8 +1,10 @@
 "use client"
 
-import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { Line, LineChart, XAxis, YAxis } from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChartContainer, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart"
 import { FileText } from "lucide-react"
+import { validateQuoteTrendData, getEmptyStateMessage } from "@/lib/chart-utils"
 
 interface QuoteTrendData {
   month: string
@@ -17,11 +19,46 @@ interface LineChartProps {
   description?: string
 }
 
+const chartConfig = {
+  quotes: {
+    label: "Cotizaciones",
+    color: "var(--chart-1)",
+  },
+  approved: {
+    label: "Aprobadas",
+    color: "var(--chart-3)",
+  },
+  sent: {
+    label: "Enviadas",
+    color: "var(--chart-4)",
+  },
+} satisfies ChartConfig
+
 export function LineChartComponent({
   data,
   title = "Tendencia de Cotizaciones",
   description = "Evolución mensual de cotizaciones enviadas y aprobadas"
 }: LineChartProps) {
+  // Validate data
+  if (!validateQuoteTrendData(data)) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="w-4 h-4 text-primary" />
+            {title}
+          </CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </CardHeader>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-center h-[400px] text-muted-foreground">
+            {getEmptyStateMessage('line')}
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
   const totalQuotes = data.reduce((sum, item) => sum + item.quotes, 0)
   const totalApproved = data.reduce((sum, item) => sum + item.approved, 0)
   const conversionRate = totalQuotes > 0 ? (totalApproved / totalQuotes * 100).toFixed(1) : "0"
@@ -41,7 +78,7 @@ export function LineChartComponent({
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6">
-        <ResponsiveContainer width="100%" height={450}>
+        <ChartContainer config={chartConfig} className="h-[350px] sm:h-[400px] w-full">
           <LineChart
             data={data}
             margin={{
@@ -62,52 +99,7 @@ export function LineChartComponent({
               tickLine={false}
               tick={{ fontSize: 13, fill: 'hsl(var(--muted-foreground))', fontWeight: 500 }}
             />
-            <Tooltip
-              content={({ active, payload, label }) => {
-                if (active && payload && payload.length) {
-                  const data = payload[0].payload as QuoteTrendData
-                  return (
-                    <div className="rounded-lg border bg-background/95 backdrop-blur-sm p-3 shadow-lg">
-                      <div className="grid grid-cols-2 gap-3">
-                        <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
-                            Mes
-                          </span>
-                          <span className="font-bold text-foreground">
-                            {label}
-                          </span>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
-                            Enviadas
-                          </span>
-                          <span className="font-bold text-chart-1">
-                            {data.quotes}
-                          </span>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
-                            Aprobadas
-                          </span>
-                          <span className="font-bold text-success">
-                            {data.approved}
-                          </span>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
-                            Conversión
-                          </span>
-                          <span className="font-bold text-foreground">
-                            {data.quotes > 0 ? ((data.approved / data.quotes) * 100).toFixed(1) : 0}%
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  )
-                }
-                return null
-              }}
-            />
+            <ChartTooltipContent />
             <Line
               type="monotone"
               dataKey="quotes"
@@ -134,7 +126,7 @@ export function LineChartComponent({
               activeDot={{ r: 6 }}
             />
           </LineChart>
-        </ResponsiveContainer>
+        </ChartContainer>
       </CardContent>
     </Card>
   )

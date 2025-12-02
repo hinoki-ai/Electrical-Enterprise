@@ -1,8 +1,10 @@
 "use client"
 
-import { RadialBar, RadialBarChart, ResponsiveContainer, Tooltip } from "recharts"
+import { RadialBar, RadialBarChart } from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChartContainer, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart"
 import { Activity } from "lucide-react"
+import { validateProgressData, getEmptyStateMessage } from "@/lib/chart-utils"
 
 interface ProgressData {
   name: string
@@ -16,11 +18,37 @@ interface RadialChartProps {
   description?: string
 }
 
+const chartConfig = {
+  progress: {
+    label: "Progreso",
+  },
+} satisfies ChartConfig
+
 export function RadialChartComponent({
   data,
   title = "Progreso General",
   description = "Estado de avance de proyectos y objetivos"
 }: RadialChartProps) {
+  // Validate data
+  if (!validateProgressData(data)) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Activity className="w-4 h-4 text-primary" />
+            {title}
+          </CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </CardHeader>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-center h-[400px] text-muted-foreground">
+            {getEmptyStateMessage('radial')}
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -33,7 +61,7 @@ export function RadialChartComponent({
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6">
-        <ResponsiveContainer width="100%" height={450}>
+        <ChartContainer config={chartConfig} className="h-[350px] sm:h-[400px] w-full">
           <RadialBarChart
             cx="50%"
             cy="50%"
@@ -50,38 +78,11 @@ export function RadialChartComponent({
               clockWise
               dataKey="value"
             />
-            <Tooltip
-              content={({ active, payload }) => {
-                if (active && payload && payload.length) {
-                  const data = payload[0].payload as ProgressData
-                  return (
-                    <div className="rounded-lg border bg-background/95 backdrop-blur-sm p-3 shadow-lg">
-                      <div className="grid grid-cols-1 gap-3">
-                        <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
-                            Categoría
-                          </span>
-                          <span className="font-bold text-foreground whitespace-pre-line">
-                            {data.name}
-                          </span>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
-                            Progreso
-                          </span>
-                          <span className="font-bold" style={{ color: data.fill }}>
-                            {data.value}%
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  )
-                }
-                return null
-              }}
+            <ChartTooltipContent
+              formatter={(value, name) => [`${value}%`, name]}
             />
           </RadialBarChart>
-        </ResponsiveContainer>
+        </ChartContainer>
       </CardContent>
     </Card>
   )

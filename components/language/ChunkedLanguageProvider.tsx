@@ -53,8 +53,8 @@ const loadTranslation = async (
     }
 
     // Dynamic import
-    const module = await import(`../../locales/${language}/${namespace}.json`);
-    const translations = module.default || module;
+    const translationModule = await import(`../../locales/${language}/${namespace}.json`);
+    const translations = translationModule.default || translationModule;
     
     // Cache it
     translationRegistry[key] = translations;

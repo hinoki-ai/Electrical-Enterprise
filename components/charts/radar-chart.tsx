@@ -1,8 +1,10 @@
 "use client"
 
-import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip } from "recharts"
+import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChartContainer, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart"
 import { Target } from "lucide-react"
+import { validatePerformanceData, getEmptyStateMessage } from "@/lib/chart-utils"
 
 interface PerformanceData {
   metric: string
@@ -17,11 +19,42 @@ interface RadarChartProps {
   description?: string
 }
 
+const chartConfig = {
+  current: {
+    label: "Actual",
+    color: "var(--chart-1)",
+  },
+  target: {
+    label: "Objetivo",
+    color: "var(--chart-3)",
+  },
+} satisfies ChartConfig
+
 export function RadarChartComponent({
   data,
   title = "Métricas de Rendimiento",
   description = "Comparación entre valores actuales y objetivos"
 }: RadarChartProps) {
+  // Validate data
+  if (!validatePerformanceData(data)) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Target className="w-4 h-4 text-primary" />
+            {title}
+          </CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </CardHeader>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-center h-[400px] text-muted-foreground">
+            {getEmptyStateMessage('radar')}
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -34,7 +67,7 @@ export function RadarChartComponent({
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6">
-        <ResponsiveContainer width="100%" height={450}>
+        <ChartContainer config={chartConfig} className="h-[350px] sm:h-[400px] w-full">
           <RadarChart data={data} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
             <PolarGrid stroke="hsl(var(--border))" />
             <PolarAngleAxis
@@ -46,43 +79,8 @@ export function RadarChartComponent({
               domain={[0, 100]}
               tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
             />
-            <Tooltip
-              content={({ active, payload, label }) => {
-                if (active && payload && payload.length) {
-                  const data = payload[0].payload as PerformanceData
-                  return (
-                    <div className="rounded-lg border bg-background/95 backdrop-blur-sm p-3 shadow-lg">
-                      <div className="grid grid-cols-1 gap-3">
-                        <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
-                            Métrica
-                          </span>
-                          <span className="font-bold text-foreground">
-                            {label}
-                          </span>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
-                            Actual
-                          </span>
-                          <span className="font-bold text-chart-1">
-                            {data.current}%
-                          </span>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
-                            Objetivo
-                          </span>
-                          <span className="font-bold text-success">
-                            {data.target}%
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  )
-                }
-                return null
-              }}
+            <ChartTooltipContent
+              formatter={(value, name) => [`${value}%`, name]}
             />
             <Radar
               name="Actual"
@@ -102,7 +100,7 @@ export function RadarChartComponent({
               strokeDasharray="5 5"
             />
           </RadarChart>
-        </ResponsiveContainer>
+        </ChartContainer>
       </CardContent>
     </Card>
   )

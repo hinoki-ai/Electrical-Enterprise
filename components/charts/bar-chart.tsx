@@ -1,9 +1,11 @@
 "use client"
 
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, XAxis, YAxis } from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChartContainer, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart"
 import { Building2 } from "lucide-react"
 import { formatCLP } from "@/lib/utils"
+import { validateProjectData, formatChartAxis, getEmptyStateMessage } from "@/lib/chart-utils"
 
 interface ProjectData {
   type: string
@@ -18,11 +20,38 @@ interface BarChartProps {
   description?: string
 }
 
+const chartConfig = {
+  value: {
+    label: "Valor",
+    color: "var(--chart-2)",
+  },
+} satisfies ChartConfig
+
 export function BarChartComponent({
   data,
   title = "Proyectos por Tipo",
   description = "Distribución de valor y cantidad por tipo de proyecto"
 }: BarChartProps) {
+  // Validate data
+  if (!validateProjectData(data)) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Building2 className="w-4 h-4 text-primary" />
+            {title}
+          </CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </CardHeader>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-center h-[400px] text-muted-foreground">
+            {getEmptyStateMessage('bar')}
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -35,7 +64,7 @@ export function BarChartComponent({
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6">
-        <ResponsiveContainer width="100%" height={450}>
+        <ChartContainer config={chartConfig} className="h-[350px] sm:h-[400px] w-full">
           <BarChart
             data={data}
             margin={{
@@ -61,44 +90,18 @@ export function BarChartComponent({
               axisLine={false}
               tickLine={false}
               tick={{ fontSize: 13, fill: 'hsl(var(--muted-foreground))', fontWeight: 500 }}
-              tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
+              tickFormatter={(value) => formatChartAxis(value, 1000000)}
             />
-            <Tooltip
-              content={({ active, payload, label }) => {
-                if (active && payload && payload.length) {
-                  const data = payload[0].payload as ProjectData
-                  return (
-                    <div className="rounded-lg border bg-background/95 backdrop-blur-sm p-3 shadow-lg">
-                      <div className="grid grid-cols-1 gap-3">
-                        <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
-                            Tipo
-                          </span>
-                          <span className="font-bold text-foreground">
-                            {data.label}
-                          </span>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
-                            Valor Total
-                          </span>
-                          <span className="font-bold text-chart-2">
-                            {formatCLP(data.value)}
-                          </span>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
-                            Proyectos
-                          </span>
-                          <span className="font-bold text-foreground">
-                            {data.count}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  )
+            <ChartTooltipContent
+              formatter={(value, name, props) => {
+                const item = props?.payload as ProjectData
+                if (item) {
+                  return [
+                    `${formatCLP(value as number)}\n${item.count} proyectos`,
+                    'Valor Total'
+                  ]
                 }
-                return null
+                return [formatCLP(value as number), 'Valor Total']
               }}
             />
             <Bar
@@ -107,7 +110,7 @@ export function BarChartComponent({
               radius={[8, 8, 0, 0]}
             />
           </BarChart>
-        </ResponsiveContainer>
+        </ChartContainer>
       </CardContent>
     </Card>
   )
