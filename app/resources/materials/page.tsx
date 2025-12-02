@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { MobileNav } from "@/components/dashboard/mobile-nav"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Package, Search, Plus, ShoppingCart, Truck, AlertTriangle, CheckCircle, Tag } from "lucide-react"
 
 export default function MaterialsPage() {
+  const [categoryFilter, setCategoryFilter] = useState("all")
   const materialCategories = [
     { icon: Package, label: "Cableado y Conductores", count: 89, color: "text-primary" },
     { icon: CheckCircle, label: "Protección y Seguridad", count: 45, color: "text-warning" },
@@ -94,9 +96,15 @@ export default function MaterialsPage() {
                 className="pl-9"
               />
             </div>
-            <Select defaultValue="all">
+            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
               <SelectTrigger className="w-48">
-                <SelectValue />
+                <SelectValue>
+                  {categoryFilter === "all" ? "Todas las categorías" :
+                   categoryFilter === "cables" ? "Cableado" :
+                   categoryFilter === "protection" ? "Protección" :
+                   categoryFilter === "solar" ? "Solar" :
+                   categoryFilter === "accessories" ? "Accesorios" : categoryFilter}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Todas las categorías</SelectItem>

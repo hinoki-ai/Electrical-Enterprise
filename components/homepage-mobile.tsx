@@ -10,29 +10,29 @@ interface HomepageMobileProps {
 
 export function HomepageMobile({ onSignupSuccess, onShowLogin }: HomepageMobileProps) {
   return (
-    <div className="h-full overflow-hidden flex flex-col relative bg-black">
+    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6 space-y-8">
       {/* Signup Panel */}
-      <div className="flex-1 flex items-center justify-center py-0 px-2 -mb-2">
-        <div className="w-full max-w-xl">
-          <SignupPanel
-            onSignupSuccess={onSignupSuccess}
-            onShowLogin={onShowLogin}
-          />
-        </div>
+      <div className="w-full max-w-sm flex-shrink-0">
+        <SignupPanel
+          onSignupSuccess={onSignupSuccess}
+          onShowLogin={onShowLogin}
+        />
       </div>
 
-      {/* Video/Placeholder */}
-      <div className="flex-1 flex items-center justify-center py-0 px-2 -mt-4">
-        <div className="w-full h-auto bg-gradient-to-br from-blue-900 to-purple-900 rounded-lg flex items-center justify-center p-8">
-          <div className="text-center text-white">
-            <h2 className="text-xl font-bold mb-4">Electrical Enterprise</h2>
-            <p className="text-base opacity-80">Professional Electrical Services</p>
-            <div className="mt-6 flex justify-center">
-              <div className="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center">
-                <span className="text-xl">⚡</span>
-              </div>
-            </div>
-          </div>
+      {/* Video Animation */}
+      <div className="w-full max-w-sm flex-shrink-0">
+        <div className="aspect-square rounded-2xl shadow-2xl overflow-hidden border border-blue-700/30">
+          <video
+            className="w-full h-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            src="/homepage-animation.mp4"
+            poster="/placeholder.jpg"
+          >
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
     </div>

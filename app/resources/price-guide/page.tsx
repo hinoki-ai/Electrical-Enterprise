@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { MobileNav } from "@/components/dashboard/mobile-nav"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Book, Search, Download, Calculator, TrendingUp, DollarSign, Package, Zap } from "lucide-react"
 
 export default function PriceGuidePage() {
+  const [categoryFilter, setCategoryFilter] = useState("all")
   const priceCategories = [
     { icon: Zap, label: "Materiales Eléctricos", count: 245, color: "text-primary" },
     { icon: Package, label: "Equipos y Herramientas", count: 89, color: "text-info" },
@@ -56,9 +58,14 @@ export default function PriceGuidePage() {
                 className="pl-9"
               />
             </div>
-            <Select defaultValue="all">
+            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
               <SelectTrigger className="w-48">
-                <SelectValue />
+                <SelectValue>
+                  {categoryFilter === "all" ? "Todas las categorías" :
+                   categoryFilter === "materials" ? "Materiales" :
+                   categoryFilter === "labor" ? "Mano de obra" :
+                   categoryFilter === "equipment" ? "Equipos" : categoryFilter}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Todas las categorías</SelectItem>

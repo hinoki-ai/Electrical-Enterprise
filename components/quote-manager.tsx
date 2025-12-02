@@ -81,11 +81,11 @@ export function QuoteManager() {
                   id="quote-name"
                   value={newQuoteName}
                   onChange={(e) => setNewQuoteName(e.target.value)}
-                  placeholder="Enter quote name..."
+                  placeholder="Ingresa el nombre de la cotización..."
                 />
               </div>
               <Button onClick={handleCreateQuote} className="w-full">
-                Create Quote
+                Crear Cotización
               </Button>
             </div>
           </DialogContent>

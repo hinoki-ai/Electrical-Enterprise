@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { BusinessIntelligence } from "@/components/dashboard/business-intelligence"
 import { MobileNav } from "@/components/dashboard/mobile-nav"
@@ -9,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calendar, Download, TrendingUp, DollarSign, FileText, Users, BarChart3, PieChart } from "lucide-react"
 
 export default function ReportsPage() {
+  const [timePeriod, setTimePeriod] = useState("month")
   const reportTypes = [
     {
       icon: DollarSign,
@@ -60,9 +62,14 @@ export default function ReportsPage() {
               <p className="text-muted-foreground">Informes detallados y análisis de tu negocio</p>
             </div>
             <div className="flex gap-2">
-              <Select defaultValue="month">
+              <Select value={timePeriod} onValueChange={setTimePeriod}>
                 <SelectTrigger className="w-32">
-                  <SelectValue />
+                  <SelectValue>
+                    {timePeriod === "week" ? "Esta Semana" :
+                     timePeriod === "month" ? "Este Mes" :
+                     timePeriod === "quarter" ? "Este Trimestre" :
+                     timePeriod === "year" ? "Este Año" : timePeriod}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="week">Esta Semana</SelectItem>

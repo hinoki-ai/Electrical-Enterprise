@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { QuotesQueue } from "@/components/dashboard/quotes-queue"
 import { MobileNav } from "@/components/dashboard/mobile-nav"
@@ -19,10 +20,12 @@ export default function QuotesPage() {
               <h1 className="text-2xl font-bold text-foreground mb-2">Cotizaciones</h1>
               <p className="text-muted-foreground">Gestiona todas tus cotizaciones y presupuestos</p>
             </div>
-            <Button className="gap-2">
-              <Plus className="w-4 h-4" />
-              Nueva Cotización
-            </Button>
+            <Link href="/quote/new">
+              <Button className="gap-2">
+                <Plus className="w-4 h-4" />
+                Nueva Cotización
+              </Button>
+            </Link>
           </div>
 
           {/* Search and Filters */}

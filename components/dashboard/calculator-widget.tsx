@@ -161,7 +161,7 @@ export function CalculatorWidget() {
           Calculadora
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="calc-value">Valor Base</Label>
           <div className="relative">
@@ -176,60 +176,63 @@ export function CalculatorWidget() {
           </div>
         </div>
 
-        <div className="space-y-2">
-          <Label>Plan</Label>
+        <div className="space-y-3 pt-2 border-t border-border/50">
+          <Label className="text-sm font-medium">Plan</Label>
           <ToggleGroup
             type="single"
             value={plan}
             onValueChange={(v) => v && setPlan(v as Plan)}
-            className="justify-start flex-wrap"
+            className="justify-start flex-wrap gap-1"
+            variant="outline"
           >
             {(["basic", "standard", "premium", "enterprise"] as Plan[]).map((p) => (
-              <ToggleGroupItem key={p} value={p} size="sm" className="text-xs">
+              <ToggleGroupItem key={p} value={p} size="sm" className="text-xs font-medium">
                 {getPlanLabel(p)}
               </ToggleGroupItem>
             ))}
           </ToggleGroup>
         </div>
 
-        <div className="space-y-2">
-          <Label>Tamaño</Label>
+        <div className="space-y-3 pt-2 border-t border-border/50">
+          <Label className="text-sm font-medium">Tamaño</Label>
           <ToggleGroup
             type="single"
             value={size}
             onValueChange={(v) => v && setSize(v as Size)}
-            className="justify-start"
+            className="justify-start flex-wrap gap-1"
+            variant="outline"
           >
-            <ToggleGroupItem value="small" size="sm" className="text-xs">
+            <ToggleGroupItem value="small" size="sm" className="text-xs font-medium">
               Pequeño
             </ToggleGroupItem>
-            <ToggleGroupItem value="medium" size="sm" className="text-xs">
+            <ToggleGroupItem value="medium" size="sm" className="text-xs font-medium">
               Medio
             </ToggleGroupItem>
-            <ToggleGroupItem value="large" size="sm" className="text-xs">
+            <ToggleGroupItem value="large" size="sm" className="text-xs font-medium">
               Grande
             </ToggleGroupItem>
-            <ToggleGroupItem value="industrial" size="sm" className="text-xs">
+            <ToggleGroupItem value="industrial" size="sm" className="text-xs font-medium">
               Ind.
             </ToggleGroupItem>
           </ToggleGroup>
         </div>
 
-        <div className="space-y-2">
-          <Label>Urgencia</Label>
+        <div className="space-y-3 pt-2 border-t border-border/50">
+          <Label className="text-sm font-medium">Urgencia</Label>
           <ToggleGroup
             type="single"
             value={urgency}
             onValueChange={(v) => v && setUrgency(v as Urgency)}
-            className="justify-start"
+            className="justify-start flex-wrap gap-1"
+            variant="outline"
           >
-            <ToggleGroupItem value="normal" size="sm" className="text-xs">
+            <ToggleGroupItem value="normal" size="sm" className="text-xs font-medium">
               Normal
             </ToggleGroupItem>
-            <ToggleGroupItem value="priority" size="sm" className="text-xs">
+            <ToggleGroupItem value="priority" size="sm" className="text-xs font-medium">
               Prioritario
             </ToggleGroupItem>
-            <ToggleGroupItem value="urgent" size="sm" className="text-xs">
+            <ToggleGroupItem value="urgent" size="sm" className="text-xs font-medium">
               Urgente
             </ToggleGroupItem>
           </ToggleGroup>

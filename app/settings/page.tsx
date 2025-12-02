@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { MobileNav } from "@/components/dashboard/mobile-nav"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -12,6 +13,8 @@ import { Separator } from "@/components/ui/separator"
 import { User, Bell, Shield, Palette, Database, Zap, Save } from "lucide-react"
 
 export default function SettingsPage() {
+  const [currency, setCurrency] = useState("clp")
+  const [theme, setTheme] = useState("system")
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader />
@@ -65,9 +68,13 @@ export default function SettingsPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="currency">Moneda Predeterminada</Label>
-                  <Select defaultValue="clp">
+                  <Select value={currency} onValueChange={setCurrency}>
                     <SelectTrigger>
-                      <SelectValue />
+                      <SelectValue>
+                        {currency === "clp" ? "CLP - Peso Chileno" :
+                         currency === "usd" ? "USD - Dólar Americano" :
+                         currency === "eur" ? "EUR - Euro" : currency}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="clp">CLP - Peso Chileno</SelectItem>
@@ -148,9 +155,13 @@ export default function SettingsPage() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label>Tema</Label>
-                <Select defaultValue="system">
+                <Select value={theme} onValueChange={setTheme}>
                   <SelectTrigger className="w-full md:w-48">
-                    <SelectValue />
+                    <SelectValue>
+                      {theme === "light" ? "Claro" :
+                       theme === "dark" ? "Oscuro" :
+                       theme === "system" ? "Sistema" : theme}
+                    </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="light">Claro</SelectItem>

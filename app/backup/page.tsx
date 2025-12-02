@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { DashboardHeader } from "@/components/dashboard/header"
 import { MobileNav } from "@/components/dashboard/mobile-nav"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -11,6 +12,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { HardDrive, Download, Upload, Clock, CheckCircle, AlertTriangle, Settings, Database, Cloud } from "lucide-react"
 
 export default function BackupPage() {
+  const [backupLocation, setBackupLocation] = useState("local")
+  const [retentionDays, setRetentionDays] = useState("30")
   const backupHistory = [
     {
       id: 1,
@@ -219,9 +222,13 @@ export default function BackupPage() {
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Ubicación de Backups</label>
-                  <Select defaultValue="local">
+                  <Select value={backupLocation} onValueChange={setBackupLocation}>
                     <SelectTrigger>
-                      <SelectValue />
+                      <SelectValue>
+                        {backupLocation === "local" ? "Disco Local" :
+                         backupLocation === "external" ? "Disco Externo" :
+                         backupLocation === "cloud" ? "Nube (Google Drive)" : backupLocation}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="local">Disco Local</SelectItem>
@@ -233,9 +240,14 @@ export default function BackupPage() {
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Retención de Backups</label>
-                  <Select defaultValue="30">
+                  <Select value={retentionDays} onValueChange={setRetentionDays}>
                     <SelectTrigger>
-                      <SelectValue />
+                      <SelectValue>
+                        {retentionDays === "7" ? "7 días" :
+                         retentionDays === "30" ? "30 días" :
+                         retentionDays === "90" ? "90 días" :
+                         retentionDays === "365" ? "1 año" : retentionDays}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="7">7 días</SelectItem>

@@ -30,7 +30,7 @@ export default function QuotePage() {
       <div className="min-h-screen flex flex-col items-center justify-center gap-4">
         <p className="text-muted-foreground">Cotización no encontrada</p>
         <Button asChild>
-          <Link href="/">Volver al Dashboard</Link>
+          <Link href="/quotes">Volver a Cotizaciones</Link>
         </Button>
       </div>
     )
@@ -41,7 +41,7 @@ export default function QuotePage() {
       <header className="border-b bg-card">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>
-            <Link href="/">
+            <Link href="/quotes">
               <ArrowLeft className="w-5 h-5" />
             </Link>
           </Button>

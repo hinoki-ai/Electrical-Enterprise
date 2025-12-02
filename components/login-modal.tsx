@@ -41,7 +41,7 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
 
     try {
       if (!username.trim() || !password.trim()) {
-        setError("Please fill in all fields")
+        setError("Por favor completa todos los campos")
         setIsLoading(false)
         return
       }
@@ -52,7 +52,7 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
       })
 
       if (!user) {
-        setError("Invalid email or password. Please check your credentials and try again.")
+        setError("Usuario o contraseña inválidos. Por favor verifica tus credenciales e intenta nuevamente.")
         setIsLoading(false)
         return
       }
@@ -63,19 +63,19 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
       console.error("Login error:", err)
 
       // Map error messages to user-friendly messages
-      let userMessage = "An error occurred while logging in. Please try again."
+      let userMessage = "Ocurrió un error al iniciar sesión. Por favor intenta nuevamente."
 
       if (err instanceof Error) {
         const errorMsg = err.message.toLowerCase()
 
         if (errorMsg.includes("user not found") || errorMsg.includes("usuario no encontrado")) {
-          userMessage = "No account found with this username. Please check your username or sign up."
+          userMessage = "No se encontró una cuenta con este usuario. Por favor verifica tu usuario o regístrate."
         } else if (errorMsg.includes("incorrect") || errorMsg.includes("password") || errorMsg.includes("contraseña")) {
-          userMessage = "Invalid username or password. Please check your credentials and try again."
+          userMessage = "Usuario o contraseña inválidos. Por favor verifica tus credenciales e intenta nuevamente."
         } else if (errorMsg.includes("network") || errorMsg.includes("connection") || errorMsg.includes("fetch")) {
-          userMessage = "Connection error. Please check your internet and try again."
+          userMessage = "Error de conexión. Por favor verifica tu internet e intenta nuevamente."
         } else if (errorMsg.includes("timeout")) {
-          userMessage = "Request timed out. Please try again."
+          userMessage = "La solicitud expiró. Por favor intenta nuevamente."
         } else if (err.message && err.message.length < 100) {
           userMessage = err.message
         }
@@ -99,10 +99,10 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-3xl">
-            Sign In
+            Iniciar Sesión
           </DialogTitle>
           <DialogDescription className="text-base">
-            Enter your credentials to access your account
+            Ingresa tus credenciales para acceder a tu cuenta
           </DialogDescription>
         </DialogHeader>
 
@@ -110,14 +110,14 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
           <div className="space-y-4">
             <div className="space-y-2">
               <label htmlFor="login-username" className="text-base font-medium">
-                Username
+                Usuario
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                 <Input
                   id="login-username"
                   type="text"
-                  placeholder="your username"
+                  placeholder="tu usuario"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   className="h-12 rounded-lg pl-10"
@@ -128,13 +128,13 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
 
             <div className="space-y-2">
               <label htmlFor="login-password" className="text-base font-medium">
-                Password
+                Contraseña
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground z-10" />
                 <PasswordInput
                   id="login-password"
-                  placeholder="Your password"
+                  placeholder="Tu contraseña"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="h-12 rounded-lg pl-10"
@@ -156,7 +156,7 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
               onClick={handleClose}
               className="flex-1 h-12 bg-orange-200 hover:bg-orange-300 text-orange-900 font-medium"
             >
-              Cancel
+              Cancelar
             </Button>
             <Button
               type="submit"
@@ -166,17 +166,17 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
               {isLoading ? (
                 <div className="flex items-center gap-2">
                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                  Signing in...
+                  Iniciando sesión...
                 </div>
               ) :
-                "Sign In"
+                "Iniciar Sesión"
               }
             </Button>
           </div>
 
           <div className="text-center mt-4 space-y-2">
             <p className="text-muted-foreground text-sm">
-              Electrical Enterprise - Private Access Only
+              Electrical Enterprise - Acceso Privado Únicamente
             </p>
           </div>
         </form>

@@ -199,7 +199,7 @@ export default function NewQuotePage() {
       <header className="border-b bg-card">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>
-            <Link href="/">
+            <Link href="/quotes">
               <ArrowLeft className="w-5 h-5" />
             </Link>
           </Button>
@@ -337,7 +337,7 @@ export default function NewQuotePage() {
                     <Label>Tipo de Proyecto</Label>
                     <Select value={projectType} onValueChange={(v) => setProjectType(v as typeof projectType)}>
                       <SelectTrigger>
-                        <SelectValue />
+                        <SelectValue>{getProjectTypeLabel(projectType)}</SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         {projectTypes.map((type) => (

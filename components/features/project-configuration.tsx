@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Wrench, DollarSign, Clock, AlertTriangle } from "lucide-react";
 import { formatCLP } from "@/lib/pricing-plans";
+import { getPaymentTypeLabel, getVATLabel } from "@/lib/utils";
 
 import { projectSizeFactors, materialQualityFactors, urgencyFactors, brandPreferenceFactors } from "@/lib/pricing-plans";
 
@@ -15,6 +16,33 @@ type ProjectSize = keyof typeof projectSizeFactors;
 type MaterialQuality = keyof typeof materialQualityFactors;
 type UrgencyLevel = keyof typeof urgencyFactors;
 type BrandPreference = keyof typeof brandPreferenceFactors;
+
+const getProjectSizeLabel = (key: string): string => {
+  const labels: Record<string, string> = {
+    small: "Pequeño",
+    medium: "Mediano",
+    large: "Grande",
+    industrial: "Industrial",
+  };
+  return labels[key] || key;
+};
+
+const getMaterialQualityLabel = (key: string): string => {
+  const labels: Record<string, string> = {
+    standard: "Estándar",
+    premium: "Premium",
+  };
+  return labels[key] || key;
+};
+
+const getUrgencyLabel = (key: string): string => {
+  const labels: Record<string, string> = {
+    normal: "Normal",
+    priority: "Prioritario",
+    urgent: "Urgente",
+  };
+  return labels[key] || key;
+};
 
 interface ProjectConfigurationProps {
   selectedPlan: { minProjectValue: number; maxProjectValue: number | null };
@@ -116,13 +144,15 @@ export function ProjectConfiguration({
                   <Label>Tamaño del Proyecto</Label>
                   <Select value={complexity} onValueChange={onComplexityChange}>
                     <SelectTrigger>
-                      <SelectValue />
+                      <SelectValue placeholder="Seleccionar tamaño">
+                        {getProjectSizeLabel(complexity)}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       {Object.entries(projectSizeFactors).map(([key, data]) => (
                         <SelectItem key={key} value={key}>
                           <div>
-                            <div className="font-medium capitalize">{key}</div>
+                            <div className="font-medium">{getProjectSizeLabel(key)}</div>
                             <div className="text-xs text-muted-foreground">{data.description}</div>
                           </div>
                         </SelectItem>
@@ -135,13 +165,15 @@ export function ProjectConfiguration({
             <Label>Calidad de Materiales</Label>
             <Select value={materialQuality} onValueChange={onMaterialQualityChange}>
               <SelectTrigger>
-                <SelectValue />
+                <SelectValue placeholder="Seleccionar calidad">
+                  {getMaterialQualityLabel(materialQuality)}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {Object.entries(materialQualityFactors).map(([key, data]) => (
                   <SelectItem key={key} value={key}>
                     <div>
-                      <div className="font-medium capitalize">{key}</div>
+                      <div className="font-medium">{getMaterialQualityLabel(key)}</div>
                       <div className="text-xs text-muted-foreground">{data.description}</div>
                     </div>
                   </SelectItem>
@@ -158,13 +190,15 @@ export function ProjectConfiguration({
             </Label>
             <Select value={urgency} onValueChange={onUrgencyChange}>
               <SelectTrigger>
-                <SelectValue />
+                <SelectValue placeholder="Seleccionar urgencia">
+                  {getUrgencyLabel(urgency)}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {Object.entries(urgencyFactors).map(([key, data]) => (
                   <SelectItem key={key} value={key}>
                     <div>
-                      <div className="font-medium capitalize">{key}</div>
+                      <div className="font-medium">{getUrgencyLabel(key)}</div>
                       <div className="text-xs text-muted-foreground">{data.description}</div>
                     </div>
                   </SelectItem>
@@ -180,7 +214,7 @@ export function ProjectConfiguration({
             <Label>Tipo de Pago</Label>
             <Select value={paymentType} onValueChange={onPaymentTypeChange}>
               <SelectTrigger>
-                <SelectValue />
+                <SelectValue>{getPaymentTypeLabel(paymentType)}</SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="monthly">Pago Mensual</SelectItem>
@@ -196,7 +230,7 @@ export function ProjectConfiguration({
             </Label>
             <Select value={includeVAT ? 'true' : 'false'} onValueChange={(value: string) => onIncludeVATChange(value === 'true')}>
               <SelectTrigger>
-                <SelectValue />
+                <SelectValue>{getVATLabel(includeVAT)}</SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="false">Sin IVA (Chile Hillbilly Mode)</SelectItem>
