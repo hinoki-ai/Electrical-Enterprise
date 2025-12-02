@@ -11,6 +11,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { formatCLP, getPlanLabel } from "@/lib/utils"
 import { toast } from "sonner"
 import type { Plan } from "@/lib/data-context"
+import { useDivineParsing } from "@/components/language/ChunkedLanguageProvider"
 
 type Size = "small" | "medium" | "large" | "industrial"
 type Urgency = "normal" | "priority" | "urgent"
@@ -43,6 +44,8 @@ const urgencyMultipliers: Record<Urgency, number> = {
 }
 
 export function CalculatorWidget() {
+  const { t } = useDivineParsing(["calculator"])
+
   // Load saved state from localStorage or use defaults
   const getSavedState = () => {
     if (typeof window !== 'undefined') {
@@ -162,14 +165,14 @@ export function CalculatorWidget() {
           <div className="w-8 h-8 rounded-lg bg-accent/20 flex items-center justify-center">
             <Calculator className="w-4 h-4 text-accent" />
           </div>
-          Calculadora
+          {t("calculadora")}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="calc-value">Valor Base</Label>
+          <Label htmlFor="calc-value">{t("valor_base")}</Label>
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">{t("currency_symbol")}</span>
             <Input
               id="calc-value"
               placeholder="0"
@@ -272,11 +275,11 @@ export function CalculatorWidget() {
                 disabled={!hasUnsavedChanges}
               >
                 <Save className="w-3.5 h-3.5" />
-                {hasUnsavedChanges ? 'Guardar' : 'Guardado'}
+                {hasUnsavedChanges ? t('guardar') : t('guardado')}
               </Button>
               <Button size="sm" className="gap-1.5" onClick={handleExport}>
                 <FileDown className="w-3.5 h-3.5" />
-                Exportar
+                {t('exportar')}
               </Button>
             </div>
 

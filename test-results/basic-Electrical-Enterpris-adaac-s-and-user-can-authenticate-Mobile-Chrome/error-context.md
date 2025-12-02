@@ -1,0 +1,203 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - link [ref=e6] [cursor=pointer]:
+          - /url: /dashboard
+          - img [ref=e8]
+        - generic [ref=e10]:
+          - link [ref=e11] [cursor=pointer]:
+            - /url: /notifications
+            - button [ref=e12]:
+              - img
+          - button [ref=e13]:
+            - img
+          - button [ref=e14]:
+            - img
+    - main [ref=e15]:
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - generic [ref=e18]:
+            - generic [ref=e20]:
+              - img [ref=e22]
+              - text: Cotización Rápida
+              - generic [ref=e23]: ~60 segundos
+            - generic [ref=e24]:
+              - generic [ref=e25]:
+                - generic [ref=e26]:
+                  - generic [ref=e27]: Cliente
+                  - generic [ref=e28]:
+                    - combobox "Cliente" [ref=e29]
+                    - button [ref=e30]:
+                      - img
+                - generic [ref=e31]:
+                  - generic [ref=e32]: Proyecto
+                  - generic [ref=e33]:
+                    - textbox "Proyecto" [ref=e34]:
+                      - /placeholder: Nombre del proyecto
+                    - button "Res" [ref=e35]:
+                      - text: Res
+                      - img
+              - generic [ref=e36]:
+                - generic [ref=e37]:
+                  - generic [ref=e38]: Valor del Proyecto
+                  - generic [ref=e39]:
+                    - generic [ref=e40]: $
+                    - textbox "Valor del Proyecto" [ref=e41]:
+                      - /placeholder: "0"
+                - generic [ref=e42]:
+                  - generic [ref=e43]: Plan
+                  - generic [ref=e44]:
+                    - button "Básico" [ref=e45]
+                    - button "Estándar" [ref=e46]
+                    - button "Premium" [ref=e47]
+                    - button "Empresa" [ref=e48]
+              - link "Cotización Avanzada con Partidas" [ref=e50] [cursor=pointer]:
+                - /url: /quote/new
+                - img
+                - text: Cotización Avanzada con Partidas
+          - generic [ref=e51]:
+            - generic [ref=e53]:
+              - img [ref=e55]
+              - text: Cotizaciones Recientes
+            - generic [ref=e57]:
+              - tablist [ref=e58]:
+                - tab "0" [selected] [ref=e59]:
+                  - img
+                  - generic [ref=e60]: "0"
+                - tab "0" [ref=e61]:
+                  - img
+                  - generic [ref=e62]: "0"
+                - tab "0" [ref=e63]:
+                  - img
+                  - generic [ref=e64]: "0"
+                - tab "0" [ref=e65]:
+                  - img
+                  - generic [ref=e66]: "0"
+              - tabpanel "0" [ref=e67]:
+                - generic [ref=e68]: No hay cotizaciones enviados
+          - generic [ref=e71]:
+            - generic [ref=e72]:
+              - img [ref=e74]
+              - text: Clientes
+            - button [ref=e77]:
+              - img
+        - generic [ref=e78]:
+          - generic [ref=e79]:
+            - generic [ref=e81]:
+              - img [ref=e83]
+              - text: Calculadora
+            - generic [ref=e85]:
+              - generic [ref=e86]:
+                - generic [ref=e87]: Valor Base
+                - generic [ref=e88]:
+                  - generic [ref=e89]: $
+                  - textbox "Valor Base" [ref=e90]:
+                    - /placeholder: "0"
+              - generic [ref=e91]:
+                - generic [ref=e92]: Plan
+                - group [ref=e93]:
+                  - radio "Básico" [ref=e94]
+                  - radio "Estándar" [checked] [ref=e95]
+                  - radio "Premium" [ref=e96]
+                  - radio "Empresa" [ref=e97]
+              - generic [ref=e98]:
+                - generic [ref=e99]: Tamaño
+                - group [ref=e100]:
+                  - radio "Pequeño" [ref=e101]
+                  - radio "Medio" [checked] [ref=e102]
+                  - radio "Grande" [ref=e103]
+                  - radio "Ind." [ref=e104]
+              - generic [ref=e105]:
+                - generic [ref=e106]: Urgencia
+                - group [ref=e107]:
+                  - radio "Normal" [checked] [ref=e108]
+                  - radio "Prioritario" [ref=e109]
+                  - radio "Urgente" [ref=e110]
+          - generic [ref=e111]:
+            - generic [ref=e114]:
+              - img [ref=e116]
+              - text: Cargando métricas...
+            - generic [ref=e118]:
+              - img [ref=e122]
+              - img [ref=e127]
+              - img [ref=e132]
+              - img [ref=e137]
+              - img [ref=e142]
+              - img [ref=e147]
+          - generic [ref=e149]:
+            - generic [ref=e151]: Herramientas
+            - generic [ref=e152]:
+              - generic [ref=e153]:
+                - text: Herramientas
+                - generic [ref=e154]:
+                  - button "Plantillas" [ref=e155] [cursor=pointer]:
+                    - img
+                    - generic [ref=e156]: Plantillas
+                  - button "Reportes" [ref=e157] [cursor=pointer]:
+                    - img
+                    - generic [ref=e158]: Reportes
+                  - button "Analytics" [ref=e159] [cursor=pointer]:
+                    - img
+                    - generic [ref=e160]: Analytics
+                  - button "Backup" [ref=e161] [cursor=pointer]:
+                    - img
+                    - generic [ref=e162]: Backup
+              - generic [ref=e163]:
+                - text: Recursos
+                - generic [ref=e164]:
+                  - button "Guía Precios" [ref=e165] [cursor=pointer]:
+                    - img
+                    - generic [ref=e166]: Guía Precios
+                  - button "Normativas" [ref=e167] [cursor=pointer]:
+                    - img
+                    - generic [ref=e168]: Normativas
+                  - button "Materiales" [ref=e169] [cursor=pointer]:
+                    - img
+                    - generic [ref=e170]: Materiales
+                  - button "Contratos" [ref=e171] [cursor=pointer]:
+                    - img
+                    - generic [ref=e172]: Contratos
+              - generic [ref=e173]:
+                - text: Soporte
+                - generic [ref=e174]:
+                  - button "Emergencia" [ref=e175] [cursor=pointer]:
+                    - img
+                    - generic [ref=e176]: Emergencia
+                  - button "WhatsApp" [ref=e177] [cursor=pointer]:
+                    - img
+                    - generic [ref=e178]: WhatsApp
+                  - button "Email" [ref=e179] [cursor=pointer]:
+                    - img
+                    - generic [ref=e180]: Email
+                  - button "Ayuda" [ref=e181] [cursor=pointer]:
+                    - img
+                    - generic [ref=e182]: Ayuda
+    - navigation [ref=e183]:
+      - generic [ref=e184]:
+        - link "Inicio" [ref=e185] [cursor=pointer]:
+          - /url: /dashboard
+          - img [ref=e186]
+          - generic [ref=e189]: Inicio
+        - link "Nueva" [ref=e190] [cursor=pointer]:
+          - /url: /quote/new
+          - img [ref=e191]
+          - generic [ref=e192]: Nueva
+        - link "Cotizaciones" [ref=e193] [cursor=pointer]:
+          - /url: /quotes
+          - img [ref=e194]
+          - generic [ref=e197]: Cotizaciones
+        - link "Calcular" [ref=e198] [cursor=pointer]:
+          - /url: /calculator
+          - img [ref=e199]
+          - generic [ref=e201]: Calcular
+        - link "Clientes" [ref=e202] [cursor=pointer]:
+          - /url: /clients
+          - img [ref=e203]
+          - generic [ref=e208]: Clientes
+  - region "Notifications alt+T"
+  - alert [ref=e209]
+```

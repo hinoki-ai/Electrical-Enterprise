@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calculator } from "lucide-react";
 import { toast } from "sonner";
+import { useDivineParsing } from "@/components/language/ChunkedLanguageProvider";
 
 interface Preset {
   name: string;
@@ -49,7 +50,7 @@ export function CalculatorHeader({
   onLoadPreset,
   onDeletePreset
 }: CalculatorHeaderProps) {
-
+  const { t } = useDivineParsing(["advanced-calculator"])
 
   return (
     <Card className="backdrop-blur-xl bg-linear-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 border border-gray-200 dark:border-gray-700">
@@ -60,10 +61,10 @@ export function CalculatorHeader({
           </div>
           <div>
             <CardTitle className="text-3xl font-bold bg-linear-to-r from-primary to-blue-600 bg-clip-text text-transparent">
-              Calculadora Avanzada de Proyectos
+              {t("calculadora_avanzada_de_proyectos")}
             </CardTitle>
             <CardDescription className="text-lg">
-              Obtén una cotización precisa basada en las características de tu proyecto
+              {t("obtn_una_cotizacin_precisa_basada_en_las_caracter")}
             </CardDescription>
           </div>
         </div>
@@ -73,25 +74,25 @@ export function CalculatorHeader({
           <Dialog open={showPresetDialog} onOpenChange={setShowPresetDialog}>
             <DialogTrigger asChild>
               <Button variant="outline" size="sm">
-                💾 Guardar Preset
+                {t("guardar_preset")}
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Guardar Configuración</DialogTitle>
+                <DialogTitle>{t("guardar_configuracin")}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="preset-name">Nombre del Preset</Label>
+                  <Label htmlFor="preset-name">{t("nombre_del_preset")}</Label>
                   <Input
                     id="preset-name"
                     value={presetName}
                     onChange={(e) => setPresetName(e.target.value)}
-                    placeholder="Ej: Proyecto Residencial Estándar"
+                    placeholder={t("ej_proyecto_residencial_estndar")}
                   />
                 </div>
                 <Button onClick={onSavePreset} className="w-full">
-                  Guardar Preset
+                  {t("guardar_preset_button")}
                 </Button>
               </div>
             </DialogContent>
@@ -100,12 +101,12 @@ export function CalculatorHeader({
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="outline" size="sm">
-                📂 Cargar Preset ({presets.length})
+                {t("cargar_preset")} ({presets.length})
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Cargar Configuración</DialogTitle>
+                <DialogTitle>{t("cargar_configuracin")}</DialogTitle>
               </DialogHeader>
               <div className="space-y-2 max-h-96 overflow-y-auto">
                 {presets.length > 0 ? (
@@ -119,7 +120,7 @@ export function CalculatorHeader({
                       </div>
                       <div className="flex gap-2">
                         <Button size="sm" onClick={() => onLoadPreset(preset)}>
-                          Cargar
+                          {t("cargar")}
                         </Button>
                         <Button size="sm" variant="destructive" onClick={() => onDeletePreset(preset._id)}>
                           🗑️
@@ -129,7 +130,7 @@ export function CalculatorHeader({
                   ))
                 ) : (
                   <p className="text-center text-muted-foreground py-4">
-                    No hay presets guardados
+                    {t("no_hay_presets_guardados")}
                   </p>
                 )}
               </div>

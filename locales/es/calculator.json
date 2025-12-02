@@ -1,5 +1,10 @@
 {
+  "calculadora": "Calculadora",
   "calculadora_elctrica": "Calculadora Eléctrica",
+  "valor_base": "Valor Base",
+  "guardar": "Guardar",
+  "guardado": "Guardado",
+  "exportar": "Exportar",
   "capacidad_y_distribucin": "Capacidad y distribución",
   "convertidor_de_unidades": "Convertidor de Unidades",
   "correccin_y_optimizacin": "Corrección y optimización",
@@ -10,6 +15,7 @@
   "herramientas_profesionales_para_clculos_elctricos_": "Herramientas profesionales para cálculos eléctricos precisos",
   "resistencia_impedancia": "Resistencia, impedancia",
   "voltaje_corriente_potencia": "Voltaje, corriente, potencia",
+  "currency_symbol": "$",
   "bgcard_roundedlg_border_p6": "bg-card rounded-lg border p-6",
   "grid_gridcols1_lggridcols2_gap6": "grid grid-cols-1 lg:grid-cols-2 gap-6",
   "grid_gridcols2_gap4": "grid grid-cols-2 gap-4",

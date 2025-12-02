@@ -1,6 +1,17 @@
 {
-  "cargando_calculadora": "",
-  "preparando_la_calculadora_avanzada_de_proyectos": "",
-  "container_mxauto_px4_py8": "",
-  "minhscreen_bgbackground": ""
+  "calculadora_avanzada_de_proyectos": "Advanced Project Calculator",
+  "obtn_una_cotizacin_precisa_basada_en_las_caracter": "Get a precise quote based on your project characteristics",
+  "guardar_preset": "💾 Save Preset",
+  "cargar_preset": "📂 Load Preset",
+  "guardar_configuracin": "Save Configuration",
+  "nombre_del_preset": "Preset Name",
+  "ej_proyecto_residencial_estndar": "Eg: Standard Residential Project",
+  "guardar_preset_button": "Save Preset",
+  "cargar_configuracin": "Load Configuration",
+  "cargar": "Load",
+  "no_hay_presets_guardados": "No saved presets",
+  "cargando_calculadora": "Loading calculator...",
+  "preparando_la_calculadora_avanzada_de_proyectos": "Preparing the advanced project calculator",
+  "container_mxauto_px4_py8": "container mx-auto px-4 py-8",
+  "minhscreen_bgbackground": "min-h-screen bg-background"
 }
