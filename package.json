@@ -11,6 +11,8 @@
     "convex:dev": "convex dev",
     "convex:deploy": "convex deploy",
     "convex:setup": "./scripts/setup-convex-complete.sh",
+    "deploy": "./scripts/deploy.sh",
+    "deploy:prod": "./scripts/deploy.sh",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
