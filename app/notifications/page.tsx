@@ -10,64 +10,8 @@ import { Bell, CheckCircle, Clock, AlertTriangle, Info, DollarSign, User, FileTe
 
 export default function NotificationsPage() {
   const notifications = {
-    unread: [
-      {
-        id: 1,
-        type: "quote",
-        title: "Nueva cotización pendiente",
-        message: "La cotización QT-2024-015 para Casa Los Alamos está esperando aprobación.",
-        time: "Hace 5 min",
-        priority: "high",
-        icon: FileText
-      },
-      {
-        id: 2,
-        type: "client",
-        title: "Cliente requiere atención",
-        message: "María González solicitó información sobre mantenimiento preventivo.",
-        time: "Hace 15 min",
-        priority: "medium",
-        icon: User
-      },
-      {
-        id: 3,
-        type: "payment",
-        title: "Pago recibido",
-        message: "Se recibió el pago completo de la factura FAC-2024-089.",
-        time: "Hace 1 hora",
-        priority: "low",
-        icon: DollarSign
-      }
-    ],
-    read: [
-      {
-        id: 4,
-        type: "system",
-        title: "Actualización del sistema",
-        message: "Se actualizaron los precios de materiales eléctricos.",
-        time: "Hace 2 horas",
-        priority: "low",
-        icon: Settings
-      },
-      {
-        id: 5,
-        type: "reminder",
-        title: "Recordatorio de renovación",
-        message: "La garantía del proyecto Condominio Las Brisas vence en 30 días.",
-        time: "Hace 4 horas",
-        priority: "medium",
-        icon: Clock
-      },
-      {
-        id: 6,
-        type: "alert",
-        title: "Stock bajo de material",
-        message: "El inventario de cable THW 2.5mm² está por debajo del mínimo.",
-        time: "Hace 6 horas",
-        priority: "high",
-        icon: AlertTriangle
-      }
-    ]
+    unread: [],
+    read: []
   }
 
   const getPriorityColor = (priority: string) => {

@@ -14,40 +14,7 @@ import { HardDrive, Download, Upload, Clock, CheckCircle, AlertTriangle, Setting
 export default function BackupPage() {
   const [backupLocation, setBackupLocation] = useState("local")
   const [retentionDays, setRetentionDays] = useState("30")
-  const backupHistory = [
-    {
-      id: 1,
-      name: "Backup Automático - Diario",
-      date: "2024-12-01 06:00",
-      size: "2.4 GB",
-      status: "success",
-      type: "automatic"
-    },
-    {
-      id: 2,
-      name: "Backup Manual - Proyecto Completo",
-      date: "2024-11-28 14:30",
-      size: "1.8 GB",
-      status: "success",
-      type: "manual"
-    },
-    {
-      id: 3,
-      name: "Backup Automático - Diario",
-      date: "2024-11-30 06:00",
-      size: "2.3 GB",
-      status: "success",
-      type: "automatic"
-    },
-    {
-      id: 4,
-      name: "Backup Automático - Diario",
-      date: "2024-11-29 06:00",
-      size: "2.2 GB",
-      status: "warning",
-      type: "automatic"
-    }
-  ]
+  const backupHistory: never[] = []
 
   return (
     <div className="min-h-screen bg-background">
@@ -110,22 +77,22 @@ export default function BackupPage() {
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium">Espacio Usado</span>
-                    <span className="text-sm text-muted-foreground">2.4 GB / 10 GB</span>
+                    <span className="text-sm text-muted-foreground">0 GB / 10 GB</span>
                   </div>
-                  <Progress value={24} className="h-2" />
+                  <Progress value={0} className="h-2" />
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">
                   <div className="text-center p-3 bg-muted/50 rounded-lg">
-                    <div className="text-lg font-bold">2.4 GB</div>
+                    <div className="text-lg font-bold">0 GB</div>
                     <div className="text-xs text-muted-foreground">Datos</div>
                   </div>
                   <div className="text-center p-3 bg-muted/50 rounded-lg">
-                    <div className="text-lg font-bold">45</div>
+                    <div className="text-lg font-bold">0</div>
                     <div className="text-xs text-muted-foreground">Backups</div>
                   </div>
                   <div className="text-center p-3 bg-muted/50 rounded-lg">
-                    <div className="text-lg font-bold">7.6 GB</div>
+                    <div className="text-lg font-bold">10 GB</div>
                     <div className="text-xs text-muted-foreground">Disponible</div>
                   </div>
                 </div>

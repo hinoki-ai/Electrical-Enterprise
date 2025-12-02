@@ -1,0 +1,23 @@
+{
+  "_const_content_": ");\n\n  const content = (",
+  "_return_": ");\n  }\n\n  return (",
+  "providers": "./providers",
+  "themeprovider": "./theme-provider",
+  "algo_sali_mal": "Algo salió mal",
+  "error_caught_by_boundary": "Error caught by boundary:",
+  "error_handled_by_hook": "Error handled by hook:",
+  "ha_ocurrido_un_error_inesperado_por_favor_intenta_": "Ha ocurrido un error inesperado. Por favor, intenta recargar la página.",
+  "recargar_pgina": "Recargar página",
+  "convexreact": "convex/react",
+  "h4_w4": "h-4 w-4",
+  "lucidereact": "lucide-react",
+  "maxwmd": "max-w-md",
+  "minh400px_flex_itemscenter_justifycenter_p4": "min-h-[400px] flex items-center justify-center p-4",
+  "mt2": "mt-2",
+  "mt4_wfull": "mt-4 w-full",
+  "nextthemes": "next-themes",
+  "nextdynamic": "next/dynamic",
+  "use_client": "use client",
+  "w4_h4_mr2": "w-4 h-4 mr-2",
+  "windowlocationreload_classnamemt4_wfull_variantout": "window.location.reload()}\n              className=\"mt-4 w-full\"\n              variant=\"outline\"\n            >"
+}

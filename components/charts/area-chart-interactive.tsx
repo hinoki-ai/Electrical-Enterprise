@@ -38,39 +38,40 @@ export function AreaChartInteractive({
         <CardDescription>
           {description}
           {growth !== 0 && (
-            <span className={`ml-2 text-sm font-medium ${growth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            <span className={`ml-2 text-sm font-semibold ${growth >= 0 ? 'text-success' : 'text-destructive'}`}>
               {growth >= 0 ? '+' : ''}{growth.toFixed(1)}% vs mes anterior
             </span>
           )}
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
+      <CardContent className="p-6">
+        <ResponsiveContainer width="100%" height={450}>
           <AreaChart
             data={data}
             margin={{
-              top: 10,
+              top: 20,
               right: 30,
-              left: 0,
-              bottom: 0,
+              left: 10,
+              bottom: 20,
             }}
           >
             <defs>
               <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
-                <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                <stop offset="5%" stopColor="var(--chart-1)" stopOpacity={0.8}/>
+                <stop offset="50%" stopColor="var(--chart-1)" stopOpacity={0.4}/>
+                <stop offset="95%" stopColor="var(--chart-1)" stopOpacity={0}/>
               </linearGradient>
             </defs>
             <XAxis
               dataKey="month"
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+              tick={{ fontSize: 13, fill: 'hsl(var(--muted-foreground))', fontWeight: 500 }}
             />
             <YAxis
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+              tick={{ fontSize: 13, fill: 'hsl(var(--muted-foreground))', fontWeight: 500 }}
               tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
             />
             <Tooltip
@@ -78,29 +79,29 @@ export function AreaChartInteractive({
                 if (active && payload && payload.length) {
                   const data = payload[0].payload as RevenueData
                   return (
-                    <div className="rounded-lg border bg-background p-2 shadow-sm">
-                      <div className="grid grid-cols-2 gap-2">
+                    <div className="rounded-lg border bg-background/95 backdrop-blur-sm p-3 shadow-lg">
+                      <div className="grid grid-cols-2 gap-3">
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Mes
                           </span>
-                          <span className="font-bold text-muted-foreground">
+                          <span className="font-bold text-foreground">
                             {label}
                           </span>
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Ingresos
                           </span>
-                          <span className="font-bold">
+                          <span className="font-bold text-chart-1">
                             {formatCLP(data.revenue)}
                           </span>
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Cotizaciones
                           </span>
-                          <span className="font-bold text-muted-foreground">
+                          <span className="font-bold text-foreground">
                             {data.quotes}
                           </span>
                         </div>
@@ -114,10 +115,10 @@ export function AreaChartInteractive({
             <Area
               type="monotone"
               dataKey="revenue"
-              stroke="hsl(var(--primary))"
+              stroke="var(--chart-1)"
               fillOpacity={1}
               fill="url(#colorRevenue)"
-              strokeWidth={2}
+              strokeWidth={3}
             />
           </AreaChart>
         </ResponsiveContainer>

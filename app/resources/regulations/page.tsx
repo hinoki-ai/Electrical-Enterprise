@@ -10,48 +10,15 @@ import { Book, Search, FileText, Scale, AlertTriangle, CheckCircle, Clock, Exter
 
 export default function RegulationsPage() {
   const regulationCategories = [
-    { icon: Scale, label: "Normas Chilenas", count: 45, color: "text-primary" },
-    { icon: FileText, label: "Reglamentos Técnicos", count: 28, color: "text-info" },
-    { icon: AlertTriangle, label: "Seguridad Eléctrica", count: 19, color: "text-warning" },
-    { icon: CheckCircle, label: "Certificaciones", count: 12, color: "text-success" }
+    { icon: Scale, label: "Normas Chilenas", count: 0, color: "text-primary" },
+    { icon: FileText, label: "Reglamentos Técnicos", count: 0, color: "text-info" },
+    { icon: AlertTriangle, label: "Seguridad Eléctrica", count: 0, color: "text-warning" },
+    { icon: CheckCircle, label: "Certificaciones", count: 0, color: "text-success" }
   ]
 
-  const keyRegulations = [
-    {
-      title: "DS 110/2019 - Norma de Seguridad Eléctrica",
-      category: "Seguridad",
-      status: "vigente",
-      lastUpdate: "2019-06-15",
-      description: "Establece las normas mínimas de seguridad para instalaciones eléctricas"
-    },
-    {
-      title: "NCh 3000 - Instalaciones Eléctricas",
-      category: "Técnico",
-      status: "vigente",
-      lastUpdate: "2021-03-10",
-      description: "Norma chilena para diseño y construcción de instalaciones eléctricas"
-    },
-    {
-      title: "NCh 4000 - Protección contra Descargas Atmosféricas",
-      category: "Protección",
-      status: "vigente",
-      lastUpdate: "2018-11-22",
-      description: "Requisitos para sistemas de protección contra rayos"
-    },
-    {
-      title: "Decreto 66/2018 - Electricidad",
-      category: "Legal",
-      status: "vigente",
-      lastUpdate: "2018-04-12",
-      description: "Regula la actividad eléctrica en Chile"
-    }
-  ]
+  const keyRegulations: never[] = []
 
-  const upcomingChanges = [
-    { regulation: "NCh 3000", change: "Actualización para energías renovables", date: "2025-01-15" },
-    { regulation: "DS 110", change: "Incorporación de nuevas tecnologías", date: "2025-03-01" },
-    { regulation: "Certificación Electricistas", change: "Nuevos requisitos de capacitación", date: "2024-12-20" }
-  ]
+  const upcomingChanges: never[] = []
 
   return (
     <div className="min-h-screen bg-background">
@@ -192,14 +159,7 @@ export default function RegulationsPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {[
-                    { requirement: "Certificación de Electricista Vigente", status: "completed" },
-                    { requirement: "Registro en SEC (Superintendencia de Electricidad)", status: "completed" },
-                    { requirement: "Seguro de Responsabilidad Civil", status: "completed" },
-                    { requirement: "Capacitación en Normas de Seguridad", status: "pending" },
-                    { requirement: "Registro de Instalaciones Mayores", status: "completed" },
-                    { requirement: "Auditoría Anual de Cumplimiento", status: "pending" }
-                  ].map((item, index) => (
+                  {[].map((item, index) => (
                     <div key={index} className="flex items-center gap-3">
                       <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
                         item.status === 'completed' ? 'bg-success' : 'bg-muted'

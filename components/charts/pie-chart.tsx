@@ -18,11 +18,11 @@ interface PieChartProps {
 }
 
 const COLORS = [
-  "hsl(var(--primary))",
-  "hsl(var(--destructive))",
-  "hsl(var(--accent))",
-  "hsl(var(--secondary))",
-  "hsl(var(--muted))",
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
 ]
 
 export function PieChartComponent({
@@ -43,21 +43,28 @@ export function PieChartComponent({
           {description}
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
+      <CardContent className="p-6">
+        <ResponsiveContainer width="100%" height={450}>
           <PieChart>
             <Pie
               data={data}
               cx="50%"
               cy="50%"
               labelLine={false}
-              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-              outerRadius={80}
-              fill="#8884d8"
+              label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+              outerRadius={140}
+              innerRadius={60}
+              fill="var(--chart-1)"
               dataKey="value"
+              paddingAngle={2}
             >
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.fill || COLORS[index % COLORS.length]} />
+                <Cell 
+                  key={`cell-${index}`} 
+                  fill={entry.fill || COLORS[index % COLORS.length]}
+                  stroke="hsl(var(--background))"
+                  strokeWidth={2}
+                />
               ))}
             </Pie>
             <Tooltip
@@ -66,29 +73,29 @@ export function PieChartComponent({
                   const data = payload[0].payload as PieData
                   const percentage = ((data.value / total) * 100).toFixed(1)
                   return (
-                    <div className="rounded-lg border bg-background p-2 shadow-sm">
-                      <div className="grid grid-cols-1 gap-2">
+                    <div className="rounded-lg border bg-background/95 backdrop-blur-sm p-3 shadow-lg">
+                      <div className="grid grid-cols-1 gap-3">
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Categoría
                           </span>
-                          <span className="font-bold text-muted-foreground">
+                          <span className="font-bold text-foreground">
                             {data.name}
                           </span>
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Valor
                           </span>
-                          <span className="font-bold">
+                          <span className="font-bold" style={{ color: data.fill }}>
                             {formatCLP(data.value)}
                           </span>
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Porcentaje
                           </span>
-                          <span className="font-bold text-muted-foreground">
+                          <span className="font-bold text-foreground">
                             {percentage}%
                           </span>
                         </div>

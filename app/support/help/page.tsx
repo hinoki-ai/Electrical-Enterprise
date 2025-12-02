@@ -15,80 +15,34 @@ export default function HelpPage() {
       title: "Herramientas",
       description: "Calculadoras, conversores y utilidades",
       color: "text-primary",
-      articles: 12
+      articles: 0
     },
     {
       icon: Settings,
       title: "Configuración",
       description: "Personalización y ajustes del sistema",
       color: "text-info",
-      articles: 8
+      articles: 0
     },
     {
       icon: Book,
       title: "Tutoriales",
       description: "Guías paso a paso para principiantes",
       color: "text-success",
-      articles: 15
+      articles: 0
     },
     {
       icon: FileText,
       title: "Documentación",
       description: "Manuales técnicos y referencias",
       color: "text-warning",
-      articles: 23
+      articles: 0
     }
   ]
 
-  const faqs = [
-    {
-      question: "¿Cómo crear una nueva cotización?",
-      answer: "Ve al dashboard principal y haz clic en 'Nueva Cotización'. Completa los datos del cliente y selecciona los materiales necesarios.",
-      category: "Cotizaciones"
-    },
-    {
-      question: "¿Dónde encuentro los precios actualizados?",
-      answer: "Los precios se actualizan automáticamente desde la sección 'Recursos > Guía de Precios'. Puedes filtrar por categoría y fecha.",
-      category: "Precios"
-    },
-    {
-      question: "¿Cómo exportar una cotización a PDF?",
-      answer: "Una vez creada la cotización, haz clic en 'Exportar' y selecciona 'PDF'. El documento se generará automáticamente.",
-      category: "Exportación"
-    },
-    {
-      question: "¿Cómo gestionar el inventario de materiales?",
-      answer: "Ve a 'Recursos > Materiales' donde podrás agregar, editar y controlar el stock de todos tus insumos.",
-      category: "Inventario"
-    }
-  ]
+  const faqs: never[] = []
 
-  const quickGuides = [
-    {
-      title: "Primeros Pasos en ElectriQuote",
-      description: "Guía completa para nuevos usuarios",
-      duration: "5 min",
-      level: "Principiante"
-    },
-    {
-      title: "Creando tu Primera Cotización",
-      description: "Tutorial paso a paso para cotizaciones",
-      duration: "8 min",
-      level: "Intermedio"
-    },
-    {
-      title: "Gestión Avanzada de Clientes",
-      description: "Técnicas para organizar tu cartera",
-      duration: "12 min",
-      level: "Avanzado"
-    },
-    {
-      title: "Reportes y Analytics",
-      description: "Cómo interpretar tus métricas de negocio",
-      duration: "10 min",
-      level: "Intermedio"
-    }
-  ]
+  const quickGuides: never[] = []
 
   return (
     <div className="min-h-screen bg-background">

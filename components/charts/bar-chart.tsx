@@ -34,27 +34,33 @@ export function BarChartComponent({
           {description}
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
+      <CardContent className="p-6">
+        <ResponsiveContainer width="100%" height={450}>
           <BarChart
             data={data}
             margin={{
-              top: 10,
+              top: 20,
               right: 30,
-              left: 0,
-              bottom: 0,
+              left: 10,
+              bottom: 20,
             }}
           >
+            <defs>
+              <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="var(--chart-2)" stopOpacity={1}/>
+                <stop offset="100%" stopColor="var(--chart-2)" stopOpacity={0.7}/>
+              </linearGradient>
+            </defs>
             <XAxis
               dataKey="label"
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+              tick={{ fontSize: 13, fill: 'hsl(var(--muted-foreground))', fontWeight: 500 }}
             />
             <YAxis
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+              tick={{ fontSize: 13, fill: 'hsl(var(--muted-foreground))', fontWeight: 500 }}
               tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
             />
             <Tooltip
@@ -62,29 +68,29 @@ export function BarChartComponent({
                 if (active && payload && payload.length) {
                   const data = payload[0].payload as ProjectData
                   return (
-                    <div className="rounded-lg border bg-background p-2 shadow-sm">
-                      <div className="grid grid-cols-1 gap-2">
+                    <div className="rounded-lg border bg-background/95 backdrop-blur-sm p-3 shadow-lg">
+                      <div className="grid grid-cols-1 gap-3">
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Tipo
                           </span>
-                          <span className="font-bold text-muted-foreground">
+                          <span className="font-bold text-foreground">
                             {data.label}
                           </span>
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Valor Total
                           </span>
-                          <span className="font-bold">
+                          <span className="font-bold text-chart-2">
                             {formatCLP(data.value)}
                           </span>
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Proyectos
                           </span>
-                          <span className="font-bold text-muted-foreground">
+                          <span className="font-bold text-foreground">
                             {data.count}
                           </span>
                         </div>
@@ -97,8 +103,8 @@ export function BarChartComponent({
             />
             <Bar
               dataKey="value"
-              fill="hsl(var(--primary))"
-              radius={[4, 4, 0, 0]}
+              fill="url(#barGradient)"
+              radius={[8, 8, 0, 0]}
             />
           </BarChart>
         </ResponsiveContainer>

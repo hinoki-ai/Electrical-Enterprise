@@ -1,0 +1,22 @@
+{
+  "loading": "Cargando...",
+  "error": "Error",
+  "success": "Éxito",
+  "cancel": "Cancelar",
+  "save": "Guardar",
+  "delete": "Eliminar",
+  "edit": "Editar",
+  "create": "Crear",
+  "close": "Cerrar",
+  "back": "Volver",
+  "next": "Siguiente",
+  "previous": "Anterior",
+  "submit": "Enviar",
+  "search": "Buscar",
+  "filter": "Filtrar",
+  "no_results": "No se encontraron resultados",
+  "confirm": "Confirmar",
+  "yes": "Sí",
+  "no": "No"
+}
+

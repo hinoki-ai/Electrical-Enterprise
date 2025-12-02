@@ -1,0 +1,21 @@
+{
+  "quotenew": "/quote/new",
+  "buscar_por_cliente_proyecto_o_referencia": "Buscar por cliente, proyecto o referencia...",
+  "gestiona_todas_tus_cotizaciones_y_presupuestos": "Gestiona todas tus cotizaciones y presupuestos",
+  "nueva_cotizacin": "Nueva Cotización",
+  "absolute_left3_top12_translatey12_w4_h4_textmutedf": "absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground",
+  "flex_flexcol_smflexrow_gap4_mb6": "flex flex-col sm:flex-row gap-4 mb-6",
+  "flex_itemscenter_justifybetween_mb4": "flex items-center justify-between mb-4",
+  "gap2": "gap-2",
+  "lucidereact": "lucide-react",
+  "maxw7xl_mxauto_px4_py6_pb24_lgpb6": "max-w-7xl mx-auto px-4 py-6 pb-24 lg:pb-6",
+  "mb6": "mb-6",
+  "minhscreen_bgbackground": "min-h-screen bg-background",
+  "nextlink": "next/link",
+  "pl9": "pl-9",
+  "relative_flex1": "relative flex-1",
+  "text2xl_fontbold_textforeground_mb2": "text-2xl font-bold text-foreground mb-2",
+  "textmutedforeground": "text-muted-foreground",
+  "use_client": "use client",
+  "w4_h4": "w-4 h-4"
+}

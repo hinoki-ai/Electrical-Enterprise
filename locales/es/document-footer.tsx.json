@@ -1,0 +1,22 @@
+{
+  "agustn_arancibia_macguire": "Agustín Arancibia Mac-Guire",
+  "documento_generado_el_24112025": "Documento generado el 24/11/2025",
+  "este_documento_constituye_una_propuesta_formal_de_": "Este documento constituye una propuesta formal de servicios. Los valores indicados incluyen materiales y mano de\n        obra según las especificaciones descritas.",
+  "instalador_industrial_certificado": "Instalador Industrial Certificado",
+  "pinto_uble_chile": "Pinto, Ñuble, Chile",
+  "propuesta_vlida_por_30_das": "Propuesta válida por 30 días",
+  "flex_itemscenter_gap15": "flex items-center gap-1.5",
+  "flex_itemscenter_gap3": "flex items-center gap-3",
+  "flex_itemscenter_justifybetween": "flex items-center justify-between",
+  "fontsemibold_textforeground": "font-semibold text-foreground",
+  "lucidereact": "lucide-react",
+  "mt12_pt8_bordert2_bordervarheaderbg": "mt-12 pt-8 border-t-2 border-[var(--header-bg)]",
+  "mt6_pt4_bordert_borderborder_flex_itemscenter_just": "mt-6 pt-4 border-t border-border flex items-center justify-center gap-8 text-sm text-muted-foreground",
+  "textcenter_textxs_textmutedforeground_mt6": "text-center text-xs text-muted-foreground mt-6",
+  "textright_textsm_textmutedforeground": "text-right text-sm text-muted-foreground",
+  "textxs_mt1": "text-xs mt-1",
+  "textxs_textmutedforeground": "text-xs text-muted-foreground",
+  "w10_h10_roundedmd_bgvarheaderbg_flex_itemscenter_j": "w-10 h-10 rounded-md bg-[var(--header-bg)] flex items-center justify-center",
+  "w4_h4": "w-4 h-4",
+  "w5_h5_textvarhighlight": "w-5 h-5 text-[var(--highlight)]"
+}

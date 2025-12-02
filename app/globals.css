@@ -43,6 +43,12 @@
   --success: oklch(0.55 0.15 150);
   --warning: oklch(0.75 0.15 75);
   --info: oklch(0.6 0.12 250);
+
+  /* PDF Document Tokens - match blueprint exactly */
+  --header-bg: oklch(0.25 0.04 250);
+  --header-foreground: oklch(0.98 0 0);
+  --table-header: oklch(0.92 0.008 250);
+  --highlight: oklch(0.75 0.12 75);
 }
 
 .dark {
@@ -147,4 +153,25 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: oklch(0.6 0 0 / 0.5);
+}
+
+/* Print styles for PDF generation */
+@media print {
+  @page {
+    margin: 1.5cm;
+    size: letter;
+  }
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .page-break {
+    page-break-before: always;
+  }
+  .page-break-before {
+    page-break-before: always;
+  }
 }

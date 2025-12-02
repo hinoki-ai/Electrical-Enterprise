@@ -8,62 +8,11 @@ import { Badge } from "@/components/ui/badge"
 import { Mail, Clock, User, Send, Inbox, Star, Archive, Trash2, Reply } from "lucide-react"
 
 export default function EmailPage() {
-  const emailContacts = [
-    {
-      department: "Ventas y Cotizaciones",
-      email: "ventas@electriquote.cl",
-      response: "< 2 horas",
-      hours: "9:00 - 18:00 L-V"
-    },
-    {
-      department: "Soporte Técnico",
-      email: "soporte@electriquote.cl",
-      response: "< 4 horas",
-      hours: "8:00 - 20:00 L-V"
-    },
-    {
-      department: "Facturación y Pagos",
-      email: "facturacion@electriquote.cl",
-      response: "< 24 horas",
-      hours: "9:00 - 17:00 L-V"
-    },
-    {
-      department: "Administración",
-      email: "admin@electriquote.cl",
-      response: "< 48 horas",
-      hours: "9:00 - 17:00 L-V"
-    }
-  ]
+  const emailContacts: never[] = []
 
-  const emailTemplates = [
-    {
-      title: "Cotización Inicial",
-      description: "Plantilla para enviar primera cotización al cliente",
-      category: "Ventas"
-    },
-    {
-      title: "Seguimiento de Cotización",
-      description: "Recordatorio para cotizaciones pendientes",
-      category: "Ventas"
-    },
-    {
-      title: "Confirmación de Servicio",
-      description: "Confirmación de agendamiento de trabajo",
-      category: "Servicio"
-    },
-    {
-      title: "Factura Electrónica",
-      description: "Envío de documentos de facturación",
-      category: "Administrativo"
-    }
-  ]
+  const emailTemplates: never[] = []
 
-  const recentEmails = [
-    { subject: "Cotización Sistema Solar Residencial", from: "cliente@email.com", time: "Hace 30 min", status: "unread" },
-    { subject: "Consulta sobre Mantenimiento Industrial", from: "empresa@cliente.cl", time: "Hace 2 horas", status: "read" },
-    { subject: "Confirmación de Pago Recibido", from: "facturacion@cliente.cl", time: "Hace 4 horas", status: "read" },
-    { subject: "Pregunta Técnica - Normas Eléctricas", from: "tecnico@cliente.cl", time: "Hace 6 horas", status: "unread" }
-  ]
+  const recentEmails: never[] = []
 
   return (
     <div className="min-h-screen bg-background">
@@ -225,16 +174,16 @@ export default function EmailPage() {
           </CardHeader>
           <CardContent>
             <div className="bg-muted p-4 rounded-lg font-mono text-sm">
-              <div>Agustín Arancibia</div>
-              <div>Gerente General</div>
-              <div>ElectriQuote Solutions</div>
+              <div>Usuario</div>
+              <div>Cargo</div>
+              <div>Empresa</div>
               <br />
-              <div>📧 ventas@electriquote.cl</div>
-              <div>📱 +56 9 8765 4321</div>
-              <div>🌐 www.electriquote.cl</div>
+              <div>📧 email@ejemplo.cl</div>
+              <div>📱 +56 9 0000 0000</div>
+              <div>🌐 www.ejemplo.cl</div>
               <br />
               <div className="text-xs text-muted-foreground">
-                Electricista Certificado • RUT: 12.345.678-9
+                Certificación • RUT: 00.000.000-0
               </div>
             </div>
           </CardContent>

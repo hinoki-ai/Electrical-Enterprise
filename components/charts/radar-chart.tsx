@@ -33,47 +33,47 @@ export function RadarChartComponent({
           {description}
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
-          <RadarChart data={data}>
-            <PolarGrid />
+      <CardContent className="p-6">
+        <ResponsiveContainer width="100%" height={450}>
+          <RadarChart data={data} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
+            <PolarGrid stroke="hsl(var(--border))" />
             <PolarAngleAxis
               dataKey="metric"
-              tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+              tick={{ fontSize: 13, fill: 'hsl(var(--muted-foreground))', fontWeight: 500 }}
             />
             <PolarRadiusAxis
               angle={0}
               domain={[0, 100]}
-              tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }}
+              tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
             />
             <Tooltip
               content={({ active, payload, label }) => {
                 if (active && payload && payload.length) {
                   const data = payload[0].payload as PerformanceData
                   return (
-                    <div className="rounded-lg border bg-background p-2 shadow-sm">
-                      <div className="grid grid-cols-1 gap-2">
+                    <div className="rounded-lg border bg-background/95 backdrop-blur-sm p-3 shadow-lg">
+                      <div className="grid grid-cols-1 gap-3">
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Métrica
                           </span>
-                          <span className="font-bold text-muted-foreground">
+                          <span className="font-bold text-foreground">
                             {label}
                           </span>
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Actual
                           </span>
-                          <span className="font-bold">
+                          <span className="font-bold text-chart-1">
                             {data.current}%
                           </span>
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Objetivo
                           </span>
-                          <span className="font-bold text-green-600">
+                          <span className="font-bold text-success">
                             {data.target}%
                           </span>
                         </div>
@@ -87,18 +87,18 @@ export function RadarChartComponent({
             <Radar
               name="Actual"
               dataKey="current"
-              stroke="hsl(var(--primary))"
-              fill="hsl(var(--primary))"
-              fillOpacity={0.1}
-              strokeWidth={2}
+              stroke="var(--chart-1)"
+              fill="var(--chart-1)"
+              fillOpacity={0.3}
+              strokeWidth={3}
             />
             <Radar
               name="Objetivo"
               dataKey="target"
-              stroke="hsl(var(--destructive))"
-              fill="hsl(var(--destructive))"
-              fillOpacity={0.1}
-              strokeWidth={2}
+              stroke="var(--chart-3)"
+              fill="var(--chart-3)"
+              fillOpacity={0.2}
+              strokeWidth={3}
               strokeDasharray="5 5"
             />
           </RadarChart>

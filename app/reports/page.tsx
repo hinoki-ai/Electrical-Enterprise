@@ -121,19 +121,19 @@ export default function ReportsPage() {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center p-3 bg-success/10 rounded-lg">
-                    <div className="text-xl font-bold text-success">$1.2M</div>
+                    <div className="text-xl font-bold text-success">$0</div>
                     <div className="text-xs text-muted-foreground">Ingresos</div>
                   </div>
                   <div className="text-center p-3 bg-primary/10 rounded-lg">
-                    <div className="text-xl font-bold text-primary">24</div>
+                    <div className="text-xl font-bold text-primary">0</div>
                     <div className="text-xs text-muted-foreground">Cotizaciones</div>
                   </div>
                   <div className="text-center p-3 bg-warning/10 rounded-lg">
-                    <div className="text-xl font-bold text-warning">89%</div>
+                    <div className="text-xl font-bold text-warning">0%</div>
                     <div className="text-xs text-muted-foreground">Éxito</div>
                   </div>
                   <div className="text-center p-3 bg-info/10 rounded-lg">
-                    <div className="text-xl font-bold text-info">12</div>
+                    <div className="text-xl font-bold text-info">0</div>
                     <div className="text-xs text-muted-foreground">Clientes</div>
                   </div>
                 </div>
@@ -152,12 +152,7 @@ export default function ReportsPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {[
-                    { name: "Informe Mensual - Octubre 2024", date: "2024-10-31", type: "Financiero" },
-                    { name: "Análisis de Clientes 2024", date: "2024-10-25", type: "Clientes" },
-                    { name: "Tendencias de Mercado Q4", date: "2024-10-20", type: "Mercado" },
-                    { name: "Uso de Materiales 2024", date: "2024-10-15", type: "Materiales" }
-                  ].map((report, index) => (
+                  {[].map((report, index) => (
                     <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">

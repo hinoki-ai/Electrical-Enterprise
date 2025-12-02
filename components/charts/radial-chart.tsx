@@ -32,20 +32,21 @@ export function RadialChartComponent({
           {description}
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
+      <CardContent className="p-6">
+        <ResponsiveContainer width="100%" height={450}>
           <RadialBarChart
             cx="50%"
             cy="50%"
-            innerRadius="20%"
+            innerRadius="30%"
             outerRadius="90%"
-            barSize={20}
+            barSize={30}
             data={data}
+            margin={{ top: 20, right: 30, bottom: 20, left: 30 }}
           >
             <RadialBar
               minAngle={15}
-              label={{ position: 'insideStart', fill: '#fff' }}
-              background
+              label={{ position: 'insideStart', fill: 'hsl(var(--background))', fontSize: 12, fontWeight: 600 }}
+              background={{ fill: 'hsl(var(--muted))', opacity: 0.3 }}
               clockWise
               dataKey="value"
             />
@@ -54,21 +55,21 @@ export function RadialChartComponent({
                 if (active && payload && payload.length) {
                   const data = payload[0].payload as ProgressData
                   return (
-                    <div className="rounded-lg border bg-background p-2 shadow-sm">
-                      <div className="grid grid-cols-1 gap-2">
+                    <div className="rounded-lg border bg-background/95 backdrop-blur-sm p-3 shadow-lg">
+                      <div className="grid grid-cols-1 gap-3">
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Categoría
                           </span>
-                          <span className="font-bold text-muted-foreground">
+                          <span className="font-bold text-foreground whitespace-pre-line">
                             {data.name}
                           </span>
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Progreso
                           </span>
-                          <span className="font-bold">
+                          <span className="font-bold" style={{ color: data.fill }}>
                             {data.value}%
                           </span>
                         </div>

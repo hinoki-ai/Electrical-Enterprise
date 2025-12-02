@@ -13,18 +13,13 @@ import { Book, Search, Download, Calculator, TrendingUp, DollarSign, Package, Za
 export default function PriceGuidePage() {
   const [categoryFilter, setCategoryFilter] = useState("all")
   const priceCategories = [
-    { icon: Zap, label: "Materiales Eléctricos", count: 245, color: "text-primary" },
-    { icon: Package, label: "Equipos y Herramientas", count: 89, color: "text-info" },
-    { icon: Calculator, label: "Mano de Obra", count: 34, color: "text-success" },
-    { icon: TrendingUp, label: "Índices de Precios", count: 12, color: "text-warning" }
+    { icon: Zap, label: "Materiales Eléctricos", count: 0, color: "text-primary" },
+    { icon: Package, label: "Equipos y Herramientas", count: 0, color: "text-info" },
+    { icon: Calculator, label: "Mano de Obra", count: 0, color: "text-success" },
+    { icon: TrendingUp, label: "Índices de Precios", count: 0, color: "text-warning" }
   ]
 
-  const recentUpdates = [
-    { item: "Cable THW 2.5mm²", change: "+5.2%", date: "Hace 2 días" },
-    { item: "Interruptor Termomagnético 20A", change: "+3.8%", date: "Hace 3 días" },
-    { item: "Mano de obra - Instalación residencial", change: "+2.1%", date: "Hace 1 semana" },
-    { item: "Panel Solar 400W", change: "-8.5%", date: "Hace 2 semanas" }
-  ]
+  const recentUpdates: never[] = []
 
   return (
     <div className="min-h-screen bg-background">
@@ -126,12 +121,7 @@ export default function PriceGuidePage() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {[
-                    { name: "Cable THW 2.5mm²", price: "$2,850/m", category: "Cableado", trend: "up" },
-                    { name: "Interruptor Termomagnético 20A", price: "$15,500", category: "Protección", trend: "stable" },
-                    { name: "Panel Solar 400W", price: "$89,000", category: "Energía Solar", trend: "down" },
-                    { name: "Toma Corriente Doble", price: "$1,200", category: "Instalaciones", trend: "up" }
-                  ].map((item, index) => (
+                  {[].map((item, index) => (
                     <div key={index} className="p-4 border rounded-lg">
                       <div className="flex items-center justify-between mb-2">
                         <span className="font-medium">{item.name}</span>
@@ -162,22 +152,22 @@ export default function PriceGuidePage() {
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
-                    <div className="text-2xl font-bold text-primary">+8.3%</div>
+                    <div className="text-2xl font-bold text-primary">0%</div>
                     <div className="text-xs text-muted-foreground">Materiales</div>
                     <div className="text-xs text-success mt-1">vs mes anterior</div>
                   </div>
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
-                    <div className="text-2xl font-bold text-info">+4.1%</div>
+                    <div className="text-2xl font-bold text-info">0%</div>
                     <div className="text-xs text-muted-foreground">Mano de Obra</div>
                     <div className="text-xs text-success mt-1">vs mes anterior</div>
                   </div>
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
-                    <div className="text-2xl font-bold text-warning">+12.5%</div>
+                    <div className="text-2xl font-bold text-warning">0%</div>
                     <div className="text-xs text-muted-foreground">Equipos</div>
                     <div className="text-xs text-success mt-1">vs mes anterior</div>
                   </div>
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
-                    <div className="text-2xl font-bold text-success">+6.2%</div>
+                    <div className="text-2xl font-bold text-success">0%</div>
                     <div className="text-xs text-muted-foreground">Índice General</div>
                     <div className="text-xs text-success mt-1">vs mes anterior</div>
                   </div>
@@ -192,12 +182,7 @@ export default function PriceGuidePage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {[
-                    { service: "Instalación Residencial", rate: "$25,000/hr", description: "Trabajo estándar en vivienda" },
-                    { service: "Instalación Industrial", rate: "$35,000/hr", description: "Trabajo en instalaciones industriales" },
-                    { service: "Mantenimiento Preventivo", rate: "$20,000/hr", description: "Revisiones y mantenimiento" },
-                    { service: "Emergencias 24/7", rate: "$45,000/hr", description: "Servicio de emergencias" }
-                  ].map((service, index) => (
+                  {[].map((service, index) => (
                     <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
                       <div>
                         <div className="font-medium">{service.service}</div>

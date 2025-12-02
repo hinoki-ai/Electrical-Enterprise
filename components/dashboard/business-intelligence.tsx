@@ -43,10 +43,10 @@ const quoteTrendData = [
 ]
 
 const revenueDistributionData = [
-  { name: "Residencial", value: 15000000, fill: "hsl(var(--primary))" },
-  { name: "Comercial", value: 8000000, fill: "hsl(var(--destructive))" },
-  { name: "Industrial", value: 4500000, fill: "hsl(var(--accent))" },
-  { name: "Emergencia", value: 1000000, fill: "hsl(var(--secondary))" },
+  { name: "Residencial", value: 15000000, fill: "var(--chart-1)" },
+  { name: "Comercial", value: 8000000, fill: "var(--chart-2)" },
+  { name: "Industrial", value: 4500000, fill: "var(--chart-3)" },
+  { name: "Emergencia", value: 1000000, fill: "var(--chart-4)" },
 ]
 
 const performanceData = [
@@ -58,9 +58,9 @@ const performanceData = [
 ]
 
 const progressData = [
-  { name: "Proyectos\nActivos", value: 75, fill: "hsl(var(--primary))" },
-  { name: "Objetivos\nMensuales", value: 85, fill: "hsl(var(--destructive))" },
-  { name: "Satisfacción\nCliente", value: 94, fill: "hsl(var(--accent))" },
+  { name: "Proyectos\nActivos", value: 75, fill: "var(--chart-1)" },
+  { name: "Objetivos\nMensuales", value: 85, fill: "var(--chart-2)" },
+  { name: "Satisfacción\nCliente", value: 94, fill: "var(--chart-3)" },
 ]
 
 export function BusinessIntelligence() {
@@ -160,7 +160,7 @@ export function BusinessIntelligence() {
       </Card>
 
       {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <AreaChartInteractive data={revenueData} />
         <BarChartComponent data={projectData} />
         <LineChartComponent data={quoteTrendData} />

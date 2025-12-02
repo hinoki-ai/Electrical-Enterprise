@@ -167,19 +167,19 @@ export default function MaterialsPage() {
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="text-center p-4 bg-success/10 rounded-lg">
-                    <div className="text-2xl font-bold text-success">387</div>
+                    <div className="text-2xl font-bold text-success">0</div>
                     <div className="text-xs text-muted-foreground">Productos en Stock</div>
                   </div>
                   <div className="text-center p-4 bg-warning/10 rounded-lg">
-                    <div className="text-2xl font-bold text-warning">12</div>
+                    <div className="text-2xl font-bold text-warning">0</div>
                     <div className="text-xs text-muted-foreground">Stock Bajo</div>
                   </div>
                   <div className="text-center p-4 bg-destructive/10 rounded-lg">
-                    <div className="text-2xl font-bold text-destructive">3</div>
+                    <div className="text-2xl font-bold text-destructive">0</div>
                     <div className="text-xs text-muted-foreground">Sin Stock</div>
                   </div>
                   <div className="text-center p-4 bg-info/10 rounded-lg">
-                    <div className="text-2xl font-bold text-info">$2.4M</div>
+                    <div className="text-2xl font-bold text-info">$0</div>
                     <div className="text-xs text-muted-foreground">Valor Inventario</div>
                   </div>
                 </div>
@@ -193,12 +193,7 @@ export default function MaterialsPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {[
-                    { name: "ElectroChile", products: 145, rating: 4.8, lastOrder: "Hace 2 días" },
-                    { name: "Siemens Chile", products: 89, rating: 4.9, lastOrder: "Hace 1 semana" },
-                    { name: "Canadian Solar", products: 23, rating: 4.7, lastOrder: "Hace 3 días" },
-                    { name: "Legrand", products: 67, rating: 4.6, lastOrder: "Hace 5 días" }
-                  ].map((supplier, index) => (
+                  {[].map((supplier, index) => (
                     <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">

@@ -86,7 +86,7 @@ export const PDFDocument = forwardRef<HTMLDivElement, PDFDocumentProps>(({ data 
   const includedItems = data.items.filter((item) => item.isIncluded && !item.isOptional)
 
   return (
-    <div ref={ref} className="pdf-document bg-white text-foreground min-h-[297mm] w-[210mm] mx-auto">
+    <div ref={ref} id="electrical-quote-document" className="pdf-document bg-white text-foreground min-h-[297mm] w-[210mm] mx-auto">
       {/* Header */}
       <header className="bg-primary text-primary-foreground px-8 py-6">
         <div className="flex items-start justify-between">

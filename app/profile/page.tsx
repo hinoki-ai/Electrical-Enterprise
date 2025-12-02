@@ -12,23 +12,11 @@ import { Separator } from "@/components/ui/separator"
 import { User, Mail, Phone, MapPin, Calendar, Award, Briefcase, Shield, Camera, Edit, Save } from "lucide-react"
 
 export default function ProfilePage() {
-  const certifications = [
-    { name: "Electricista Certificado", issuer: "SUCAMEC", year: "2022", status: "active" },
-    { name: "Especialista en Energía Solar", issuer: "Instituto Solar", year: "2023", status: "active" },
-    { name: "Instalador de Sistemas Fotovoltaicos", issuer: "Corfo", year: "2023", status: "active" },
-    { name: "Manipulador de Cargas Peligrosas", issuer: "Mutual de Seguridad", year: "2024", status: "active" }
-  ]
+  const certifications: never[] = []
 
-  const experience = [
-    { company: "ElectriServicios SPA", position: "Técnico Electricista Senior", period: "2018 - 2022", type: "full-time" },
-    { company: "Construcciones del Sur", position: "Jefe de Instalaciones Eléctricas", period: "2022 - Presente", type: "contract" }
-  ]
+  const experience: never[] = []
 
-  const achievements = [
-    { title: "Proyecto del Año", description: "Instalación solar en edificio corporativo", year: "2023" },
-    { title: "Cliente Satisfecho", description: "Más de 50 proyectos completados", year: "2024" },
-    { title: "Innovación Técnica", description: "Implementación de sistemas inteligentes", year: "2023" }
-  ]
+  const achievements: never[] = []
 
   return (
     <div className="min-h-screen bg-background">
@@ -55,21 +43,21 @@ export default function ProfilePage() {
                   </Button>
                 </div>
 
-                <h2 className="text-xl font-bold mb-1">Agustín Arancibia</h2>
-                <p className="text-muted-foreground mb-3">Gerente General & Electricista Certificado</p>
+                <h2 className="text-xl font-bold mb-1">Usuario</h2>
+                <p className="text-muted-foreground mb-3">Perfil</p>
 
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center justify-center gap-2">
                     <Shield className="w-4 h-4 text-success" />
-                    <span>Certificado Activo</span>
+                    <span>Certificado</span>
                   </div>
                   <div className="flex items-center justify-center gap-2">
                     <Briefcase className="w-4 h-4 text-primary" />
-                    <span>6 años de experiencia</span>
+                    <span>Experiencia</span>
                   </div>
                   <div className="flex items-center justify-center gap-2">
                     <Award className="w-4 h-4 text-warning" />
-                    <span>98% satisfacción cliente</span>
+                    <span>Satisfacción</span>
                   </div>
                 </div>
               </CardContent>
@@ -82,15 +70,15 @@ export default function ProfilePage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="text-center p-3 bg-primary/10 rounded-lg">
-                  <div className="text-2xl font-bold text-primary">156</div>
+                  <div className="text-2xl font-bold text-primary">0</div>
                   <div className="text-xs text-muted-foreground">Proyectos Completados</div>
                 </div>
                 <div className="text-center p-3 bg-success/10 rounded-lg">
-                  <div className="text-2xl font-bold text-success">$2.4M</div>
+                  <div className="text-2xl font-bold text-success">$0</div>
                   <div className="text-xs text-muted-foreground">Valor Total Proyectos</div>
                 </div>
                 <div className="text-center p-3 bg-info/10 rounded-lg">
-                  <div className="text-2xl font-bold text-info">89%</div>
+                  <div className="text-2xl font-bold text-info">0%</div>
                   <div className="text-xs text-muted-foreground">Tasa de Éxito</div>
                 </div>
               </CardContent>
@@ -111,33 +99,33 @@ export default function ProfilePage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">Nombre</Label>
-                    <Input id="firstName" defaultValue="Agustín" />
+                    <Input id="firstName" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName">Apellido</Label>
-                    <Input id="lastName" defaultValue="Arancibia" />
+                    <Input id="lastName" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Correo Electrónico</Label>
-                    <Input id="email" type="email" defaultValue="agustin@electriquote.cl" />
+                    <Input id="email" type="email" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Teléfono</Label>
-                    <Input id="phone" defaultValue="+56 9 8765 4321" />
+                    <Input id="phone" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="rut">RUT</Label>
-                    <Input id="rut" defaultValue="12.345.678-9" />
+                    <Input id="rut" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="birthdate">Fecha de Nacimiento</Label>
-                    <Input id="birthdate" type="date" defaultValue="1995-06-15" />
+                    <Input id="birthdate" type="date" />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="address">Dirección</Label>
-                  <Input id="address" defaultValue="Av. Providencia 1234, Providencia, Santiago" />
+                  <Input id="address" />
                 </div>
 
                 <div className="flex justify-end pt-4">

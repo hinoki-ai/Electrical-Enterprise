@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { AuthProvider } from "@/components/auth-context";
+import { DivineParsingOracleProvider } from "@/components/language/ChunkedLanguageProvider";
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
 
@@ -28,10 +29,16 @@ export function Providers({ children }: { children: ReactNode }) {
     </ThemeProvider>
   );
 
+  const content = (
+    <DivineParsingOracleProvider initialNamespaces={["common"]}>
+      {themeContent}
+    </DivineParsingOracleProvider>
+  );
+
   if (!convex) {
     return (
       <AuthProvider>
-        {themeContent}
+        {content}
       </AuthProvider>
     );
   }
@@ -40,7 +47,7 @@ export function Providers({ children }: { children: ReactNode }) {
     <ConvexProvider client={convex}>
       <AuthProvider>
         <DynamicQuoteProvider>
-          {themeContent}
+          {content}
         </DynamicQuoteProvider>
       </AuthProvider>
     </ConvexProvider>

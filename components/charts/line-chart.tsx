@@ -35,69 +35,69 @@ export function LineChartComponent({
         </CardTitle>
         <CardDescription>
           {description}
-          <span className="ml-2 text-sm font-medium text-green-600">
+          <span className="ml-2 text-sm font-semibold text-success">
             Tasa de conversión: {conversionRate}%
           </span>
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
+      <CardContent className="p-6">
+        <ResponsiveContainer width="100%" height={450}>
           <LineChart
             data={data}
             margin={{
-              top: 10,
+              top: 20,
               right: 30,
-              left: 0,
-              bottom: 0,
+              left: 10,
+              bottom: 20,
             }}
           >
             <XAxis
               dataKey="month"
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+              tick={{ fontSize: 13, fill: 'hsl(var(--muted-foreground))', fontWeight: 500 }}
             />
             <YAxis
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+              tick={{ fontSize: 13, fill: 'hsl(var(--muted-foreground))', fontWeight: 500 }}
             />
             <Tooltip
               content={({ active, payload, label }) => {
                 if (active && payload && payload.length) {
                   const data = payload[0].payload as QuoteTrendData
                   return (
-                    <div className="rounded-lg border bg-background p-2 shadow-sm">
-                      <div className="grid grid-cols-2 gap-2">
+                    <div className="rounded-lg border bg-background/95 backdrop-blur-sm p-3 shadow-lg">
+                      <div className="grid grid-cols-2 gap-3">
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Mes
                           </span>
-                          <span className="font-bold text-muted-foreground">
+                          <span className="font-bold text-foreground">
                             {label}
                           </span>
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Enviadas
                           </span>
-                          <span className="font-bold">
+                          <span className="font-bold text-chart-1">
                             {data.quotes}
                           </span>
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Aprobadas
                           </span>
-                          <span className="font-bold text-green-600">
+                          <span className="font-bold text-success">
                             {data.approved}
                           </span>
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          <span className="text-[0.70rem] uppercase text-muted-foreground mb-1">
                             Conversión
                           </span>
-                          <span className="font-bold text-muted-foreground">
+                          <span className="font-bold text-foreground">
                             {data.quotes > 0 ? ((data.approved / data.quotes) * 100).toFixed(1) : 0}%
                           </span>
                         </div>
@@ -111,17 +111,26 @@ export function LineChartComponent({
             <Line
               type="monotone"
               dataKey="quotes"
-              stroke="hsl(var(--primary))"
-              strokeWidth={2}
-              dot={{ fill: "hsl(var(--primary))", strokeWidth: 2, r: 4 }}
-              activeDot={{ r: 6 }}
+              stroke="var(--chart-1)"
+              strokeWidth={3}
+              dot={{ fill: "var(--chart-1)", strokeWidth: 2, r: 5 }}
+              activeDot={{ r: 8, stroke: "var(--chart-1)", strokeWidth: 2 }}
             />
             <Line
               type="monotone"
               dataKey="approved"
-              stroke="hsl(var(--destructive))"
+              stroke="var(--chart-3)"
+              strokeWidth={3}
+              dot={{ fill: "var(--chart-3)", strokeWidth: 2, r: 5 }}
+              activeDot={{ r: 8, stroke: "var(--chart-3)", strokeWidth: 2 }}
+            />
+            <Line
+              type="monotone"
+              dataKey="sent"
+              stroke="var(--chart-4)"
               strokeWidth={2}
-              dot={{ fill: "hsl(var(--destructive))", strokeWidth: 2, r: 4 }}
+              strokeDasharray="5 5"
+              dot={{ fill: "var(--chart-4)", strokeWidth: 2, r: 4 }}
               activeDot={{ r: 6 }}
             />
           </LineChart>

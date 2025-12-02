@@ -8,69 +8,9 @@ import { Badge } from "@/components/ui/badge"
 import { AlertTriangle, Phone, MapPin, Clock, User, Zap, Shield, Ambulance } from "lucide-react"
 
 export default function EmergencyPage() {
-  const emergencyContacts = [
-    {
-      name: "Emergencias Eléctricas 24/7",
-      phone: "+56 9 8765 4321",
-      type: "Servicio de Emergencias",
-      response: "< 30 min",
-      coverage: "Todo Chile"
-    },
-    {
-      name: "Agustín Arancibia",
-      phone: "+56 9 8765 4322",
-      type: "Técnico Principal",
-      response: "< 1 hora",
-      coverage: "Región Metropolitana"
-    },
-    {
-      name: "Equipo de Guardia",
-      phone: "+56 9 8765 4323",
-      type: "Equipo Técnico",
-      response: "< 2 horas",
-      coverage: "Región Metropolitana"
-    },
-    {
-      name: "Proveedor de Emergencia",
-      phone: "+56 2 2345 6789",
-      type: "Suministros",
-      response: "< 4 horas",
-      coverage: "Todo Chile"
-    }
-  ]
+  const emergencyContacts: never[] = []
 
-  const emergencyProtocols = [
-    {
-      title: "Corte de Energía",
-      priority: "Alta",
-      steps: [
-        "Verificar panel principal y disyuntores",
-        "Revisar conexiones y cables expuestos",
-        "Contactar servicio de emergencias si hay riesgo",
-        "No manipular instalaciones sin certificación"
-      ]
-    },
-    {
-      title: "Cortocircuito",
-      priority: "Crítica",
-      steps: [
-        "Desconectar alimentación principal",
-        "No tocar equipos ni cables",
-        "Evacuar área si hay humo o chispas",
-        "Llamar emergencias inmediatamente"
-      ]
-    },
-    {
-      title: "Sobrecarga Eléctrica",
-      priority: "Media",
-      steps: [
-        "Reducir consumo de energía",
-        "Verificar disyuntores sobrecargados",
-        "Distribuir carga entre circuitos",
-        "Contactar técnico si persiste"
-      ]
-    }
-  ]
+  const emergencyProtocols: never[] = []
 
   return (
     <div className="min-h-screen bg-background">
@@ -94,7 +34,7 @@ export default function EmergencyPage() {
           <CardContent className="p-6">
             <div className="text-center">
               <h2 className="text-2xl font-bold text-destructive mb-4">LÍNEA DE EMERGENCIAS</h2>
-              <div className="text-4xl font-bold text-destructive mb-2">+56 9 8765 4321</div>
+              <div className="text-4xl font-bold text-destructive mb-2">+56 9 0000 0000</div>
               <p className="text-muted-foreground mb-4">Disponible 24 horas al día, 7 días a la semana</p>
               <Button size="lg" className="bg-destructive hover:bg-destructive/90 gap-2">
                 <Phone className="w-5 h-5" />
@@ -189,32 +129,7 @@ export default function EmergencyPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {[
-                  {
-                    service: "Reparación de Cortocircuitos",
-                    description: "Diagnóstico y reparación inmediata",
-                    time: "< 2 horas",
-                    cost: "Desde $25,000"
-                  },
-                  {
-                    service: "Restauración de Energía",
-                    description: "Recuperación de sistemas eléctricos",
-                    time: "< 4 horas",
-                    cost: "Desde $35,000"
-                  },
-                  {
-                    service: "Inspección de Seguridad",
-                    description: "Verificación de riesgos eléctricos",
-                    time: "< 1 hora",
-                    cost: "Desde $15,000"
-                  },
-                  {
-                    service: "Asistencia Técnica Remota",
-                    description: "Soporte telefónico especializado",
-                    time: "Inmediato",
-                    cost: "Gratuito"
-                  }
-                ].map((service, index) => (
+                {[].map((service, index) => (
                   <div key={index} className="p-4 border rounded-lg">
                     <h3 className="font-medium mb-1">{service.service}</h3>
                     <p className="text-sm text-muted-foreground mb-3">{service.description}</p>
@@ -257,7 +172,7 @@ export default function EmergencyPage() {
                     <div><strong>Bomberos:</strong> 132</div>
                     <div><strong>Ambulancia:</strong> 131</div>
                     <div><strong>Carabineros:</strong> 133</div>
-                    <div><strong>ElectriQuote:</strong> +56 9 8765 4321</div>
+                    <div><strong>Emergencias:</strong> +56 9 0000 0000</div>
                   </div>
                 </div>
 

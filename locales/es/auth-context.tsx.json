@@ -1,0 +1,6 @@
+{
+  "convexreact": "convex/react",
+  "use_client": "use client",
+  "void_logout_void_const_authcontext_createcontext": "void\n  logout: () => void\n}\n\nconst AuthContext = createContext",
+  "_const_value_authcontexttype_user_currentuser_null": "}\n\n  const value: AuthContextType = {\n    user: currentUser ?? null,\n    isAuthenticated: isAuthenticatedQuery ?? false,\n    isInitializing: currentUser === undefined || isAuthenticatedQuery === undefined,\n    login,\n    logout,\n  }\n\n  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>\n}\n\nexport function useAuth() {\n  const context = useContext(AuthContext)\n  if (context === undefined) {\n    throw new Error("
+}

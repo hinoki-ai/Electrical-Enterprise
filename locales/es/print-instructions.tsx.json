@@ -1,0 +1,18 @@
+{
+  "_printer_classname": ">\n          <Printer className=",
+  "cmdpkbd_en_mac_y_selecciona_ldquoguardar_como_pdfr": ">Cmd+P</kbd> en Mac) y selecciona\n&ldquo;Guardar como PDF&rdquo;\n        </p>\n        <button\n          onClick={handlePrint}\n          className=",
+  "cmdp": "Cmd+P",
+  "ctrlp": "Ctrl+P",
+  "imprimir_guardar_pdf": "Imprimir / Guardar PDF",
+  "para_pdf_sin_marca_de_agua": "Para PDF sin marca de agua:",
+  "bgslate700_px15_py05_rounded_textamber400_fontmono": "bg-slate-700 px-1.5 py-0.5 rounded text-amber-400 font-mono",
+  "bgslate800_textwhite_p4_roundedlg_shadowxl_maxwxs": "bg-slate-800 text-white p-4 rounded-lg shadow-xl max-w-xs",
+  "en_mac_y_selecciona_ldquoguardar_como_pdfrdquo": "en Mac) y selecciona\n&ldquo;Guardar como PDF&rdquo;",
+  "lucidereact": "lucide-react",
+  "printhidden_fixed_bottom6_right6_flex_flexcol_gap3": "print:hidden fixed bottom-6 right-6 flex flex-col gap-3 z-50",
+  "textsm_fontmedium_mb2_flex_itemscenter_gap2": "text-sm font-medium mb-2 flex items-center gap-2",
+  "textxs_textslate300_mb3": "text-xs text-slate-300 mb-3",
+  "use_client": "use client",
+  "w4_h4_textamber400": "w-4 h-4 text-amber-400",
+  "_kbd_classname": "}\n          <kbd className="
+}
