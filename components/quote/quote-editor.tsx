@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import { useMutation } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import type { Doc } from "@/convex/_generated/dataModel"
@@ -14,7 +15,7 @@ import { Badge } from "@/components/ui/badge"
 import { PDFPreview } from "@/components/pdf/pdf-preview"
 import type { PDFQuoteData } from "@/components/pdf/pdf-document"
 import { formatCLP, getStatusLabel } from "@/lib/utils"
-import { Save, Send, FileText, Plus, Trash2, Loader2 } from "lucide-react"
+import { Save, Send, FileText, Plus, Trash2, Loader2, Mail, Paperclip, Wrench } from "lucide-react"
 import { toast } from "sonner"
 
 interface QuoteEditorProps {
@@ -24,12 +25,33 @@ interface QuoteEditorProps {
 
 export function QuoteEditor({ quote, client }: QuoteEditorProps) {
   const updateQuote = useMutation(api.quotes.update)
+  const searchParams = useSearchParams()
+  const urlTab = searchParams?.get("tab")
 
   const [items, setItems] = useState(quote.items)
   const [projectName, setProjectName] = useState(quote.projectName)
   const [description, setDescription] = useState(quote.description || "")
   const [notes, setNotes] = useState(quote.notes || "")
   const [isSaving, setIsSaving] = useState(false)
+  const [activeTab, setActiveTab] = useState<"details" | "items" | "notes" | "tracking" | "attachments" | "specs">(
+    (urlTab === "tracking" || urlTab === "attachments" || urlTab === "specs" 
+      ? urlTab 
+      : urlTab === "items" 
+        ? "items" 
+        : urlTab === "notes" 
+          ? "notes" 
+          : "details") as "details" | "items" | "notes" | "tracking" | "attachments" | "specs"
+  )
+
+  useEffect(() => {
+    if (urlTab === "tracking" || urlTab === "attachments" || urlTab === "specs") {
+      setActiveTab(urlTab as any)
+    } else if (urlTab === "items") {
+      setActiveTab("items")
+    } else if (urlTab === "notes") {
+      setActiveTab("notes")
+    }
+  }, [urlTab])
 
   const totalValue = items.filter((i) => i.isIncluded).reduce((sum, i) => sum + i.value, 0)
 
@@ -149,11 +171,23 @@ export function QuoteEditor({ quote, client }: QuoteEditorProps) {
             </div>
           </CardHeader>
           <CardContent>
-            <Tabs defaultValue="details">
-              <TabsList className="grid w-full grid-cols-3">
+            <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)}>
+              <TabsList className="grid w-full grid-cols-6">
                 <TabsTrigger value="details">Detalles</TabsTrigger>
                 <TabsTrigger value="items">Partidas</TabsTrigger>
                 <TabsTrigger value="notes">Notas</TabsTrigger>
+                <TabsTrigger value="tracking">
+                  <Mail className="w-3.5 h-3.5 mr-1" />
+                  Seguimiento
+                </TabsTrigger>
+                <TabsTrigger value="attachments">
+                  <Paperclip className="w-3.5 h-3.5 mr-1" />
+                  Adjuntos
+                </TabsTrigger>
+                <TabsTrigger value="specs">
+                  <Wrench className="w-3.5 h-3.5 mr-1" />
+                  Specs
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value="details" className="space-y-4 pt-4">
@@ -286,6 +320,70 @@ export function QuoteEditor({ quote, client }: QuoteEditorProps) {
                     rows={6}
                     placeholder="Notas adicionales que aparecerán en la cotización..."
                   />
+                </div>
+              </TabsContent>
+
+              <TabsContent value="tracking" className="space-y-4 pt-4">
+                <div className="p-6 border rounded-lg text-center">
+                  <Mail className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                  <h3 className="font-semibold mb-2">Seguimiento de Cotización</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Historial de comunicaciones y seguimiento con el cliente
+                  </p>
+                  <div className="space-y-2 text-left">
+                    {quote.status === "sent" && quote.sentAt && (
+                      <div className="p-3 bg-muted/50 rounded">
+                        <p className="text-sm font-medium">Enviado</p>
+                        <p className="text-xs text-muted-foreground">
+                          {new Date(quote.sentAt).toLocaleDateString("es-CL")}
+                        </p>
+                      </div>
+                    )}
+                    {quote.status === "approved" && (
+                      <div className="p-3 bg-success/10 rounded">
+                        <p className="text-sm font-medium text-success">Aprobado</p>
+                        <p className="text-xs text-muted-foreground">
+                          {quote.approvedAt ? new Date(quote.approvedAt).toLocaleDateString("es-CL") : "Recientemente"}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="attachments" className="space-y-4 pt-4">
+                <div className="p-6 border rounded-lg text-center">
+                  <Paperclip className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                  <h3 className="font-semibold mb-2">Adjuntos</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Documentos, planos y archivos relacionados con esta cotización
+                  </p>
+                  <Button variant="outline" className="gap-2">
+                    <Plus className="w-4 h-4" />
+                    Agregar Adjunto
+                  </Button>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="specs" className="space-y-4 pt-4">
+                <div className="p-6 border rounded-lg text-center">
+                  <Wrench className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                  <h3 className="font-semibold mb-2">Especificaciones Técnicas</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Detalles técnicos y especificaciones del proyecto
+                  </p>
+                  <div className="space-y-2 text-left">
+                    <div className="p-3 bg-muted/50 rounded">
+                      <p className="text-sm font-medium">Tipo de Proyecto</p>
+                      <p className="text-xs text-muted-foreground">{quote.projectType}</p>
+                    </div>
+                    {quote.description && (
+                      <div className="p-3 bg-muted/50 rounded">
+                        <p className="text-sm font-medium">Descripción</p>
+                        <p className="text-xs text-muted-foreground">{quote.description}</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </TabsContent>
             </Tabs>

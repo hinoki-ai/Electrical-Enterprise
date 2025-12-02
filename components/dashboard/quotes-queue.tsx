@@ -4,6 +4,9 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { useQuery, useMutation } from "convex/react"
+import { api } from "@/convex/_generated/api"
+import type { Id } from "@/convex/_generated/dataModel"
 import {
   Mail,
   Phone,
@@ -28,9 +31,10 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
-import { useData, type QuoteStatus, type Quote } from "@/lib/data-context"
 import { formatCLP, formatRelativeDate, getProjectTypeLabel } from "@/lib/utils"
 import { toast } from "sonner"
+
+type QuoteStatus = "draft" | "sent" | "pending" | "approved" | "rejected"
 
 const statusConfig: Record<QuoteStatus, { label: string; color: string; icon: React.ReactNode }> = {
   sent: { label: "Enviados", color: "bg-info/20 text-info", icon: <Mail className="w-3 h-3" /> },
@@ -41,7 +45,9 @@ const statusConfig: Record<QuoteStatus, { label: string; color: string; icon: Re
 }
 
 export function QuotesQueue() {
-  const { quotes, updateQuote, deleteQuote } = useData()
+  const quotes = useQuery(api.quotes.list) ?? []
+  const updateQuote = useMutation(api.quotes.update)
+  const deleteQuote = useMutation(api.quotes.remove)
   const [activeTab, setActiveTab] = useState<QuoteStatus>("sent")
   const router = useRouter()
 
@@ -54,43 +60,44 @@ export function QuotesQueue() {
     rejected: quotes.filter((q) => q.status === "rejected").length,
   }
 
-  const handleAction = (quoteId: string, action: string) => {
-    switch (action) {
-      case "approve":
-        updateQuote(quoteId, { status: "approved" })
-        toast.success("Cotización marcada como aprobada")
-        break
-      case "send":
-        updateQuote(quoteId, { status: "sent", sentAt: new Date() })
-        toast.success("Cotización enviada")
-        break
-      case "delete":
-        deleteQuote(quoteId)
-        toast.success("Cotización eliminada")
-        break
+  const handleAction = async (quoteId: Id<"quotes">, action: string) => {
+    try {
+      switch (action) {
+        case "approve":
+          await updateQuote({ id: quoteId, status: "approved" })
+          toast.success("Cotización marcada como aprobada")
+          break
+        case "send":
+          await updateQuote({ id: quoteId, status: "sent" })
+          toast.success("Cotización enviada")
+          break
+        case "delete":
+          await deleteQuote({ id: quoteId })
+          toast.success("Cotización eliminada")
+          break
+      }
+    } catch (error) {
+      toast.error("Error al realizar la acción")
     }
   }
 
-  const handleButtonAction = (quote: Quote, action: string) => {
+  const handleButtonAction = (quote: typeof quotes[0], action: string) => {
     switch (action) {
       case "edit":
-        router.push(`/quote/${quote.id}`)
+        router.push(`/quote/${quote._id}`)
         break
       case "call":
-        if (quote.clientPhone) {
-          window.open(`tel:${quote.clientPhone}`, '_self')
-        } else {
-          toast.error("No hay número de teléfono disponible")
-        }
+        // Get client phone from quote or client data
+        toast.info("Funcionalidad de llamada próximamente disponible")
         break
       case "tracking":
-        toast.info("Funcionalidad de seguimiento próximamente disponible")
+        router.push(`/quote/${quote._id}?tab=tracking`)
         break
       case "attachments":
-        toast.info("Funcionalidad de adjuntos próximamente disponible")
+        router.push(`/quote/${quote._id}?tab=attachments`)
         break
       case "specs":
-        toast.info("Funcionalidad de especificaciones próximamente disponible")
+        router.push(`/quote/${quote._id}?tab=specs`)
         break
     }
   }
@@ -148,7 +155,7 @@ export function QuotesQueue() {
                 <div className="space-y-2">
                   {filteredQuotes.map((quote) => (
                     <div
-                      key={quote.id}
+                      key={quote._id}
                       className="flex items-center gap-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors group"
                     >
                       <div className="flex-1 min-w-0">
@@ -161,9 +168,9 @@ export function QuotesQueue() {
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                           <span className="truncate">{quote.clientName}</span>
                           <span>•</span>
-                          <span className="font-mono">{formatCLP(quote.value)}</span>
+                          <span className="font-mono">{formatCLP(quote.totalValue)}</span>
                           <span className="hidden sm:inline">•</span>
-                          <span className="hidden sm:inline">{formatRelativeDate(quote.updatedAt)}</span>
+                          <span className="hidden sm:inline">{formatRelativeDate(new Date(quote._creationTime))}</span>
                         </div>
                       </div>
 
@@ -207,20 +214,20 @@ export function QuotesQueue() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             {status === "draft" && (
-                              <DropdownMenuItem onClick={() => handleAction(quote.id, "send")}>
+                              <DropdownMenuItem onClick={() => handleAction(quote._id, "send")}>
                                 <Send className="w-4 h-4 mr-2" />
                                 Enviar
                               </DropdownMenuItem>
                             )}
                             {(status === "sent" || status === "pending") && (
-                              <DropdownMenuItem onClick={() => handleAction(quote.id, "approve")}>
+                              <DropdownMenuItem onClick={() => handleAction(quote._id, "approve")}>
                                 <CheckCircle2 className="w-4 h-4 mr-2" />
                                 Marcar Aprobado
                               </DropdownMenuItem>
                             )}
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
-                              onClick={() => handleAction(quote.id, "delete")}
+                              onClick={() => handleAction(quote._id, "delete")}
                               className="text-destructive"
                             >
                               <Trash2 className="w-4 h-4 mr-2" />

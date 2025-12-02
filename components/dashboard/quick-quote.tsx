@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { formatCLP, getProjectTypeLabel, getPlanLabel } from "@/lib/utils"
+import { loadSettings } from "@/lib/settings"
 import { toast } from "sonner"
 import Link from "next/link"
 
@@ -34,11 +35,16 @@ export function QuickQuote() {
   const createQuote = useMutation(api.quotes.create)
   const createClient = useMutation(api.clients.create)
 
+  // Load settings for defaults
+  const settings = typeof window !== "undefined" ? loadSettings() : null
+
   const [clientName, setClientName] = useState("")
   const [clientPhone, setClientPhone] = useState("")
   const [showPhone, setShowPhone] = useState(false)
   const [projectName, setProjectName] = useState("")
-  const [projectType, setProjectType] = useState<ProjectType>("residential")
+  const [projectType, setProjectType] = useState<ProjectType>(
+    (settings?.defaultProjectType as ProjectType) || "residential"
+  )
   const [value, setValue] = useState("")
   const [plan, setPlan] = useState<Plan>("standard")
   const [isSubmitting, setIsSubmitting] = useState(false)

@@ -1,9 +1,10 @@
 "use client"
 
 import { TrendingUp, TrendingDown, Target, Users, Award } from "lucide-react"
+import { useQuery } from "convex/react"
+import { api } from "@/convex/_generated/api"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { useData } from "@/lib/data-context"
 import { formatCLP, getPlanLabel } from "@/lib/utils"
 import { cn } from "@/lib/utils"
 import {
@@ -63,11 +64,21 @@ const progressData = [
 ]
 
 export function BusinessIntelligence() {
-  const { metrics } = useData()
+  const metrics = useQuery(api.quotes.getMetrics) ?? {
+    monthlyRevenue: 0,
+    previousMonthRevenue: 0,
+    profitMargin: 0,
+    avgProjectValue: 0,
+    quoteConversion: 0,
+    clientSatisfaction: 0,
+    planStats: [],
+  }
 
-  const revenueChange = Math.round(
-    ((metrics.monthlyRevenue - metrics.previousMonthRevenue) / metrics.previousMonthRevenue) * 100,
-  )
+  const revenueChange = metrics.previousMonthRevenue > 0
+    ? Math.round(
+        ((metrics.monthlyRevenue - metrics.previousMonthRevenue) / metrics.previousMonthRevenue) * 100,
+      )
+    : 0
   const isPositive = revenueChange >= 0
 
   return (

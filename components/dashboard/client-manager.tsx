@@ -1,10 +1,11 @@
 "use client"
 
 import { User, Building2, Star, Phone, Mail, Plus, ChevronRight } from "lucide-react"
+import { useQuery } from "convex/react"
+import { api } from "@/convex/_generated/api"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { useData } from "@/lib/data-context"
 import { formatCLP, formatRelativeDate } from "@/lib/utils"
 import { cn } from "@/lib/utils"
 
@@ -15,9 +16,9 @@ const speedLabels = {
 }
 
 export function ClientManager() {
-  const { clients } = useData()
+  const clients = useQuery(api.clients.list) ?? []
 
-  const sortedClients = [...clients].sort((a, b) => (b.lastContact?.getTime() || 0) - (a.lastContact?.getTime() || 0))
+  const sortedClients = [...clients].sort((a, b) => (b.lastContact || 0) - (a.lastContact || 0))
 
   return (
     <Card>
@@ -48,7 +49,7 @@ export function ClientManager() {
 
             return (
               <div
-                key={client.id}
+                key={client._id}
                 className="flex items-start gap-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors group cursor-pointer"
               >
                 <Avatar className="h-10 w-10 shrink-0">
@@ -69,23 +70,23 @@ export function ClientManager() {
                       {Array.from({ length: 5 }).map((_, i) => (
                         <Star
                           key={i}
-                          className={cn("w-3 h-3", i < client.rating ? "fill-accent text-accent" : "text-muted")}
+                          className={cn("w-3 h-3", i < (client.rating || 0) ? "fill-accent text-accent" : "text-muted")}
                         />
                       ))}
                     </div>
                   </div>
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
                     <span>
-                      {client.totalProjects} proyecto{client.totalProjects !== 1 ? "s" : ""}
+                      {client.totalProjects || 0} proyecto{(client.totalProjects || 0) !== 1 ? "s" : ""}
                     </span>
-                    <span className="font-mono">{formatCLP(client.totalValue)}</span>
-                    <span className={speedLabels[client.responseSpeed].color}>
-                      {speedLabels[client.responseSpeed].label}
+                    <span className="font-mono">{formatCLP(client.totalValue || 0)}</span>
+                    <span className={speedLabels[client.responseSpeed || "medium"].color}>
+                      {speedLabels[client.responseSpeed || "medium"].label}
                     </span>
                   </div>
                   {client.lastContact && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      Último contacto: {formatRelativeDate(client.lastContact)}
+                      Último contacto: {formatRelativeDate(new Date(client.lastContact))}
                     </p>
                   )}
                 </div>
