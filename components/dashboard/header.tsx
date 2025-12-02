@@ -18,6 +18,7 @@ import {
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
+import { useAuth } from "@/components/auth-context"
 
 const mainNavItems = [
   { icon: Home, label: "Dashboard", href: "/dashboard" },
@@ -52,6 +53,7 @@ const otherNavItems = [
 
 export function DashboardHeader() {
   const pathname = usePathname()
+  const { user } = useAuth()
 
   return (
     <header className="sticky top-0 z-50 bg-primary text-primary-foreground shadow-lg">
@@ -64,7 +66,7 @@ export function DashboardHeader() {
             </div>
             <div className="hidden sm:block">
               <h1 className="font-bold text-lg leading-none">ElectriQuote</h1>
-              <p className="text-xs text-primary-foreground/70">Agustín Arancibia</p>
+              <p className="text-xs text-primary-foreground/70">{user?.username || ""}</p>
             </div>
           </Link>
 

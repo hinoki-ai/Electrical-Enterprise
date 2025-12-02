@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
+import { useTheme } from "next-themes"
 import { Settings, Palette, Bell, Building2, Calculator, Save, RotateCcw, LogOut } from "lucide-react"
 import {
   Dialog,
@@ -26,44 +27,117 @@ interface SettingsDialogProps {
   children: React.ReactNode
 }
 
+// Default settings (darkMode removed since it's handled by theme system)
+const DEFAULT_SETTINGS = {
+  notifications: true,
+  autoSave: true,
+  defaultCurrency: "CLP",
+  includeVAT: true,
+  defaultPaymentType: "monthly",
+  defaultProjectType: "residential",
+  defaultComplexity: "medium",
+  defaultMaterialQuality: "standard",
+}
+
+// Load settings from localStorage
+function loadSettings() {
+  if (typeof window === "undefined") return DEFAULT_SETTINGS
+  try {
+    const saved = localStorage.getItem("electriquote_settings")
+    if (saved) {
+      const parsed = JSON.parse(saved)
+      return { ...DEFAULT_SETTINGS, ...parsed }
+    }
+  } catch {
+    // Fall through to defaults
+  }
+  return DEFAULT_SETTINGS
+}
+
 export function SettingsDialog({ children }: SettingsDialogProps) {
   const { logout } = useAuth()
+  const { theme, setTheme, resolvedTheme } = useTheme()
   const [isOpen, setIsOpen] = useState(false)
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
   const [isRestoringDefaults, setIsRestoringDefaults] = useState(false)
 
-  // Application settings
-  const [darkMode, setDarkMode] = useState(false)
-  const [notifications, setNotifications] = useState(true)
-  const [autoSave, setAutoSave] = useState(true)
+  // Load settings from localStorage on mount
+  const loadedSettings = typeof window !== "undefined" ? loadSettings() : DEFAULT_SETTINGS
+  const [notifications, setNotifications] = useState(loadedSettings.notifications)
+  const [autoSave, setAutoSave] = useState(loadedSettings.autoSave)
+  const [defaultCurrency, setDefaultCurrency] = useState(loadedSettings.defaultCurrency)
+  const [includeVAT, setIncludeVAT] = useState(loadedSettings.includeVAT)
+  const [defaultPaymentType, setDefaultPaymentType] = useState(loadedSettings.defaultPaymentType)
+  const [defaultProjectType, setDefaultProjectType] = useState(loadedSettings.defaultProjectType)
+  const [defaultComplexity, setDefaultComplexity] = useState(loadedSettings.defaultComplexity)
+  const [defaultMaterialQuality, setDefaultMaterialQuality] = useState(loadedSettings.defaultMaterialQuality)
 
-  // Business settings
-  const [defaultCurrency, setDefaultCurrency] = useState("CLP")
-  const [includeVAT, setIncludeVAT] = useState(true)
-  const [defaultPaymentType, setDefaultPaymentType] = useState("monthly")
+  // Application settings - use resolvedTheme which handles 'system' theme properly
+  const darkMode = resolvedTheme === 'dark' || (theme !== undefined && theme !== 'system' && theme === 'dark')
 
-  // Project defaults
-  const [defaultProjectType, setDefaultProjectType] = useState("residential")
-  const [defaultComplexity, setDefaultComplexity] = useState("medium")
-  const [defaultMaterialQuality, setDefaultMaterialQuality] = useState("standard")
+  // Track changes to detect unsaved changes
+  const checkForChanges = useCallback(() => {
+    if (typeof window === "undefined") return
+    const current = {
+      notifications,
+      autoSave,
+      defaultCurrency,
+      includeVAT,
+      defaultPaymentType,
+      defaultProjectType,
+      defaultComplexity,
+      defaultMaterialQuality,
+    }
+    const saved = loadSettings()
+    const hasChanges = JSON.stringify(current) !== JSON.stringify(saved)
+    setHasUnsavedChanges(hasChanges)
+  }, [notifications, autoSave, defaultCurrency, includeVAT, defaultPaymentType, defaultProjectType, defaultComplexity, defaultMaterialQuality])
 
-  // Default settings
-  const DEFAULT_SETTINGS = {
-    darkMode: false,
-    notifications: true,
-    autoSave: true,
-    defaultCurrency: "CLP",
-    includeVAT: true,
-    defaultPaymentType: "monthly",
-    defaultProjectType: "residential",
-    defaultComplexity: "medium",
-    defaultMaterialQuality: "standard",
-  }
+  // Check for changes after state updates (using requestAnimationFrame to avoid effect warnings)
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    const rafId = requestAnimationFrame(() => {
+      checkForChanges()
+    })
+    return () => cancelAnimationFrame(rafId)
+  }, [notifications, autoSave, defaultCurrency, includeVAT, defaultPaymentType, defaultProjectType, defaultComplexity, defaultMaterialQuality, checkForChanges])
+
+  // Wrapped setters that track changes
+  const updateNotification = useCallback((value: boolean) => {
+    setNotifications(value)
+  }, [])
+
+  const updateAutoSave = useCallback((value: boolean) => {
+    setAutoSave(value)
+  }, [])
+
+  const updateDefaultCurrency = useCallback((value: string) => {
+    setDefaultCurrency(value)
+  }, [])
+
+  const updateIncludeVAT = useCallback((value: boolean) => {
+    setIncludeVAT(value)
+  }, [])
+
+  const updateDefaultPaymentType = useCallback((value: string) => {
+    setDefaultPaymentType(value)
+  }, [])
+
+  const updateDefaultProjectType = useCallback((value: string) => {
+    setDefaultProjectType(value)
+  }, [])
+
+  const updateDefaultComplexity = useCallback((value: string) => {
+    setDefaultComplexity(value)
+  }, [])
+
+  const updateDefaultMaterialQuality = useCallback((value: string) => {
+    setDefaultMaterialQuality(value)
+  }, [])
 
   const handleSave = () => {
-    // Save settings to localStorage
+    // Save settings to localStorage (darkMode handled by theme system)
     const settings = {
-      darkMode,
       notifications,
       autoSave,
       defaultCurrency,
@@ -81,8 +155,7 @@ export function SettingsDialog({ children }: SettingsDialogProps) {
   }
 
   const handleRestoreDefaults = () => {
-    // Reset to defaults
-    setDarkMode(DEFAULT_SETTINGS.darkMode)
+    // Reset to defaults (darkMode handled by theme system)
     setNotifications(DEFAULT_SETTINGS.notifications)
     setAutoSave(DEFAULT_SETTINGS.autoSave)
     setDefaultCurrency(DEFAULT_SETTINGS.defaultCurrency)
@@ -97,12 +170,29 @@ export function SettingsDialog({ children }: SettingsDialogProps) {
     toast.success("Configuración restaurada a valores por defecto")
   }
 
+  const handleOpenChange = useCallback((open: boolean) => {
+    setIsOpen(open)
+    if (!open) {
+      // Reload settings when dialog closes without saving
+      const reloaded = loadSettings()
+      setNotifications(reloaded.notifications)
+      setAutoSave(reloaded.autoSave)
+      setDefaultCurrency(reloaded.defaultCurrency)
+      setIncludeVAT(reloaded.includeVAT)
+      setDefaultPaymentType(reloaded.defaultPaymentType)
+      setDefaultProjectType(reloaded.defaultProjectType)
+      setDefaultComplexity(reloaded.defaultComplexity)
+      setDefaultMaterialQuality(reloaded.defaultMaterialQuality)
+      setHasUnsavedChanges(false)
+    }
+  }, [])
+
   const handleLogout = () => {
     logout()
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
@@ -140,7 +230,12 @@ export function SettingsDialog({ children }: SettingsDialogProps) {
                       Cambia al tema oscuro para una experiencia más cómoda
                     </p>
                   </div>
-                  <Switch checked={darkMode} onCheckedChange={setDarkMode} />
+                  <Switch
+                    checked={darkMode}
+                    onCheckedChange={(checked) => {
+                      setTheme(checked ? 'dark' : 'light')
+                    }}
+                  />
                 </div>
               </CardContent>
             </Card>
@@ -160,7 +255,7 @@ export function SettingsDialog({ children }: SettingsDialogProps) {
                       Recibe notificaciones sobre cotizaciones y clientes
                     </p>
                   </div>
-                  <Switch checked={notifications} onCheckedChange={setNotifications} />
+                  <Switch checked={notifications} onCheckedChange={updateNotification} />
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
@@ -169,7 +264,7 @@ export function SettingsDialog({ children }: SettingsDialogProps) {
                       Guarda automáticamente los cambios en las cotizaciones
                     </p>
                   </div>
-                  <Switch checked={autoSave} onCheckedChange={setAutoSave} />
+                  <Switch checked={autoSave} onCheckedChange={updateAutoSave} />
                 </div>
               </CardContent>
             </Card>
@@ -186,7 +281,7 @@ export function SettingsDialog({ children }: SettingsDialogProps) {
               <CardContent className="space-y-4 min-w-0">
                 <div className="space-y-2">
                   <Label>Moneda por Defecto</Label>
-                  <Select value={defaultCurrency} onValueChange={setDefaultCurrency}>
+                  <Select value={defaultCurrency} onValueChange={updateDefaultCurrency}>
                     <SelectTrigger>
                       <SelectValue>{getCurrencyLabel(defaultCurrency)}</SelectValue>
                     </SelectTrigger>
@@ -205,12 +300,12 @@ export function SettingsDialog({ children }: SettingsDialogProps) {
                       Agregar IVA automáticamente a las cotizaciones
                     </p>
                   </div>
-                  <Switch checked={includeVAT} onCheckedChange={setIncludeVAT} />
+                  <Switch checked={includeVAT} onCheckedChange={updateIncludeVAT} />
                 </div>
 
                 <div className="space-y-2">
                   <Label>Tipo de Pago por Defecto</Label>
-                  <Select value={defaultPaymentType} onValueChange={setDefaultPaymentType}>
+                  <Select value={defaultPaymentType} onValueChange={updateDefaultPaymentType}>
                     <SelectTrigger>
                       <SelectValue>{getPaymentTypeLabel(defaultPaymentType)}</SelectValue>
                     </SelectTrigger>
@@ -235,7 +330,7 @@ export function SettingsDialog({ children }: SettingsDialogProps) {
               <CardContent className="space-y-4 min-w-0">
                 <div className="space-y-2">
                   <Label>Tipo de Proyecto</Label>
-                  <Select value={defaultProjectType} onValueChange={setDefaultProjectType}>
+                  <Select value={defaultProjectType} onValueChange={updateDefaultProjectType}>
                     <SelectTrigger>
                       <SelectValue>{getProjectTypeLabel(defaultProjectType)}</SelectValue>
                     </SelectTrigger>
@@ -252,7 +347,7 @@ export function SettingsDialog({ children }: SettingsDialogProps) {
 
                 <div className="space-y-2">
                   <Label>Complejidad del Proyecto</Label>
-                  <Select value={defaultComplexity} onValueChange={setDefaultComplexity}>
+                  <Select value={defaultComplexity} onValueChange={updateDefaultComplexity}>
                     <SelectTrigger>
                       <SelectValue>{getProjectSizeLabel(defaultComplexity)}</SelectValue>
                     </SelectTrigger>
@@ -267,7 +362,7 @@ export function SettingsDialog({ children }: SettingsDialogProps) {
 
                 <div className="space-y-2">
                   <Label>Calidad de Materiales</Label>
-                  <Select value={defaultMaterialQuality} onValueChange={setDefaultMaterialQuality}>
+                  <Select value={defaultMaterialQuality} onValueChange={updateDefaultMaterialQuality}>
                     <SelectTrigger>
                       <SelectValue>{getMaterialQualityLabel(defaultMaterialQuality)}</SelectValue>
                     </SelectTrigger>
@@ -321,7 +416,7 @@ export function SettingsDialog({ children }: SettingsDialogProps) {
             </Button>
           </div>
           <div className="flex gap-2 flex-wrap min-w-0">
-            <Button variant="outline" onClick={() => setIsOpen(false)}>
+            <Button variant="outline" onClick={() => handleOpenChange(false)}>
               Cancelar
             </Button>
             <Button

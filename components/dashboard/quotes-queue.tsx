@@ -51,6 +51,7 @@ export function QuotesQueue() {
     pending: quotes.filter((q) => q.status === "pending").length,
     draft: quotes.filter((q) => q.status === "draft").length,
     approved: quotes.filter((q) => q.status === "approved").length,
+    rejected: quotes.filter((q) => q.status === "rejected").length,
   }
 
   const handleAction = (quoteId: string, action: string) => {
@@ -137,7 +138,7 @@ export function QuotesQueue() {
             </TabsTrigger>
           </TabsList>
 
-          {(["sent", "pending", "draft", "approved"] as QuoteStatus[]).map((status) => (
+          {(["sent", "pending", "draft", "approved", "rejected"] as QuoteStatus[]).map((status) => (
             <TabsContent key={status} value={status} className="mt-0">
               {filteredQuotes.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">

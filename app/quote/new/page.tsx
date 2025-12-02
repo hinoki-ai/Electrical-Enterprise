@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
@@ -15,6 +15,7 @@ import { ArrowLeft, Plus, Search, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { toast } from "sonner"
 import { formatCLP, getProjectTypeLabel } from "@/lib/utils"
+import { loadSettings } from "@/lib/settings"
 
 const projectTypes = ["residential", "commercial", "industrial", "renovation", "emergency", "regularization"] as const
 
@@ -28,6 +29,9 @@ export default function NewQuotePage() {
   const createQuote = useMutation(api.quotes.create)
   const createClient = useMutation(api.clients.create)
 
+  // Load default settings
+  const settings = typeof window !== "undefined" ? loadSettings() : null
+
   const [step, setStep] = useState<"client" | "project" | "items">("client")
   const [clientSearch, setClientSearch] = useState("")
   const [selectedClientId, setSelectedClientId] = useState<Id<"clients"> | null>(preselectedClientId)
@@ -40,9 +44,11 @@ export default function NewQuotePage() {
   const [newClientEmail, setNewClientEmail] = useState("")
   const [newClientAddress, setNewClientAddress] = useState("")
 
-  // Project form
+  // Project form - initialize with default settings
   const [projectName, setProjectName] = useState("")
-  const [projectType, setProjectType] = useState<(typeof projectTypes)[number]>("residential")
+  const [projectType, setProjectType] = useState<(typeof projectTypes)[number]>(
+    (settings?.defaultProjectType as typeof projectTypes[number]) || "residential"
+  )
   const [projectDescription, setProjectDescription] = useState("")
   const [location, setLocation] = useState("Pinto, Ñuble, Chile")
 

@@ -9,7 +9,7 @@ export interface User {
   _id: Id<"users">
   email: string
   username: string
-  role: "master" | "checker"
+  role: "master" | "quoter"
   createdAt: number
   hasCompletedWelcome?: boolean
   displayName?: string

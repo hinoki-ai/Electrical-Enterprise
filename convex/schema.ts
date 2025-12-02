@@ -7,7 +7,7 @@ export default defineSchema({
     email: v.string(), // User's email - must be unique (enforced by application logic)
     username: v.string(), // Unique username - must be unique across all users
     password: v.string(), // Will be hashed using PBKDF2
-    role: v.optional(v.union(v.literal("master"), v.literal("checker"))), // Global role: only master or checker
+    role: v.optional(v.union(v.literal("Quotelord"), v.literal("quoter"))), // Global role: only Quotelord or quoter
     createdAt: v.number(),
     needsPasswordChange: v.optional(v.boolean()), // Track if user needs to change password
     createdBy: v.optional(v.id("users")), // Who created this user

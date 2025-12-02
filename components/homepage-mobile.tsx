@@ -10,7 +10,7 @@ interface HomepageMobileProps {
 
 export function HomepageMobile({ onSignupSuccess, onShowLogin }: HomepageMobileProps) {
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6 space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col items-center justify-center p-6 space-y-8">
       {/* Signup Panel */}
       <div className="w-full max-w-sm flex-shrink-0">
         <SignupPanel

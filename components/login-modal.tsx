@@ -96,12 +96,30 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-gradient-to-br from-orange-200/95 via-orange-200/95 to-orange-100/95 backdrop-blur-2xl shadow-2xl border-0">
         <DialogHeader>
-          <DialogTitle className="text-3xl">
+          {/* Electrical Enterprise Header */}
+          <div className="text-center mb-4 max-w-[95%] mx-auto">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 shadow-lg">
+                <Zap className="h-5 w-5 text-white" />
+              </div>
+              <h1 className="text-3xl font-bold text-slate-900">
+                Electrical Enterprise
+              </h1>
+            </div>
+          </div>
+
+          <div className="text-center -mt-4 -mb-4">
+            <p className="text-sm text-slate-700 font-medium">
+              Sistema Empresarial Privado
+            </p>
+          </div>
+
+          <DialogTitle className="text-2xl text-slate-900 mt-4">
             Iniciar Sesión
           </DialogTitle>
-          <DialogDescription className="text-base">
+          <DialogDescription className="text-base text-slate-700">
             Ingresa tus credenciales para acceder a tu cuenta
           </DialogDescription>
         </DialogHeader>
@@ -109,7 +127,7 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
           <div className="space-y-4">
             <div className="space-y-2">
-              <label htmlFor="login-username" className="text-base font-medium">
+              <label htmlFor="login-username" className="text-base font-medium text-slate-900">
                 Usuario
               </label>
               <div className="relative">
@@ -120,14 +138,14 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
                   placeholder="tu usuario"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="h-12 rounded-lg pl-10"
+                  className="h-12 rounded-lg pl-10 bg-yellow-100/80 text-slate-900"
                   required
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="login-password" className="text-base font-medium">
+              <label htmlFor="login-password" className="text-base font-medium text-slate-900">
                 Contraseña
               </label>
               <div className="relative">
@@ -137,7 +155,7 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
                   placeholder="Tu contraseña"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="h-12 rounded-lg pl-10"
+                  className="h-12 rounded-lg pl-10 bg-yellow-100/80 text-slate-900"
                   required
                 />
               </div>
@@ -154,14 +172,14 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
             <Button
               type="button"
               onClick={handleClose}
-              className="flex-1 h-12 bg-orange-200 hover:bg-orange-300 text-orange-900 font-medium"
+              className="flex-1 h-12 bg-slate-200 hover:bg-slate-300 text-slate-800 font-medium"
             >
               Cancelar
             </Button>
             <Button
               type="submit"
               disabled={isLoading}
-              className="flex-1 h-12"
+              className="flex-1 h-12 bg-gradient-to-r from-yellow-200 via-orange-300 to-orange-500 hover:from-yellow-300 hover:via-orange-400 hover:to-orange-600 text-slate-800 font-medium"
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">
@@ -175,7 +193,7 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
           </div>
 
           <div className="text-center mt-4 space-y-2">
-            <p className="text-muted-foreground text-sm">
+            <p className="text-slate-700 text-sm font-medium">
               Electrical Enterprise - Acceso Privado Únicamente
             </p>
           </div>
