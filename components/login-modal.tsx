@@ -96,30 +96,30 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md bg-gradient-to-br from-orange-200/95 via-orange-200/95 to-orange-100/95 backdrop-blur-2xl shadow-2xl border-0">
+      <DialogContent className="sm:max-w-md bg-card/95 backdrop-blur-2xl shadow-2xl border border-border">
         <DialogHeader>
           {/* Electrical Enterprise Header */}
           <div className="text-center mb-4 max-w-[95%] mx-auto">
             <div className="flex items-center justify-center gap-2 mb-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 shadow-lg">
-                <Zap className="h-5 w-5 text-white" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary shadow-lg">
+                <Zap className="h-5 w-5 text-primary-foreground" />
               </div>
-              <h1 className="text-3xl font-bold text-slate-900">
+              <h1 className="text-3xl font-bold text-foreground">
                 Electrical Enterprise
               </h1>
             </div>
           </div>
 
           <div className="text-center -mt-4 -mb-4">
-            <p className="text-sm text-slate-700 font-medium">
+            <p className="text-sm text-muted-foreground font-medium">
               Sistema Empresarial Privado
             </p>
           </div>
 
-          <DialogTitle className="text-2xl text-slate-900 mt-4">
+          <DialogTitle className="text-2xl text-foreground mt-4">
             Iniciar Sesión
           </DialogTitle>
-          <DialogDescription className="text-base text-slate-700">
+          <DialogDescription className="text-base text-muted-foreground">
             Ingresa tus credenciales para acceder a tu cuenta
           </DialogDescription>
         </DialogHeader>
@@ -127,7 +127,7 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
           <div className="space-y-4">
             <div className="space-y-2">
-              <label htmlFor="login-username" className="text-base font-medium text-slate-900">
+              <label htmlFor="login-username" className="text-base font-medium text-foreground">
                 Usuario
               </label>
               <div className="relative">
@@ -138,14 +138,14 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
                   placeholder="tu usuario"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="h-12 rounded-lg pl-10 bg-yellow-100/80 text-slate-900"
+                  className="h-12 rounded-lg pl-10 bg-input text-foreground"
                   required
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="login-password" className="text-base font-medium text-slate-900">
+              <label htmlFor="login-password" className="text-base font-medium text-foreground">
                 Contraseña
               </label>
               <div className="relative">
@@ -155,7 +155,7 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
                   placeholder="Tu contraseña"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="h-12 rounded-lg pl-10 bg-yellow-100/80 text-slate-900"
+                  className="h-12 rounded-lg pl-10 bg-input text-foreground"
                   required
                 />
               </div>
@@ -163,8 +163,8 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
           </div>
 
           {error && (
-            <div className="rounded-lg border border-red-500/50 bg-red-900/20 p-3">
-              <p className="text-sm text-red-700">{error}</p>
+            <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-3">
+              <p className="text-sm text-destructive-foreground">{error}</p>
             </div>
           )}
 
@@ -172,18 +172,19 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
             <Button
               type="button"
               onClick={handleClose}
-              className="flex-1 h-12 bg-slate-200 hover:bg-slate-300 text-slate-800 font-medium"
+              variant="secondary"
+              className="flex-1 h-12 font-medium"
             >
               Cancelar
             </Button>
             <Button
               type="submit"
               disabled={isLoading}
-              className="flex-1 h-12 bg-gradient-to-r from-yellow-200 via-orange-300 to-orange-500 hover:from-yellow-300 hover:via-orange-400 hover:to-orange-600 text-slate-800 font-medium"
+              className="flex-1 h-12 bg-accent hover:bg-accent/90 text-accent-foreground font-medium"
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-accent-foreground/30 border-t-accent-foreground" />
                   Iniciando sesión...
                 </div>
               ) :
@@ -193,7 +194,7 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
           </div>
 
           <div className="text-center mt-4 space-y-2">
-            <p className="text-slate-700 text-sm font-medium">
+            <p className="text-muted-foreground text-sm font-medium">
               Electrical Enterprise - Acceso Privado Únicamente
             </p>
           </div>
